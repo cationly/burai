@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.media.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="395.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <BorderPane prefWidth="395.0">
+         <center>
+            <Separator prefHeight="30.0" BorderPane.alignment="CENTER" />
+         </center>
+         <left>
+            <Label styleClass="medium-text" text="Conditions" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="System Bold Italic" size="14.0" />
+               </font>
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding>
+            </Label>
+         </left>
+         <padding>
+            <Insets top="10.0" />
+         </padding>
+      </BorderPane>
+      <GridPane hgap="5.0" prefWidth="395.0" vgap="5.0">
+         <children>
+            <Label fx:id="ibravLabel" text="P.P. Type" />
+            <Label fx:id="aLabel" text="XC Functional" GridPane.rowIndex="1" />
+            <ComboBox fx:id="ppTypeCombo" prefWidth="200.0" GridPane.columnIndex="1" />
+            <ComboBox prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="xcFuncCombo" />
+         </children>
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" prefWidth="120.0" />
+            <ColumnConstraints hgrow="SOMETIMES" prefWidth="205.0" />
+            <ColumnConstraints hgrow="SOMETIMES" prefWidth="50.0" />
+         </columnConstraints>
+         <padding>
+            <Insets left="10.0" />
+         </padding>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+      </GridPane>
+      <BorderPane prefWidth="395.0">
+         <center>
+            <Separator prefHeight="30.0" BorderPane.alignment="CENTER" />
+         </center>
+         <left>
+            <Label styleClass="medium-text" text="Pseudopotentials" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="System Bold Italic" size="14.0" />
+               </font>
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding>
+            </Label>
+         </left>
+         <padding>
+            <Insets top="10.0" />
+         </padding>
+      </BorderPane>
+      <ListView fx:id="pseudoList" prefHeight="400.0" prefWidth="390.0">
+         <VBox.margin>
+            <Insets left="10.0" />
+         </VBox.margin>
+      </ListView>
+      <GridPane prefWidth="395.0">
+         <children>
+            <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
+               <items>
+                  <Button fx:id="downloadButton" mnemonicParsing="false" styleClass="italic-text" text="Download" />
+               </items>
+            </ToolBar>
+         </children>
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="395.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <VBox.margin>
+            <Insets left="10.0" />
+         </VBox.margin>
+      </GridPane>
+   </children>
+</VBox>

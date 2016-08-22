@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="lib" path="lib/exp4j-0.4.6.jar" sourcepath="C:/pleiadesFX/workspace/burai/lib/exp4j-0.4.6-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/pleiadesFX/workspace/burai/lib/exp4j-0.4.6-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/gson-2.6.1.jar" sourcepath="C:/pleiadesFX/workspace/burai/lib/gson-2.6.1-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/pleiadesFX/workspace/burai/lib/gson-2.6.1-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

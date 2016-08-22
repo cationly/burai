@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import java.net.*?>
+<?import javafx.scene.media.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <Group>
+         <children>
+            <BorderPane prefWidth="520.0" BorderPane.alignment="CENTER">
+               <center>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="BURAI 1.1" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font name="Arial Black" size="48.0" />
+                     </font>
+                  </Text>
+               </center>
+               <bottom>
+                  <Label style="-fx-font-family: monospaced;" text="Copyright (C) 2016 Satomichi Nishihara &lt;nisihara.burai@gmail.com&gt;." BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets top="12.0" />
+                     </BorderPane.margin>
+                  </Label>
+               </bottom>
+            </BorderPane>
+         </children>
+      </Group>
+   </center>
+   <left>
+      <StackPane prefHeight="160.0" prefWidth="160.0">
+         <children>
+            <ImageView fx:id="imageView" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
+         </children>
+      </StackPane>
+   </left>
+   <bottom>
+      <VBox BorderPane.alignment="CENTER">
+         <children>
+            <Separator>
+               <padding>
+                  <Insets bottom="5.0" />
+               </padding>
+            </Separator>
+            <TextArea fx:id="textArea" editable="false" focusTraversable="false" prefHeight="175.0" style="-fx-font-family: monospaced;" wrapText="true" />
+         </children>
+      </VBox>
+   </bottom>
+</BorderPane>

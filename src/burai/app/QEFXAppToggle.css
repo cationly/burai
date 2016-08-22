@@ -1,0 +1,71 @@
+/*
+ * Copyright (C) 2016 Satomichi Nishihara
+ *
+ * This file is distributed under the terms of the
+ * GNU General Public License. See the file `LICENSE'
+ * in the root directory of the present distribution,
+ * or http://www.gnu.org/copyleft/gpl.txt .
+ */
+
+/* ToggleButton */
+
+.toggle-graphic-on {
+    -fx-fill: derive(black, 20.0%);
+    -fx-stroke: derive(black, 20.0%);
+    -fx-stroke-type: inside;
+    -fx-stroke-width: 0.083333em;
+    -fx-text-fill: white;
+    -fx-font-size: 1.0em;
+    -fx-font-style: italic;
+    -fx-font-weight: bold;
+    -fx-opacity: 0.85;
+}
+
+.toggle-graphic-on:hover {
+    -fx-opacity: 0.80;
+}
+
+.toggle-graphic-off {
+    -fx-fill: derive(black, 50.0%);
+    -fx-stroke: derive(black, 50.0%);
+    -fx-stroke-type: inside;
+    -fx-stroke-width: 0.083333em;
+    -fx-text-fill: -fx-dark-text-color;
+    -fx-font-size: 1.0em;
+    -fx-font-style: italic;
+    -fx-font-weight: bold;
+    -fx-opacity: 0.65;
+}
+
+.toggle-graphic-off:hover {
+    -fx-opacity: 0.6;
+}
+
+.toggle-graphic-mobile {
+    -fx-fill: derive(black, 25.0%);
+    -fx-stroke: derive(black, 25.0%);
+    -fx-stroke-type: inside;
+    -fx-stroke-width: 0.083333em;
+    -fx-text-fill: white;
+    -fx-font-size: 1.0em;
+    -fx-font-style: italic;
+}
+
+.toggle-graphic-mobile:hover {
+    -fx-opacity: 0.80;
+}
+
+.toggle-graphic-fixed {
+    -fx-fill: derive(blue, 15.0%);
+    -fx-stroke: derive(blue, 15.0%);
+    -fx-stroke-type: inside;
+    -fx-stroke-width: 0.083333em;
+    -fx-text-fill: white;
+    -fx-font-size: 1.0em;
+    -fx-font-style: italic;
+}
+
+.toggle-graphic-fixed:hover {
+    -fx-opacity: 0.80;
+}
+

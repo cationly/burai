@@ -1,0 +1,75 @@
+/*
+ * Copyright (C) 2016 Satomichi Nishihara
+ *
+ * This file is distributed under the terms of the
+ * GNU General Public License. See the file `LICENSE'
+ * in the root directory of the present distribution,
+ * or http://www.gnu.org/copyleft/gpl.txt .
+ */
+
+/* MenuItem */
+
+.standard-menu-item {
+    -fx-font-size: 1.0em;
+    -fx-font-weight: normal;
+}
+
+.close-menu-item {
+    -fx-fill: derive(-fx-base-enh2, 5.0%);
+    -fx-fill-focused: derive(-fx-focus-color, 25.0%);
+    -fx-fill-shadow: derive(-fx-base-enh2, -65.0%);
+    -fx-opacity: 0.75;
+    -fx-stroke-width: 0.0em;
+    -fx-effect: dropshadow(gaussian, -fx-fill-shadow, 4.5, 0.1, 0.0em, 0.25em);
+}
+
+.fan-menu-item {
+    -fx-fill: -fx-base;
+    -fx-fill-focused: derive(-fx-focus-color, 25.0%);
+    -fx-fill-shadow: derive(-fx-base, -65.0%);
+    -fx-opacity: 0.98;
+    -fx-stroke-width: 0.0em;
+    -fx-effect: dropshadow(gaussian, -fx-fill-shadow, 4.5, 0.1, 0.166667em, 0.25em);
+}
+
+.fan-menu-text {
+    -fx-text-fill: -fx-dark-text-color;
+    -fx-font-size: 1.166667em;
+    -fx-font-style: italic;
+    -fx-font-weight: normal;
+}
+
+.roll-menu-item {
+    -fx-fill-back: gray;
+    -fx-fill-front: derive(black, 10.0%);
+    -fx-fill: linear-gradient(from 100.0% 0.0% to 0.0% 100.0%, -fx-fill-back 0.0%, -fx-fill-front 100.0%);
+    -fx-fill-focused: linear-gradient(from 100.0% 0.0% to 0.0% 100.0%, -fx-fill-back 0.0%, -fx-focus-color 100.0%);
+    -fx-opacity: 0.65;
+    -fx-stroke-width: 0.0em;
+}
+
+.roll-menu-icon {
+    -fx-fill: white;
+    -fx-stroke-width: 0.0em;
+    -fx-text-fill: white;
+    -fx-font-size: 1.166667em;
+    -fx-font-style: italic;
+}
+
+.teeth-menu-item {
+    -fx-fill-back: transparent;
+    -fx-fill-front: derive(black, 10.0%);
+    -fx-fill: linear-gradient(from 100.0% 0.0% to 0.0% 100.0%, -fx-fill-back 0.0%, -fx-fill-front 100.0%);
+    -fx-fill-focused: linear-gradient(from 100.0% 0.0% to 0.0% 100.0%, -fx-fill-back 0.0%, -fx-focus-color 100.0%);
+    -fx-opacity: 0.55;
+    -fx-stroke-width: 0.0em;
+}
+
+.teeth-menu-icon {
+    -fx-fill: white;
+    -fx-stroke-width: 0.0em;
+    -fx-text-fill: white;
+    -fx-font-size: 1.333333em;
+    -fx-font-style: italic;
+}
+

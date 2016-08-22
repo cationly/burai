@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.media.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane fx:id="backPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <BorderPane fx:id="projectPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
+         <center>
+            <StackPane fx:id="viewerPane" prefHeight="400.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+         </center>
+         <bottom>
+            <GridPane BorderPane.alignment="CENTER">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" />
+                <ColumnConstraints hgrow="SOMETIMES" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <ToolBar nodeOrientation="LEFT_TO_RIGHT" prefHeight="46.0">
+                    <items>
+                      <Button fx:id="viewerButton" focusTraversable="false" mnemonicParsing="false" styleClass="pictured-button" text="\@" />
+                    </items>
+                  </ToolBar>
+                  <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="46.0" GridPane.columnIndex="1">
+                    <items>
+                        <Button fx:id="editorButton" focusTraversable="false" mnemonicParsing="false" styleClass="pictured-button" text="\@" />
+                        <Label fx:id="editorLabel" focusTraversable="false" styleClass="large-text" text="Geometry " />
+                    </items>
+                  </ToolBar>
+               </children>
+            </GridPane>
+         </bottom>
+         <right>
+            <AnchorPane prefWidth="425.0" BorderPane.alignment="CENTER" />
+         </right>
+      </BorderPane>
+   </center>
+</BorderPane>

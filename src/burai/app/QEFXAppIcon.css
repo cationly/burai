@@ -1,0 +1,51 @@
+/*
+ * Copyright (C) 2016 Satomichi Nishihara
+ *
+ * This file is distributed under the terms of the
+ * GNU General Public License. See the file `LICENSE'
+ * in the root directory of the present distribution,
+ * or http://www.gnu.org/copyleft/gpl.txt .
+ */
+
+/* Icon */
+
+.icon-folder {
+    -fx-fill: derive(-fx-base-enh2, -10.0%);
+}
+
+.icon-web {
+    -fx-fill: derive(-fx-base-enh2, 50.0%);
+    -fx-font: 1.5em "Arial Black";
+    -fx-text-alignment: right;
+}
+
+.icon-atoms {
+    -fx-fill: derive(-fx-base-enh2, 40.0%);
+    -fx-font: 1.5em "Arial Black";
+}
+
+.icon-upf {
+    -fx-fill: derive(-fx-base-enh2, 30.0%);
+    -fx-font: 1.5em "Arial Black";
+}
+
+.icon-error {
+    -fx-fill: yellow;
+    -fx-stroke: derive(black, 50.0%);
+    -fx-stroke-type: inside;
+    -fx-stroke-width: 1.0em;
+}
+
+.icon-run-text {
+    -fx-font-weight: bold;
+}
+
+.icon-run-base {
+    -fx-opacity: 0.90;
+    -fx-effect: dropshadow(gaussian, derive(black, 50.0%), 4.5, 0.1, 0.0em, 0.166667em);
+}
+
+.icon-context-menu {
+    -fx-font-size: 0.916667em;
+}
+

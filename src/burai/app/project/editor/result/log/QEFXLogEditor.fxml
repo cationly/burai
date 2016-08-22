@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.media.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<ScrollPane prefHeight="650.0" prefWidth="425.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <content>
+      <VBox>
+         <children>
+            <BorderPane prefWidth="395.0">
+               <center>
+                  <Separator prefHeight="30.0" BorderPane.alignment="CENTER" />
+               </center>
+               <left>
+                  <Label styleClass="medium-text" text="Controls" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font name="System Bold Italic" size="14.0" />
+                     </font>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                  </Label>
+               </left>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </BorderPane>
+            <GridPane hgap="5.0" prefWidth="395.0" vgap="5.0">
+               <children>
+                  <Button fx:id="reloadButton" mnemonicParsing="false" styleClass="piclight-button" text="\@">
+                     <GridPane.margin>
+                        <Insets left="8.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Button fx:id="screenButton" mnemonicParsing="false" styleClass="piclight-button" text="\@" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets left="8.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Label text="Reload" GridPane.columnIndex="1" />
+                  <Label text="Screen-shot" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               </children>
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" prefWidth="50.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" prefWidth="330.0" />
+               </columnConstraints>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+            </GridPane>
+            <BorderPane prefWidth="395.0">
+               <center>
+                  <Separator prefHeight="30.0" BorderPane.alignment="CENTER" />
+               </center>
+               <left>
+                  <Label styleClass="medium-text" text="Searching Text" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font name="System Bold Italic" size="14.0" />
+                     </font>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                  </Label>
+               </left>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </BorderPane>
+            <GridPane hgap="5.0" prefWidth="395.0" vgap="5.0">
+               <children>
+                  <StackPane>
+                     <children>
+                        <TextField fx:id="searchField" prefHeight="26.5" prefWidth="330.0" promptText="enter text" style="-fx-background-radius: 14 1 1 14;" StackPane.alignment="CENTER_RIGHT" />
+                     </children>
+                  </StackPane>
+                  <StackPane GridPane.columnIndex="1">
+                     <children>
+                        <Button fx:id="searchButton" mnemonicParsing="false" prefHeight="25.0" style="-fx-background-radius: 1 14 14 1;" styleClass="picshadow-button" text="\@" GridPane.columnIndex="1" StackPane.alignment="CENTER_LEFT" />
+                     </children>
+                  </StackPane>
+               </children>
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" prefWidth="330.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" prefWidth="50.0" />
+               </columnConstraints>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <VBox.margin>
+                  <Insets top="2.0" />
+               </VBox.margin>
+            </GridPane>
+            <TextArea fx:id="searchArea" editable="false" prefHeight="400.0" prefWidth="385.0" style="-fx-font-family: monospace; -fx-font-size: 0.916667em;">
+               <VBox.margin>
+                  <Insets left="10.0" top="10.0" />
+               </VBox.margin>
+            </TextArea>
+            <BorderPane prefWidth="395.0">
+               <center>
+                  <Separator prefHeight="30.0" BorderPane.alignment="CENTER" />
+               </center>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </BorderPane>
+         </children>
+      </VBox>
+   </content>
+</ScrollPane>

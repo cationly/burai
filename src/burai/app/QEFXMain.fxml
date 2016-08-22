@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.scene.media.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <center>
+      <TabPane fx:id="tabPane" tabClosingPolicy="ALL_TABS">
+         <tabs>
+            <Tab fx:id="homeTab" closable="false" styleClass="pichome-button" text="Home">
+               <content>
+                    <AnchorPane fx:id="homePane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="600.0" BorderPane.alignment="CENTER" />
+               </content>
+            </Tab>
+         </tabs>
+      </TabPane>
+    </center>
+   <top>
+      <BorderPane BorderPane.alignment="CENTER">
+         <right>
+            <ToolBar prefHeight="42.0" style="-fx-base: -fx-base-enh1;" BorderPane.alignment="CENTER">
+               <items>
+                  <Button fx:id="matApiButton" focusTraversable="false" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" styleClass="picblack-button" text="Materials API " />
+                  <TextField fx:id="matApiField" prefWidth="240.0" style="-fx-base: -fx-base-mapi; -fx-background-radius: 16;" />
+                  <Pane prefHeight="5.0" prefWidth="10.0" />
+               </items>
+            </ToolBar>
+         </right>
+         <center>
+            <MenuBar prefHeight="42.0" style="-fx-base: -fx-base-enh1;" BorderPane.alignment="CENTER">
+              <menus>
+                <Menu fx:id="topMenu" mnemonicParsing="false" styleClass="picblack-button" text="Menu">
+                  <items>
+                        <MenuItem fx:id="aboutMItem" mnemonicParsing="false" text="About BURAI" />
+                        <Menu mnemonicParsing="false" text="Links (Web)">
+                           <items>
+                              <MenuItem fx:id="qeMItem" mnemonicParsing="false" text="Quantum ESPRESSO" />
+                              <MenuItem fx:id="pseudoMItem" mnemonicParsing="false" text="Pseudopotentials" />
+                              <MenuItem fx:id="manPwMItem" mnemonicParsing="false" text="Manual of  `pw.x'" />
+                              <MenuItem fx:id="manDosMItem" mnemonicParsing="false" text="Manual of  `dos.x'" />
+                              <MenuItem fx:id="manProjMItem" mnemonicParsing="false" text="Manual of  `projwfc.x'" />
+                              <MenuItem fx:id="manBandMItem" mnemonicParsing="false" text="Manual of  `band.x'" />
+                           </items>
+                        </Menu>
+                        <MenuItem fx:id="proxyMItem" mnemonicParsing="false" text="Proxy server" />
+                        <MenuItem fx:id="fullScrMItem" mnemonicParsing="false" text="Full screen" />
+                        <MenuItem fx:id="quitMItem" mnemonicParsing="false" text="Quit [Ctr+Q]" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+         </center>
+         <bottom>
+            <Pane prefHeight="5.0" style="-fx-background-color: -fx-base-enh2;" BorderPane.alignment="CENTER" />
+         </bottom>
+      </BorderPane>
+   </top>
+</BorderPane>

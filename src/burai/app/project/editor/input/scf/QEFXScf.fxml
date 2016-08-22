@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.media.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<AnchorPane fx:id="projectPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="425.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <Accordion fx:id="accordion" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <panes>
+                <TitledPane animated="false" text="Standard Setting">
+                    <content>
+                        <ScrollPane fx:id="standardPane" prefWidth="425.0" />
+                    </content>
+                </TitledPane>
+            <TitledPane animated="false" text="Electronic Optimization">
+               <content>
+                  <ScrollPane fx:id="electronPane" prefWidth="425.0" />
+               </content>
+            </TitledPane>
+                <TitledPane animated="false" text="Magnetization">
+                    <content>
+                        <ScrollPane fx:id="magnetizPane" prefWidth="425.0" />
+                    </content>
+                </TitledPane>
+                <TitledPane animated="false" text="GGA+U">
+                    <content>
+                        <ScrollPane fx:id="hubbardPane" prefWidth="425.0" />
+                    </content>
+                </TitledPane>
+            </panes>
+        </Accordion>
+    </children>
+</AnchorPane>

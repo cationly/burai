@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.media.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <BorderPane prefWidth="395.0">
+         <center>
+            <Separator prefHeight="30.0" BorderPane.alignment="CENTER" />
+         </center>
+         <left>
+            <Label styleClass="medium-text" text="GGA+U" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="System Bold Italic" size="14.0" />
+               </font>
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding>
+            </Label>
+         </left>
+         <padding>
+            <Insets top="10.0" />
+         </padding>
+      </BorderPane>
+      <GridPane hgap="5.0" prefWidth="395.0" vgap="5.0">
+          <columnConstraints>
+              <ColumnConstraints hgrow="SOMETIMES" prefWidth="120.0" />
+              <ColumnConstraints hgrow="SOMETIMES" prefWidth="205.0" />
+              <ColumnConstraints hgrow="SOMETIMES" prefWidth="50.0" />
+          </columnConstraints>
+          <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          </rowConstraints>
+          <children>
+            <Label fx:id="applyLabel" text="Apply GGA+U" />
+            <ToggleButton fx:id="applyToggle" mnemonicParsing="false" prefWidth="200.0" GridPane.columnIndex="1" />
+            <Button fx:id="applyButton" mnemonicParsing="false" text="\@" GridPane.columnIndex="2" />
+          </children>
+          <padding>
+              <Insets left="10.0" />
+          </padding>
+      </GridPane>
+      <BorderPane prefWidth="395.0">
+         <center>
+            <Separator prefHeight="30.0" BorderPane.alignment="CENTER" />
+         </center>
+         <left>
+            <Label styleClass="medium-text" text="Hubbard Parameters" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="System Bold Italic" size="14.0" />
+               </font>
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding>
+            </Label>
+         </left>
+         <padding>
+            <Insets top="10.0" />
+         </padding>
+      </BorderPane>
+      <TableView fx:id="elementTable" editable="true" prefHeight="250.0" prefWidth="390.0">
+        <columns>
+          <TableColumn fx:id="indexColumn" editable="false" prefWidth="35.0" resizable="false" text="#" />
+          <TableColumn fx:id="nameColumn" editable="false" resizable="false" text="Name" />
+            <TableColumn fx:id="hubbardColumn" prefWidth="255.0" resizable="false" text="Hubbard Parameter (U) / eV" />
+        </columns>
+         <VBox.margin>
+            <Insets left="10.0" top="5.0" />
+         </VBox.margin>
+      </TableView>
+      <BorderPane prefWidth="395.0">
+         <center>
+            <Separator prefHeight="30.0" BorderPane.alignment="CENTER" />
+         </center>
+         <padding>
+            <Insets top="10.0" />
+         </padding>
+      </BorderPane>
+   </children>
+</VBox>

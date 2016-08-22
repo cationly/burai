@@ -1,0 +1,51 @@
+/*
+ * Copyright (C) 2016 Satomichi Nishihara
+ *
+ * This file is distributed under the terms of the
+ * GNU General Public License. See the file `LICENSE'
+ * in the root directory of the present distribution,
+ * or http://www.gnu.org/copyleft/gpl.txt .
+ */
+
+/* TextField */
+
+.location-field {
+    -fx-background-color: -fx-base-expr;
+    -fx-font-size: 1.166667em;
+    -fx-font-style: italic;
+}
+
+/* TilePane */
+
+.tile-pane {
+    -fx-pref-columns: 1;
+    -fx-background-color: snow;
+}
+
+.tile-icon {
+    -fx-background-insets: 0.416667em;
+    -fx-padding: 0.416667em;
+    -fx-font-size: 1.166667em;
+}
+
+.tile-icon:hover {
+    -fx-background-color: derive(-fx-focus-color, 25.0%);
+}
+
+/* ListView */
+
+.list-figure {
+}
+
+.list-caption {
+    -fx-padding: 0.208333em;
+    -fx-font-size: 0.916667em;
+}
+
+.list-caption-head {
+    -fx-padding: 0.166667em;
+    -fx-font-size: 1.166667em;
+    -fx-font-style: italic;
+    -fx-font-weight: bold;
+}
+

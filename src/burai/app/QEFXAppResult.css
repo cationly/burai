@@ -1,0 +1,84 @@
+/*
+ * Copyright (C) 2016 Satomichi Nishihara
+ *
+ * This file is distributed under the terms of the
+ * GNU General Public License. See the file `LICENSE'
+ * in the root directory of the present distribution,
+ * or http://www.gnu.org/copyleft/gpl.txt .
+ */
+
+/* Result - Explorer */
+
+.result-expr-scroll {
+    -fx-background-color: dimgray;
+    -fx-opacity: 0.80;
+}
+
+.result-expr-tile {
+    -fx-pref-columns: 1;
+    -fx-padding: 1.66667em;
+    -fx-background-color: dimgray;
+    -fx-opacity: 1.00;
+}
+
+.result-icon {
+    -fx-background-color: -fx-base-enh2;
+    -fx-background-radius: 1.5em;
+    -fx-background-insets: 0.83333em;
+    -fx-padding: 0.0em;
+    -fx-effect: dropshadow(gaussian, derive(black, 50.0%), 4.5, 0.1, 0.0em, 0.166667em);
+    -fx-opacity: 1.00;
+}
+
+.result-icon:hover {
+    -fx-background-insets: 1.0em 0.83333em 0.666667em 0.83333em;
+    -fx-padding: 0.166667em 0.0em -0.166667em 0.0em;
+    -fx-effect: dropshadow(gaussian, -fx-focus-color, 10.5, 0.3, 0.0em, 0.166667em);
+    -fx-opacity: 0.92;
+}
+
+.result-icon-label {
+    -fx-font: 1.83333em "Arial Black";
+    -fx-text-fill: snow;
+}
+
+.result-icon-sublabel {
+    -fx-font: 1.166667em "Arial Black";
+    -fx-text-fill: snow;
+}
+
+/* Result - LogViewer */
+
+.result-log-index {
+    -fx-padding: 0.0em 0.0em 0.0em 1.0em;
+    -fx-text-fill: maroon;
+    -fx-underline: true;
+    -fx-font-family: "monospace";
+    -fx-font-style: italic;
+    -fx-font-weight: bold;
+}
+
+.result-log-text {
+    -fx-font-family: "monospace";
+}
+
+.result-log-searched {
+    -fx-background-color: derive(yellow, 25.0%);
+}
+
+.result-log-searched:focused {
+    -fx-background-color: -fx-focus-color;
+}
+
+/* Result - GraphViewer */
+
+.result-graph-note {
+    -fx-text-fill: black;
+    -fx-font-family: "Times New Roman";
+    -fx-font-size: 1.666667em;
+    -fx-font-weight: normal;
+    -fx-background-color: white;
+    -fx-effect: dropshadow(gaussian, derive(black, 25.0%), 4.5, 0.15, 0.333333em, 0.416667em);
+    -fx-opacity: 1.00;
+}
+

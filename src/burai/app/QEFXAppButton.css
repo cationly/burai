@@ -1,0 +1,117 @@
+/*
+ * Copyright (C) 2016 Satomichi Nishihara
+ *
+ * This file is distributed under the terms of the
+ * GNU General Public License. See the file `LICENSE'
+ * in the root directory of the present distribution,
+ * or http://www.gnu.org/copyleft/gpl.txt .
+ */
+
+/* Button */
+
+.pictured-button {
+    -fx-fill: -fx-dark-text-color;
+    -fx-font-size: 0.833333em;
+    -fx-font-weight: bold;
+    -fx-background-color: transparent;
+    -fx-focus-traversable: false;
+}
+
+.pictured-button:hover {
+    -fx-fill: derive(-fx-dark-text-color, 20.0%);
+}
+
+.piclight-button {
+    -fx-fill: derive(-fx-dark-text-color, 50.0%);
+    -fx-font-size: 0.833333em;
+    -fx-font-weight: bold;
+    -fx-background-color: transparent;
+    -fx-focus-traversable: false;
+}
+
+.piclight-button:hover {
+    -fx-fill: derive(-fx-dark-text-color, 60.0%);
+}
+
+.picheavy-button {
+    -fx-fill: derive(-fx-base-enh2, -5.0%);
+    -fx-font-size: 0.833333em;
+    -fx-font-weight: bold;
+    -fx-background-color: transparent;
+    -fx-focus-traversable: false;
+}
+
+.picheavy-button:hover {
+    -fx-fill: derive(-fx-base-enh2, 10.0%);
+}
+
+.picshadow-button {
+    -fx-fill: -fx-base;
+    -fx-text-fill: -fx-base;
+    -fx-font-size: 0.75em;
+    -fx-background-color: derive(-fx-dark-text-color, 50.0%);
+    -fx-focus-traversable: false;
+}
+
+.picshadow-button:hover {
+    -fx-background-color: derive(-fx-dark-text-color, 60.0%);
+}
+
+.picblack-button {
+    -fx-fill: -fx-dark-text-color;
+    -fx-font-size: 1.0em;
+    -fx-font-style: italic;
+    -fx-font-weight: bold;
+    -fx-background-color: transparent;
+    -fx-focus-traversable: false;
+}
+
+.pichome-button {
+    -fx-fill: darkgray;
+    -fx-font-size: 0.833333em;
+    -fx-font-weight: bold;
+}
+
+.pichome-button:hover {
+    -fx-fill: derive(darkgray, 15.0%);
+}
+
+.picfavo-button {
+    -fx-fill: derive(red, -20.0%);
+    -fx-font-size: 0.833333em;
+    -fx-font-weight: bold;
+    -fx-background-color: transparent;
+    -fx-focus-traversable: false;
+}
+
+.picfavo-button:hover {
+    -fx-fill: derive(red, -10.0%);
+}
+
+.modan-button {
+    -fx-background-color: -fx-base-expr;
+    -fx-background-radius: 0.0em;
+    -fx-focus-traversable: false;
+    -fx-font-size: 1.5em;
+}
+
+.modan-button:focused {
+    -fx-background-color: -fx-focus-color, -fx-base-expr;
+    -fx-background-insets: -0.0166667em, 0.083333em;
+    -fx-background-radius: 0.0em, 0.0em;
+}
+
+.modan-button:hover {
+    -fx-background-color: derive(-fx-focus-color, 25.0%);
+}
+
+.help-button {
+    -fx-fill: mediumseagreen;
+    -fx-background-color: transparent;
+    -fx-focus-traversable: false;
+}
+
+.help-button:hover {
+    -fx-fill: derive(mediumseagreen, 20.0%);
+}
+

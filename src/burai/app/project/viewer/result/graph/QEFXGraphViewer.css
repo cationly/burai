@@ -1,0 +1,116 @@
+/*
+ * Copyright (C) 2016 Satomichi Nishihara
+ *
+ * This file is distributed under the terms of the
+ * GNU General Public License. See the file `LICENSE'
+ * in the root directory of the present distribution,
+ * or http://www.gnu.org/copyleft/gpl.txt .
+ */
+
+/* Chart */
+
+.chart {
+    -fx-legend-visible: false;
+    -fx-legend-side: bottom;
+    -fx-title-side: top;
+    -fx-alternative-column-fill-visible: false;
+    -fx-alternative-row-fill-visible: false;
+    -fx-horizontal-grid-lines-visible: true;
+    -fx-vertical-grid-lines-visible: true;
+    -fx-horizontal-zero-line-visible: false;
+    -fx-vertical-zero-line-visible: false;
+}
+
+.chart-content {
+    -fx-padding: 2.0em;
+}
+
+.chart-title {
+    -fx-padding: 1.0em;
+    -fx-text-fill: black;
+    -fx-font-family: "Times New Roman";
+    -fx-font-size: 2.0em;
+    -fx-font-weight: bold;
+}
+
+.chart-legend {
+    -fx-padding: 0.0em;
+    -fx-background-color: transparent;
+}
+
+.chart-legend-item {
+    -fx-text-fill: black;
+    -fx-font-family: "Times New Roman";
+    -fx-font-size: 1.833333em;
+    -fx-font-weight: normal;
+}
+
+.chart-plot-background {
+    -fx-background-color: transparent;
+}
+
+.chart-vertical-grid-lines {
+    -fx-stroke: derive(black, 50.0%);
+    -fx-stroke-width: 0.05em;
+}
+
+.chart-horizontal-grid-lines {
+    -fx-stroke: derive(black, 50.0%);
+    -fx-stroke-width: 0.05em;
+}
+
+.chart-vertical-zero-line {
+    -fx-stroke: derive(black, 50.0%);
+    -fx-stroke-width: 0.05em;
+}
+
+.chart-horizontal-zero-line {
+    -fx-stroke: derive(black, 50.0%);
+    -fx-stroke-width: 0.05em;
+}
+
+.chart-alternative-column-fill {
+    -fx-fill: gray;
+    -fx-opacity: 0.25;
+    -fx-stroke: transparent;
+    -fx-stroke-width: 0;
+}
+
+.chart-alternative-row-fill {
+    -fx-fill: gray;
+    -fx-opacity: 0.25;
+    -fx-stroke: transparent;
+    -fx-stroke-width: 0;
+}
+
+/* Axis */
+
+.axis {
+    -fx-tick-labels-visible: true;
+    -fx-tick-mark-visible: true;
+    -fx-minor-tick-visible: true;
+    -fx-tick-label-gap: 0.5em;
+    -fx-tick-label-fill: black;
+    -fx-tick-label-font-family: "Times New Roman";
+    -fx-tick-label-font-size: 1.5em;
+    -fx-tick-label-font-weight: normal;
+}
+
+.axis-label {
+    -fx-padding: 2.0em;
+    -fx-text-fill: black;
+    -fx-font-family: "Times New Roman";
+    -fx-font-size: 1.833333em;
+    -fx-font-weight: normal;
+}
+
+.axis-tick-mark {
+    -fx-stroke: derive(black, 10.0%);
+    -fx-stroke-width: 0.5px;
+}
+
+.axis-minor-tick-mark {
+    -fx-stroke: derive(black, 10.0%);
+    -fx-stroke-width: 0.5px;
+}
+

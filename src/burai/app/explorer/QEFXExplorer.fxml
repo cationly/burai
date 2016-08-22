@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.scene.media.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <left>
+      <VBox prefWidth="200.0" style="-fx-background-color: -fx-base-expr;" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="recentButton" focusTraversable="false" mnemonicParsing="false" prefWidth="200.0" styleClass="modan-button" text="Recently Used">
+               <VBox.margin>
+                  <Insets top="40.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="computerButton" focusTraversable="false" mnemonicParsing="false" prefWidth="200.0" styleClass="modan-button" text="My Computer">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="projectsButton" focusTraversable="false" mnemonicParsing="false" prefWidth="200.0" styleClass="modan-button" text="My Projects">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="calculatingButton" focusTraversable="false" mnemonicParsing="false" prefWidth="200.0" styleClass="modan-button" text="Calculating">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="searchedButton" focusTraversable="false" mnemonicParsing="false" prefWidth="200.0" styleClass="modan-button" text="Searched">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="webButton" focusTraversable="false" mnemonicParsing="false" prefWidth="200.0" styleClass="modan-button" text="Web">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="downloadsButton" focusTraversable="false" mnemonicParsing="false" prefWidth="200.0" styleClass="modan-button" text="Downloads">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+      </VBox>
+   </left>
+   <center>
+      <BorderPane fx:id="bodyPane" BorderPane.alignment="CENTER">
+         <top>
+            <BorderPane prefHeight="40.0" style="-fx-background-color: -fx-base-expr;" BorderPane.alignment="CENTER">
+               <center>
+                  <TextField fx:id="locationField" focusTraversable="false" prefHeight="35.0" styleClass="location-field" BorderPane.alignment="CENTER" />
+               </center>
+               <right>
+                  <MenuButton fx:id="menuButton" focusTraversable="false" mnemonicParsing="false" prefWidth="110.0" styleClass="pictured-button" text="\@" BorderPane.alignment="CENTER">
+                    <items>
+                      <MenuItem fx:id="listMenu" mnemonicParsing="false" styleClass="standard-menu-item" text="List" />
+                      <MenuItem fx:id="smallMenu" mnemonicParsing="false" styleClass="standard-menu-item" text="Small Tiles" />
+                        <MenuItem fx:id="mediumMenu" mnemonicParsing="false" styleClass="standard-menu-item" text="Medium Tiles" />
+                        <MenuItem fx:id="largeMenu" mnemonicParsing="false" styleClass="standard-menu-item" text="Large Tiles" />
+                    </items>
+                     <BorderPane.margin>
+                        <Insets left="5.0" right="10.0" />
+                     </BorderPane.margin>
+                  </MenuButton>
+               </right>
+               <left>
+                  <GridPane hgap="5.0" BorderPane.alignment="CENTER">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="30.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="30.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="30.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Button fx:id="backwardButton" focusTraversable="false" mnemonicParsing="false" styleClass="piclight-button" text="\@" />
+                        <Button fx:id="forwardButton" focusTraversable="false" mnemonicParsing="false" styleClass="piclight-button" text="\@" GridPane.columnIndex="1" />
+                        <Button fx:id="upwardButton" focusTraversable="false" mnemonicParsing="false" styleClass="piclight-button" text="\@" GridPane.columnIndex="2" />
+                     </children>
+                     <padding>
+                        <Insets left="5.0" right="5.0" />
+                     </padding>
+                  </GridPane>
+               </left>
+            </BorderPane>
+         </top>
+         <center>
+            <AnchorPane prefHeight="400.0" prefWidth="400.0" BorderPane.alignment="CENTER" />
+         </center>
+      </BorderPane>
+   </center>
+</BorderPane>

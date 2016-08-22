@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.media.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<Group fx:id="baseGroup" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <BorderPane styleClass="inputfile-pane">
+         <top>
+            <GridPane>
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" BorderPane.alignment="CENTER" GridPane.columnIndex="1">
+                    <items>
+                      <Button fx:id="closeButton" mnemonicParsing="false" styleClass="piclight-button" text="\@" />
+                        <Button fx:id="reloadButton" mnemonicParsing="false" styleClass="piclight-button" text="\@" />
+                        <Button fx:id="uploadButton" mnemonicParsing="false" styleClass="piclight-button" text="\@" />
+                    </items>
+                  </ToolBar>
+                  <ToolBar nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" style="-fx-background-radius: 6 0 0 0;">
+                     <items>
+                        <Label styleClass="medium-text" text="Input-file">
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                        </Label>
+                     </items>
+                  </ToolBar>
+               </children>
+               <BorderPane.margin>
+                  <Insets left="4.0" right="4.0" />
+               </BorderPane.margin>
+            </GridPane>
+         </top>
+         <center>
+            <TextArea fx:id="inputArea" focusTraversable="false" prefHeight="500.0" prefWidth="480.0" styleClass="inputfile-text" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets bottom="4.0" left="4.0" right="4.0" />
+               </BorderPane.margin>
+            </TextArea>
+         </center>
+      </BorderPane>
+   </children>
+</Group>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.web.*?>
+<?import javafx.scene.media.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <left>
+      <StackPane fx:id="figurePane" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: transparent;" BorderPane.alignment="CENTER">
+         <children>
+            <AnchorPane>
+               <children>
+                  <ProgressIndicator focusTraversable="false" prefHeight="100.0" prefWidth="100.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0" />
+               </children>
+            </AnchorPane>
+         </children></StackPane>
+   </left>
+   <center>
+      <HBox BorderPane.alignment="CENTER">
+         <children>
+            <Separator orientation="VERTICAL" />
+            <StackPane fx:id="captionPane" prefHeight="150.0" prefWidth="520.0" style="-fx-background-color: transparent;">
+               <children>
+                  <Label styleClass="large-text" text="Now downloading..." />
+               </children></StackPane>
+         </children>
+      </HBox>
+   </center>
+   <bottom>
+      <Separator BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets top="2.0" />
+         </BorderPane.margin></Separator>
+   </bottom>
+</BorderPane>

@@ -1,0 +1,42 @@
+/*
+ * Copyright (C) 2016 Satomichi Nishihara
+ *
+ * This file is distributed under the terms of the
+ * GNU General Public License. See the file `LICENSE'
+ * in the root directory of the present distribution,
+ * or http://www.gnu.org/copyleft/gpl.txt .
+ */
+
+/* Text */
+
+.large-text {
+    -fx-text-fill: -fx-dark-text-color;
+    -fx-font-size: 1.583333em;
+    -fx-font-style: italic;
+    -fx-font-weight: bold;
+}
+
+.medium-text {
+    -fx-text-fill: -fx-dark-text-color;
+    -fx-font-size: 1.166667em;
+    -fx-font-style: italic;
+    -fx-font-weight: bold;
+}
+
+.italic-text {
+    -fx-font-style: italic;
+}
+
+.italicbold-text {
+    -fx-font-style: italic;
+    -fx-font-weight: bold;
+}
+
+.save-text {
+    -fx-fill: black;
+    -fx-font-size: 3.333333em;
+    -fx-font-weight: bold;
+    -fx-text-alignment: center;
+    -fx-effect: dropshadow(gaussian, white, 4.5, 0.1, 0.166667em, 0.25em);
+}
+

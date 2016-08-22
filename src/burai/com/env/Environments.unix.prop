@@ -1,0 +1,14 @@
+version             = 1.1
+maximum_recents     = 64
+default_website     = https://www.google.com
+espresso_website    = http://www.quantum-espresso.org
+pseudos_website     = http://www.quantum-espresso.org/pseudopotentials/
+man_pwscf_website   = http://www.quantum-espresso.org/wp-content/uploads/Doc/INPUT_PW.html
+man_dos_website     = http://www.quantum-espresso.org/wp-content/uploads/Doc/INPUT_DOS.html
+man_projwfc_website = http://www.quantum-espresso.org/wp-content/uploads/Doc/INPUT_PROJWFC.html
+man_bands_website   = http://www.quantum-espresso.org/wp-content/uploads/Doc/INPUT_BANDS.html
+command_mpirun      = mpirun -np $NP
+command_pwscf       = pw.x -in $IN
+command_dos         = dos.x -in $IN
+command_projwfc     = projwfc.x -in $IN
+command_band        = bands.x -in $IN
