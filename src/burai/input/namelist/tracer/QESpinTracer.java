@@ -66,16 +66,12 @@ public class QESpinTracer {
         this.busyNSpin = true;
 
         if (value == null) {
-            this.nmlSystem.setValue("!nspin = 1");
             this.nmlSystem.removeValue("nspin");
             this.nmlSystem.removeValue("noncolin");
 
         } else {
             int nspin = value.getIntegerValue();
-            if (nspin < 2) {
-                this.nmlSystem.removeValue("nspin");
-                this.nmlSystem.removeValue("noncolin");
-            } else if (nspin < 4) {
+            if (nspin < 4) {
                 this.nmlSystem.setValue("nspin = " + nspin);
                 this.nmlSystem.removeValue("noncolin");
             } else {
