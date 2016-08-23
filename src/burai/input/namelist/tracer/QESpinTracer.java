@@ -48,7 +48,8 @@ public class QESpinTracer {
         QEValueBuffer valueBuffer = this.nmlSystem.getValueBuffer("!nspin");
 
         if (valueBuffer.hasValue()) {
-            this.updateNSpinExt(valueBuffer.getValue());
+            // here, !nspin has always value.
+            //this.updateNSpinExt(valueBuffer.getValue());
         } else {
             this.updateNSpinExt(null);
         }
