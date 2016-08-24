@@ -6,7 +6,7 @@
   <outfile>C:\Users\慧径\git\burai\bin\BURAI.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
-  <chdir>.</chdir>
+  <chdir>..</chdir>
   <priority>normal</priority>
   <downloadUrl>http://java.com/download</downloadUrl>
   <supportUrl></supportUrl>
