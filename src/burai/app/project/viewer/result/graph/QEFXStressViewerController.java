@@ -140,7 +140,7 @@ public class QEFXStressViewerController extends QEFXGraphViewerController {
 
             String strStress = null;
             if (numConverged > 0) {
-                strStress = "Total stress = " + lastStress + " kbar";
+                strStress = "Total stress = " + String.format("%.2f", lastStress) + " kbar";
             }
 
             this.clearStackedNodes();

@@ -110,8 +110,6 @@ public abstract class QEFXResultButton<V extends QEFXResultViewer<?>, E extends 
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else {
-            this.resultViewer.reload();
         }
 
         if (this.resultEditor == null) {
@@ -127,8 +125,10 @@ public abstract class QEFXResultButton<V extends QEFXResultViewer<?>, E extends 
 
         if (viewerNode != null && editorNode != null) {
             this.projectController.setResultViewerMode();
+            this.projectController.clearStackedsOnViewerPane();
             this.projectController.setViewerPane(viewerNode);
             this.projectController.setEditorPane(editorNode);
+            this.resultViewer.reload();
         }
     }
 }

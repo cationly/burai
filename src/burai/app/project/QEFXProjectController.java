@@ -12,8 +12,10 @@ package burai.app.project;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
@@ -69,6 +71,8 @@ public class QEFXProjectController extends QEFXAppController {
 
     private List<Node> stackedsOnViewer;
 
+    private Queue<Node> stackedsToViewer;
+
     private ViewerActions viewerActions;
 
     @FXML
@@ -97,6 +101,7 @@ public class QEFXProjectController extends QEFXAppController {
         this.viewerMenu = null;
         this.onViewerSelected = null;
         this.stackedsOnViewer = null;
+        this.stackedsToViewer = null;
         this.viewerActions = null;
 
         this.editorMenu = null;
@@ -123,12 +128,16 @@ public class QEFXProjectController extends QEFXAppController {
         return this.projectPane;
     }
 
+    /**
+     * stack node on viewerPane.
+     * @param node
+     */
     public void stackOnViewerPane(Node node) {
         if (node == null) {
             return;
         }
 
-        if (this.viewerPane != null) {
+        if (this.viewerPane != null && (!this.viewerPane.getChildren().isEmpty())) {
             if (this.stackedsOnViewer == null) {
                 this.stackedsOnViewer = new ArrayList<Node>();
             }
@@ -137,6 +146,22 @@ public class QEFXProjectController extends QEFXAppController {
 
             this.viewerPane.getChildren().add(node);
         }
+    }
+
+    /**
+     * node will be stacked onto viewerPane, when new viewerPane will be set.
+     * @param node
+     */
+    public void stackToViewerPane(Node node) {
+        if (node == null) {
+            return;
+        }
+
+        if (this.stackedsToViewer == null) {
+            this.stackedsToViewer = new LinkedList<Node>();
+        }
+
+        this.stackedsToViewer.offer(node);
     }
 
     public void clearStackedsOnViewerPane() {
@@ -164,6 +189,10 @@ public class QEFXProjectController extends QEFXAppController {
                 this.atomsViewer = null;
             }
 
+            if (this.stackedsOnViewer != null) {
+                this.stackedsOnViewer.clear();
+            }
+
             List<Node> children = this.viewerPane.getChildren();
             children.clear();
 
@@ -173,6 +202,13 @@ public class QEFXProjectController extends QEFXAppController {
                     this.atomsViewer.bindSceneTo(this.viewerPane);
                 }
                 children.add(node);
+
+                if (this.stackedsToViewer != null) {
+                    while (!this.stackedsToViewer.isEmpty()) {
+                        Node stacked = this.stackedsToViewer.poll();
+                        this.stackOnViewerPane(stacked);
+                    }
+                }
             }
         }
     }

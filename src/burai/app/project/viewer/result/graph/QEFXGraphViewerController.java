@@ -9,6 +9,7 @@
 
 package burai.app.project.viewer.result.graph;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -16,7 +17,6 @@ import java.util.Set;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.chart.Axis;
 import javafx.scene.chart.LineChart;
@@ -29,15 +29,14 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import burai.app.project.QEFXProjectController;
 import burai.app.project.viewer.result.QEFXResultViewerController;
+import burai.app.project.viewer.result.graph.note.QEFXGraphNote;
 
 public abstract class QEFXGraphViewerController extends QEFXResultViewerController {
 
-    private static final String NOTE_CLASS = "result-graph-note";
     private static final double NOTE_SPACING = 4.0;
     private static final double NOTE_INSET1 = 8.0;
     private static final double NOTE_INSET2 = 20.0;
-
-    private StackPane stackPane;
+    private static final String NOTE_CLASS = "result-graph-note-text";
 
     private LineChart<Number, Number> lineChart;
 
@@ -49,7 +48,6 @@ public abstract class QEFXGraphViewerController extends QEFXResultViewerControll
     public QEFXGraphViewerController(QEFXProjectController projectController) {
         super(projectController);
 
-        this.stackPane = null;
         this.lineChart = null;
         this.property = null;
     }
@@ -65,11 +63,8 @@ public abstract class QEFXGraphViewerController extends QEFXResultViewerControll
     }
 
     protected void clearStackedNodes() {
-        if (this.stackPane != null) {
-            this.stackPane.getChildren().clear();
-            if (this.lineChart != null) {
-                this.stackPane.getChildren().add(this.lineChart);
-            }
+        if (this.projectController != null) {
+            this.projectController.clearStackedsOnViewerPane();
         }
     }
 
@@ -78,12 +73,20 @@ public abstract class QEFXGraphViewerController extends QEFXResultViewerControll
             return;
         }
 
-        if (pos != null) {
-            StackPane.setAlignment(node, pos);
-        }
+        if (this.projectController != null) {
+            try {
+                QEFXGraphNote note = new QEFXGraphNote(node);
+                Node noteNode = note.getNode();
+                if (noteNode != null) {
+                    if (pos != null) {
+                        StackPane.setAlignment(noteNode, pos);
+                    }
+                    this.projectController.stackOnViewerPane(noteNode);
+                }
 
-        if (this.stackPane != null) {
-            this.stackPane.getChildren().add(node);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -98,21 +101,16 @@ public abstract class QEFXGraphViewerController extends QEFXResultViewerControll
             }
         }
 
-        BorderPane pane = new BorderPane();
-        pane.getStyleClass().add(NOTE_CLASS);
-
         BorderPane.setMargin(vbox, new Insets(NOTE_INSET1, NOTE_INSET2, NOTE_INSET1, NOTE_INSET2));
-        pane.setCenter(vbox);
-
-        return new Group(pane);
+        BorderPane pane = new BorderPane(vbox);
+        pane.getStyleClass().add(NOTE_CLASS);
+        return pane;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.setupLineChart();
-        this.setupStackPane();
         this.setupBasePane();
-        this.reload();
     }
 
     private void setupBasePane() {
@@ -120,16 +118,8 @@ public abstract class QEFXGraphViewerController extends QEFXResultViewerControll
             return;
         }
 
-        if (this.stackPane != null) {
-            this.basePane.setCenter(this.stackPane);
-        }
-    }
-
-    private void setupStackPane() {
-        this.stackPane = new StackPane();
-
         if (this.lineChart != null) {
-            this.stackPane.getChildren().add(this.lineChart);
+            this.basePane.setCenter(this.lineChart);
         }
     }
 

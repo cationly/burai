@@ -218,7 +218,7 @@ public class QEFXForceViewerController extends QEFXGraphViewerController {
 
             String strForce = null;
             if (numConverged > 0) {
-                strForce = "Total force = " + lastForce + " Ry/Bohr";
+                strForce = "Total force = " + String.format("%.6f", lastForce) + " Ry/Bohr";
             }
 
             this.clearStackedNodes();

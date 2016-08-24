@@ -80,7 +80,7 @@ public class QEFXScfViewerController extends QEFXGraphViewerController {
         String strEnergy = null;
         if (projectEnergies.numEnergies() > 0) {
             double energy = projectEnergies.getEnergy(projectEnergies.numEnergies() - 1);
-            strEnergy = "Total energy = " + energy + " Ry";
+            strEnergy = "Total energy = " + String.format("%.8f", energy) + " Ry";
         }
 
         this.clearStackedNodes();

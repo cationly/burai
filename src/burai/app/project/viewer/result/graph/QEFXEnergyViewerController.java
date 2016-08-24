@@ -153,16 +153,16 @@ public class QEFXEnergyViewerController extends QEFXGraphViewerController {
             String strEnergy = null;
             if (numConverged > 0) {
                 if (EnergyType.TOTAL.equals(this.energyType)) {
-                    strEnergy = "Total energy = " + lastValue + " Ry";
+                    strEnergy = "Total energy = " + String.format("%.8f", lastValue) + " Ry";
 
                 } else if (EnergyType.KINETIC.equals(this.energyType)) {
-                    strEnergy = "Kinetic energy = " + lastValue + " Ry";
+                    strEnergy = "Kinetic energy = " + String.format("%.8f", lastValue) + " Ry";
 
                 } else if (EnergyType.CONSTANT.equals(this.energyType)) {
-                    strEnergy = "Total + Kinetic energy = " + lastValue + " Ry";
+                    strEnergy = "Total + Kinetic energy = " + String.format("%.8f", lastValue) + " Ry";
 
                 } else if (EnergyType.TEMPERATURE.equals(this.energyType)) {
-                    strEnergy = "Temperature = " + lastValue + " K";
+                    strEnergy = "Temperature = " + String.format("%.3f", lastValue) + " K";
                 }
             }
 

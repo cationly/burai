@@ -182,8 +182,6 @@ public class QEFXLogViewerController extends QEFXResultViewerController {
         borderPane.setStyle(PLACEHOLDER_STYLE);
 
         this.listView.setPlaceholder(borderPane);
-
-        this.readFile();
     }
 
     private void readFile() {

@@ -73,12 +73,17 @@
 /* Result - GraphViewer */
 
 .result-graph-note {
+    -fx-background-color: white;
+    -fx-background-radius: 4;
+    -fx-effect: dropshadow(gaussian, derive(black, 25.0%), 4.5, 0.15, 0.25em, 0.416667em);
+    -fx-opacity: 1.00;
+}
+
+.result-graph-note-text {
     -fx-text-fill: black;
     -fx-font-family: "Times New Roman";
     -fx-font-size: 1.666667em;
+    -fx-font-style: normal;
     -fx-font-weight: normal;
-    -fx-background-color: white;
-    -fx-effect: dropshadow(gaussian, derive(black, 25.0%), 4.5, 0.15, 0.333333em, 0.416667em);
-    -fx-opacity: 1.00;
 }
 
