@@ -45,14 +45,14 @@ public class QEFXGraphLegend {
     }
 
     private void setupBasePane() {
-        int numSeries = this.property.numSeries();
-        if (numSeries < 1) {
-            return;
-        }
-
         this.basePane = new GridPane();
         this.basePane.getStyleClass().add(LEGEND_CLASS);
+    }
 
+    public void reload() {
+        this.basePane.getChildren().clear();
+
+        int numSeries = this.property.numSeries();
         for (int iSeries = 0; iSeries < numSeries; iSeries++) {
             SeriesProperty seriesProperty = this.property.getSeries(iSeries);
             if (seriesProperty != null) {

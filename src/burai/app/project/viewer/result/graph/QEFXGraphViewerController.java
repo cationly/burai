@@ -39,11 +39,12 @@ public abstract class QEFXGraphViewerController extends QEFXResultViewerControll
     private static final double NOTE_INSET2 = 20.0;
     private static final String NOTE_CLASS = "result-graph-note-text";
 
-    private Pos legendPos;
-
     private LineChart<Number, Number> lineChart;
 
     private GraphProperty property;
+
+    private Pos legendPos;
+    private QEFXGraphLegend legendObj;
 
     @FXML
     private BorderPane basePane;
@@ -51,11 +52,12 @@ public abstract class QEFXGraphViewerController extends QEFXResultViewerControll
     public QEFXGraphViewerController(QEFXProjectController projectController, Pos legendPos) {
         super(projectController);
 
-        this.legendPos = legendPos;
-
         this.lineChart = null;
 
         this.property = null;
+
+        this.legendPos = legendPos;
+        this.legendObj = null;
     }
 
     protected abstract GraphProperty createProperty();
@@ -69,6 +71,8 @@ public abstract class QEFXGraphViewerController extends QEFXResultViewerControll
     }
 
     private void clearStackedNodes() {
+        this.legendObj = null;
+
         if (this.projectController != null) {
             this.projectController.clearStackedsOnViewerPane();
         }
@@ -289,10 +293,14 @@ public abstract class QEFXGraphViewerController extends QEFXResultViewerControll
             return;
         }
 
-        QEFXGraphLegend legend = new QEFXGraphLegend(property);
-        Node legendNode = legend.getNode();
-        if (legendNode != null) {
-            this.stackNode(legendNode, this.legendPos);
+        if (this.legendObj == null) {
+            this.legendObj = new QEFXGraphLegend(property);
+            Node legendNode = this.legendObj.getNode();
+            if (legendNode != null) {
+                this.stackNode(legendNode, this.legendPos);
+            }
         }
+
+        this.legendObj.reload();
     }
 }
