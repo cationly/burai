@@ -17,9 +17,9 @@ import burai.project.property.ProjectGeometryList;
 public class QEFXLatticeViewer extends QEFXGraphViewer<QEFXLatticeViewerController> {
 
     public QEFXLatticeViewer(QEFXProjectController projectController,
-            ProjectGeometryList projectGeometryList, LattViewerType lattViewerType, boolean mdMode) throws IOException {
+            ProjectGeometryList projectGeometryList, LatticeViewerType lattVType, boolean mdMode) throws IOException {
 
-        super(new QEFXLatticeViewerController(projectController, projectGeometryList, lattViewerType, mdMode));
+        super(new QEFXLatticeViewerController(projectController, projectGeometryList, lattVType, mdMode));
     }
 
 }

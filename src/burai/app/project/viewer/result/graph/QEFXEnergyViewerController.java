@@ -29,7 +29,7 @@ public class QEFXEnergyViewerController extends QEFXGraphViewerController {
     public QEFXEnergyViewerController(QEFXProjectController projectController,
             ProjectGeometryList projectGeometryList, EnergyType energyType, boolean mdMode) {
 
-        super(projectController);
+        super(projectController, null);
 
         if (projectGeometryList == null) {
             throw new IllegalArgumentException("projectGeometryList is null.");
@@ -94,7 +94,6 @@ public class QEFXEnergyViewerController extends QEFXGraphViewerController {
         ProjectGeometryList projectGeometryList = this.projectGeometryList.copyGeometryList();
         if (projectGeometryList == null) {
             lineChart.getData().clear();
-            this.clearStackedNodes();
             return;
         }
 
@@ -165,8 +164,6 @@ public class QEFXEnergyViewerController extends QEFXGraphViewerController {
                     strEnergy = "Temperature = " + String.format("%.3f", lastValue) + " K";
                 }
             }
-
-            this.clearStackedNodes();
 
             Node note = null;
             if (strEnergy != null) {

@@ -18,7 +18,7 @@ import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.layout.TilePane;
 import burai.app.project.QEFXProjectController;
 import burai.app.project.viewer.result.graph.EnergyType;
-import burai.app.project.viewer.result.graph.LattViewerType;
+import burai.app.project.viewer.result.graph.LatticeViewerType;
 import burai.app.project.viewer.result.graph.QEFXMdEnergyButton;
 import burai.app.project.viewer.result.graph.QEFXMdLatticeButton;
 import burai.app.project.viewer.result.graph.QEFXOptEnergyButton;
@@ -153,19 +153,19 @@ public class QEFXResultExplorer {
         });
 
         this.updateButton("QEFXOptLatticeButton#A", () -> {
-            return QEFXOptLatticeButton.getWrapper(this.projectController, this.project, LattViewerType.A);
+            return QEFXOptLatticeButton.getWrapper(this.projectController, this.project, LatticeViewerType.A);
         });
 
         this.updateButton("QEFXOptLatticeButton#B", () -> {
-            return QEFXOptLatticeButton.getWrapper(this.projectController, this.project, LattViewerType.B);
+            return QEFXOptLatticeButton.getWrapper(this.projectController, this.project, LatticeViewerType.B);
         });
 
         this.updateButton("QEFXOptLatticeButton#C", () -> {
-            return QEFXOptLatticeButton.getWrapper(this.projectController, this.project, LattViewerType.C);
+            return QEFXOptLatticeButton.getWrapper(this.projectController, this.project, LatticeViewerType.C);
         });
 
         this.updateButton("QEFXOptLatticeButton#ANGLE", () -> {
-            return QEFXOptLatticeButton.getWrapper(this.projectController, this.project, LattViewerType.ANGLE);
+            return QEFXOptLatticeButton.getWrapper(this.projectController, this.project, LatticeViewerType.ANGLE);
         });
 
         this.updateButton("QEFXOptMovieButton", () -> {
@@ -191,19 +191,19 @@ public class QEFXResultExplorer {
         });
 
         this.updateButton("QEFXMdLatticeButton#A", () -> {
-            return QEFXMdLatticeButton.getWrapper(this.projectController, this.project, LattViewerType.A);
+            return QEFXMdLatticeButton.getWrapper(this.projectController, this.project, LatticeViewerType.A);
         });
 
         this.updateButton("QEFXMdLatticeButton#B", () -> {
-            return QEFXMdLatticeButton.getWrapper(this.projectController, this.project, LattViewerType.B);
+            return QEFXMdLatticeButton.getWrapper(this.projectController, this.project, LatticeViewerType.B);
         });
 
         this.updateButton("QEFXMdLatticeButton#C", () -> {
-            return QEFXMdLatticeButton.getWrapper(this.projectController, this.project, LattViewerType.C);
+            return QEFXMdLatticeButton.getWrapper(this.projectController, this.project, LatticeViewerType.C);
         });
 
         this.updateButton("QEFXMdLatticeButton#ANGLE", () -> {
-            return QEFXMdLatticeButton.getWrapper(this.projectController, this.project, LattViewerType.ANGLE);
+            return QEFXMdLatticeButton.getWrapper(this.projectController, this.project, LatticeViewerType.ANGLE);
         });
 
         this.updateButton("QEFXMdMovieButton", () -> {

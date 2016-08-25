@@ -74,7 +74,7 @@
 
 .result-graph-note {
     -fx-background-color: white;
-    -fx-background-radius: 4;
+    -fx-background-radius: 0.333333em;
     -fx-effect: dropshadow(gaussian, derive(black, 25.0%), 4.5, 0.15, 0.25em, 0.416667em);
     -fx-opacity: 1.00;
 }
@@ -83,6 +83,23 @@
     -fx-text-fill: black;
     -fx-font-family: "Times New Roman";
     -fx-font-size: 1.666667em;
+    -fx-font-style: normal;
+    -fx-font-weight: normal;
+}
+
+.result-graph-legend {
+    -fx-padding: 1.0em 1.5em 1.0em 1.5em;
+    -fx-hgap: 0.833333em;
+    -fx-vgap: 0.5em;
+    -fx-background-color: lightgray;
+    -fx-background-radius: 0.0em 0.0em 0.333333em 0.333333em;
+    -fx-opacity: 1.00;
+}
+
+.result-graph-legend-text {
+    -fx-text-fill: black;
+    -fx-font-family: "Times New Roman";
+    -fx-font-size: 1.833333em;
     -fx-font-style: normal;
     -fx-font-weight: normal;
 }

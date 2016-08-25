@@ -22,7 +22,7 @@ public class QEFXScfViewerController extends QEFXGraphViewerController {
     private ProjectEnergies projectEnergies;
 
     public QEFXScfViewerController(QEFXProjectController projectController, ProjectEnergies projectEnergies) {
-        super(projectController);
+        super(projectController, null);
 
         if (projectEnergies == null) {
             throw new IllegalArgumentException("projectEnergies is null.");
@@ -59,7 +59,6 @@ public class QEFXScfViewerController extends QEFXGraphViewerController {
         ProjectEnergies projectEnergies = this.projectEnergies.copyEnergies();
         if (projectEnergies == null) {
             lineChart.getData().clear();
-            this.clearStackedNodes();
             return;
         }
 
@@ -82,8 +81,6 @@ public class QEFXScfViewerController extends QEFXGraphViewerController {
             double energy = projectEnergies.getEnergy(projectEnergies.numEnergies() - 1);
             strEnergy = "Total energy = " + String.format("%.8f", energy) + " Ry";
         }
-
-        this.clearStackedNodes();
 
         Node note = null;
         if (strEnergy != null) {

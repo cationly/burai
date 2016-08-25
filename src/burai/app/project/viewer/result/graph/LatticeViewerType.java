@@ -9,7 +9,7 @@
 
 package burai.app.project.viewer.result.graph;
 
-public enum LattViewerType {
+public enum LatticeViewerType {
 
     A, B, C, ANGLE;
 

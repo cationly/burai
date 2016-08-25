@@ -7,7 +7,7 @@
  * or http://www.gnu.org/copyleft/gpl.txt .
  */
 
-package burai.app.project.viewer.result.graph.note;
+package burai.app.project.viewer.result.graph.tools;
 
 import java.net.URL;
 import java.util.ResourceBundle;

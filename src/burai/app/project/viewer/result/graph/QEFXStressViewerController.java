@@ -32,7 +32,7 @@ public class QEFXStressViewerController extends QEFXGraphViewerController {
     public QEFXStressViewerController(
             QEFXProjectController projectController, ProjectGeometryList projectGeometryList, boolean mdMode) {
 
-        super(projectController);
+        super(projectController, Pos.BOTTOM_RIGHT);
 
         if (projectGeometryList == null) {
             throw new IllegalArgumentException("projectGeometryList is null.");
@@ -83,7 +83,6 @@ public class QEFXStressViewerController extends QEFXGraphViewerController {
         ProjectGeometryList projectGeometryList = this.projectGeometryList.copyGeometryList();
         if (projectGeometryList == null) {
             lineChart.getData().clear();
-            this.clearStackedNodes();
             return;
         }
 
@@ -142,8 +141,6 @@ public class QEFXStressViewerController extends QEFXGraphViewerController {
             if (numConverged > 0) {
                 strStress = "Total stress = " + String.format("%.2f", lastStress) + " kbar";
             }
-
-            this.clearStackedNodes();
 
             Node note = null;
             if (strStress != null) {

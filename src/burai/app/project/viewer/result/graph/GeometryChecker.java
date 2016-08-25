@@ -33,12 +33,12 @@ public class GeometryChecker {
         this.projectGeometryList = projectGeometryList;
     }
 
-    protected boolean isAvailableLattice(LattViewerType lattViewerType) {
+    protected boolean isAvailableLattice(LatticeViewerType lattVType) {
         if (this.projectGeometryList.numGeometries() < 2) {
             return false;
         }
 
-        if (lattViewerType == null) {
+        if (lattVType == null) {
             return false;
         }
 
@@ -47,7 +47,7 @@ public class GeometryChecker {
         indexSet.add(Math.max(1, this.projectGeometryList.numGeometries() - 1));
 
         for (Integer index : indexSet) {
-            if (this.checkLattice(lattViewerType, index)) {
+            if (this.checkLattice(lattVType, index)) {
                 return true;
             }
         }
@@ -74,7 +74,7 @@ public class GeometryChecker {
         return false;
     }
 
-    private boolean checkLattice(LattViewerType lattViewerType, int i) {
+    private boolean checkLattice(LatticeViewerType lattVType, int i) {
         try {
             ProjectGeometry projectGeometry1 = this.projectGeometryList.getGeometry(0);
             ProjectGeometry projectGeometry2 = this.projectGeometryList.getGeometry(i);
@@ -88,28 +88,28 @@ public class GeometryChecker {
                 return false;
             }
 
-            if (LattViewerType.A.equals(lattViewerType)) {
+            if (LatticeViewerType.A.equals(lattVType)) {
                 double a1 = Lattice.getA(cell1) * Constants.BOHR_RADIUS_ANGS;
                 double a2 = Lattice.getA(cell2) * Constants.BOHR_RADIUS_ANGS;
                 if (Math.abs(a1 - a2) < DELTA_ANGSTROM) {
                     return false;
                 }
 
-            } else if (LattViewerType.B.equals(lattViewerType)) {
+            } else if (LatticeViewerType.B.equals(lattVType)) {
                 double b1 = Lattice.getB(cell1) * Constants.BOHR_RADIUS_ANGS;
                 double b2 = Lattice.getB(cell2) * Constants.BOHR_RADIUS_ANGS;
                 if (Math.abs(b1 - b2) < DELTA_ANGSTROM) {
                     return false;
                 }
 
-            } else if (LattViewerType.C.equals(lattViewerType)) {
+            } else if (LatticeViewerType.C.equals(lattVType)) {
                 double c1 = Lattice.getC(cell1) * Constants.BOHR_RADIUS_ANGS;
                 double c2 = Lattice.getC(cell2) * Constants.BOHR_RADIUS_ANGS;
                 if (Math.abs(c1 - c2) < DELTA_ANGSTROM) {
                     return false;
                 }
 
-            } else if (LattViewerType.ANGLE.equals(lattViewerType)) {
+            } else if (LatticeViewerType.ANGLE.equals(lattVType)) {
                 double alpha1 = Lattice.getAlpha(cell1);
                 double alpha2 = Lattice.getAlpha(cell2);
                 boolean fixAlpha = (Math.abs(alpha1 - alpha2) < DELTA_DEGREE);

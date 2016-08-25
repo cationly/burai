@@ -36,7 +36,7 @@ public class QEFXForceViewerController extends QEFXGraphViewerController {
     public QEFXForceViewerController(
             QEFXProjectController projectController, ProjectGeometryList projectGeometryList, boolean mdMode) {
 
-        super(projectController);
+        super(projectController, Pos.BOTTOM_RIGHT);
 
         if (projectGeometryList == null) {
             throw new IllegalArgumentException("projectGeometryList is null.");
@@ -133,7 +133,6 @@ public class QEFXForceViewerController extends QEFXGraphViewerController {
         ProjectGeometryList projectGeometryList = this.projectGeometryList.copyGeometryList();
         if (projectGeometryList == null) {
             lineChart.getData().clear();
-            this.clearStackedNodes();
             return;
         }
 
@@ -220,8 +219,6 @@ public class QEFXForceViewerController extends QEFXGraphViewerController {
             if (numConverged > 0) {
                 strForce = "Total force = " + String.format("%.6f", lastForce) + " Ry/Bohr";
             }
-
-            this.clearStackedNodes();
 
             Node note = null;
             if (strForce != null) {

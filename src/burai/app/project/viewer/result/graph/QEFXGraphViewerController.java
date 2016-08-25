@@ -29,7 +29,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import burai.app.project.QEFXProjectController;
 import burai.app.project.viewer.result.QEFXResultViewerController;
-import burai.app.project.viewer.result.graph.note.QEFXGraphNote;
+import burai.app.project.viewer.result.graph.tools.QEFXGraphLegend;
+import burai.app.project.viewer.result.graph.tools.QEFXGraphNote;
 
 public abstract class QEFXGraphViewerController extends QEFXResultViewerController {
 
@@ -38,6 +39,8 @@ public abstract class QEFXGraphViewerController extends QEFXResultViewerControll
     private static final double NOTE_INSET2 = 20.0;
     private static final String NOTE_CLASS = "result-graph-note-text";
 
+    private Pos legendPos;
+
     private LineChart<Number, Number> lineChart;
 
     private GraphProperty property;
@@ -45,10 +48,13 @@ public abstract class QEFXGraphViewerController extends QEFXResultViewerControll
     @FXML
     private BorderPane basePane;
 
-    public QEFXGraphViewerController(QEFXProjectController projectController) {
+    public QEFXGraphViewerController(QEFXProjectController projectController, Pos legendPos) {
         super(projectController);
 
+        this.legendPos = legendPos;
+
         this.lineChart = null;
+
         this.property = null;
     }
 
@@ -62,7 +68,7 @@ public abstract class QEFXGraphViewerController extends QEFXResultViewerControll
         return this.property;
     }
 
-    protected void clearStackedNodes() {
+    private void clearStackedNodes() {
         if (this.projectController != null) {
             this.projectController.clearStackedsOnViewerPane();
         }
@@ -136,6 +142,7 @@ public abstract class QEFXGraphViewerController extends QEFXResultViewerControll
 
     @Override
     public void reload() {
+        this.clearStackedNodes();
         this.reloadData();
         this.reloadProperty();
     }
@@ -267,6 +274,25 @@ public abstract class QEFXGraphViewerController extends QEFXResultViewerControll
                     }
                 }
             }
+        }
+
+        this.reloadLegend();
+    }
+
+    private void reloadLegend() {
+        if (this.legendPos == null) {
+            return;
+        }
+
+        GraphProperty property = this.getProperty();
+        if (property == null) {
+            return;
+        }
+
+        QEFXGraphLegend legend = new QEFXGraphLegend(property);
+        Node legendNode = legend.getNode();
+        if (legendNode != null) {
+            this.stackNode(legendNode, this.legendPos);
         }
     }
 }

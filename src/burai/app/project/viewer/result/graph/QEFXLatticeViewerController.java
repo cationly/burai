@@ -25,29 +25,29 @@ import burai.project.property.ProjectGeometryList;
 
 public class QEFXLatticeViewerController extends QEFXGraphViewerController {
 
-    private LattViewerType lattViewerType;
+    private LatticeViewerType lattVType;
 
     private boolean mdMode;
 
     private ProjectGeometryList projectGeometryList;
 
     public QEFXLatticeViewerController(QEFXProjectController projectController,
-            ProjectGeometryList projectGeometryList, LattViewerType lattViewerType, boolean mdMode) {
+            ProjectGeometryList projectGeometryList, LatticeViewerType lattVType, boolean mdMode) {
 
-        super(projectController);
+        super(projectController, LatticeViewerType.ANGLE.equals(lattVType) ? Pos.BOTTOM_RIGHT : null);
 
         if (projectGeometryList == null) {
             throw new IllegalArgumentException("projectGeometryList is null.");
         }
 
-        if (lattViewerType == null) {
-            throw new IllegalArgumentException("lattViewerType is null.");
+        if (lattVType == null) {
+            throw new IllegalArgumentException("lattVType is null.");
         }
 
         this.projectGeometryList = projectGeometryList;
 
         this.mdMode = mdMode;
-        this.lattViewerType = lattViewerType;
+        this.lattVType = lattVType;
     }
 
     @Override
@@ -67,25 +67,25 @@ public class QEFXLatticeViewerController extends QEFXGraphViewerController {
         String[] names = null;
         String[] colors = null;
 
-        if (LattViewerType.A.equals(this.lattViewerType)) {
+        if (LatticeViewerType.A.equals(this.lattVType)) {
             property.setYLabel("Lattice constant (A) / Angstrom");
             numSeries = 1;
             names = new String[] { "A" };
             colors = new String[] { "red" };
 
-        } else if (LattViewerType.B.equals(this.lattViewerType)) {
+        } else if (LatticeViewerType.B.equals(this.lattVType)) {
             property.setYLabel("Lattice constant (B) / Angstrom");
             numSeries = 1;
             names = new String[] { "B" };
             colors = new String[] { "blue" };
 
-        } else if (LattViewerType.C.equals(this.lattViewerType)) {
+        } else if (LatticeViewerType.C.equals(this.lattVType)) {
             property.setYLabel("Lattice constant (C) / Angstrom");
             numSeries = 1;
             names = new String[] { "C" };
             colors = new String[] { "green" };
 
-        } else if (LattViewerType.ANGLE.equals(this.lattViewerType)) {
+        } else if (LatticeViewerType.ANGLE.equals(this.lattVType)) {
             property.setYLabel("Lattice constant (angles) / Degree");
             numSeries = 3;
             names = new String[] { "alpha", "beta", "gamma" };
@@ -118,7 +118,6 @@ public class QEFXLatticeViewerController extends QEFXGraphViewerController {
         ProjectGeometryList projectGeometryList = this.projectGeometryList.copyGeometryList();
         if (projectGeometryList == null) {
             lineChart.getData().clear();
-            this.clearStackedNodes();
             return;
         }
 
@@ -127,7 +126,7 @@ public class QEFXLatticeViewerController extends QEFXGraphViewerController {
         String[] units = null;
         LatticeConstGetter[] lattConsts = null;
 
-        if (LattViewerType.A.equals(this.lattViewerType)) {
+        if (LatticeViewerType.A.equals(this.lattVType)) {
             numSeries = 1;
             names = new String[] { "A" };
             units = new String[] { "Angstrom" };
@@ -138,7 +137,7 @@ public class QEFXLatticeViewerController extends QEFXGraphViewerController {
                     }
             };
 
-        } else if (LattViewerType.B.equals(this.lattViewerType)) {
+        } else if (LatticeViewerType.B.equals(this.lattVType)) {
             numSeries = 1;
             names = new String[] { "B" };
             units = new String[] { "Angstrom" };
@@ -148,7 +147,7 @@ public class QEFXLatticeViewerController extends QEFXGraphViewerController {
                     }
             };
 
-        } else if (LattViewerType.C.equals(this.lattViewerType)) {
+        } else if (LatticeViewerType.C.equals(this.lattVType)) {
             numSeries = 1;
             names = new String[] { "C" };
             units = new String[] { "Angstrom" };
@@ -158,7 +157,7 @@ public class QEFXLatticeViewerController extends QEFXGraphViewerController {
                     }
             };
 
-        } else if (LattViewerType.ANGLE.equals(this.lattViewerType)) {
+        } else if (LatticeViewerType.ANGLE.equals(this.lattVType)) {
             numSeries = 3;
             names = new String[] { "alpha", "beta", "gamma" };
             units = new String[] { "Degree", "Degree", "Degree" };
@@ -243,8 +242,6 @@ public class QEFXLatticeViewerController extends QEFXGraphViewerController {
                     }
                 }
             }
-
-            this.clearStackedNodes();
 
             List<String> strList = new ArrayList<String>();
             strList.add(strIteration);

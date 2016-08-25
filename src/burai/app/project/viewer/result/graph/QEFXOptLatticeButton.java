@@ -25,14 +25,14 @@ public class QEFXOptLatticeButton extends QEFXGraphButton<QEFXLatticeViewer> {
     private static final String BUTTON_BACKGROUND = "-fx-background-color: snow";
 
     public static QEFXResultButtonWrapper<QEFXOptLatticeButton> getWrapper(
-            QEFXProjectController projectController, Project project, LattViewerType lattViewerType) {
+            QEFXProjectController projectController, Project project, LatticeViewerType lattVType) {
 
         ProjectProperty projectProperty = project == null ? null : project.getProperty();
         if (projectProperty == null) {
             return null;
         }
 
-        if (lattViewerType == null) {
+        if (lattVType == null) {
             return null;
         }
 
@@ -41,33 +41,33 @@ public class QEFXOptLatticeButton extends QEFXGraphButton<QEFXLatticeViewer> {
             return null;
         }
 
-        if (new GeometryChecker(projectGeometryList).isAvailableLattice(lattViewerType)) {
-            return () -> new QEFXOptLatticeButton(projectController, projectGeometryList, lattViewerType);
+        if (new GeometryChecker(projectGeometryList).isAvailableLattice(lattVType)) {
+            return () -> new QEFXOptLatticeButton(projectController, projectGeometryList, lattVType);
         }
 
         return null;
     }
 
-    private LattViewerType lattViewerType;
+    private LatticeViewerType lattVType;
 
     private ProjectGeometryList projectGeometryList;
 
     private QEFXOptLatticeButton(QEFXProjectController projectController,
-            ProjectGeometryList projectGeometryList, LattViewerType lattViewerType) {
+            ProjectGeometryList projectGeometryList, LatticeViewerType lattVType) {
 
         super(projectController,
-                BUTTON_TITLE, BUTTON_SUBTITLE + "." + (lattViewerType == null ? "" : lattViewerType.name()));
+                BUTTON_TITLE, BUTTON_SUBTITLE + "." + (lattVType == null ? "" : lattVType.name()));
 
         if (projectGeometryList == null) {
             throw new IllegalArgumentException("projectGeometryList is null.");
         }
 
-        if (lattViewerType == null) {
-            throw new IllegalArgumentException("lattViewerType is null.");
+        if (lattVType == null) {
+            throw new IllegalArgumentException("lattVType is null.");
         }
 
         this.projectGeometryList = projectGeometryList;
-        this.lattViewerType = lattViewerType;
+        this.lattVType = lattVType;
 
         this.setIconStyle(BUTTON_BACKGROUND);
         this.setLabelStyle(BUTTON_FONT_COLOR);
@@ -79,6 +79,6 @@ public class QEFXOptLatticeButton extends QEFXGraphButton<QEFXLatticeViewer> {
             return null;
         }
 
-        return new QEFXLatticeViewer(this.projectController, this.projectGeometryList, this.lattViewerType, false);
+        return new QEFXLatticeViewer(this.projectController, this.projectGeometryList, this.lattVType, false);
     }
 }
