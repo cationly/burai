@@ -66,7 +66,11 @@ public class ViewerActions extends ProjectActions<Node> {
     }
 
     public void screenShot() {
-        this.actionScreenShot(this.controller);
+        this.screenShot(null);
+    }
+
+    public void screenShot(Node subject) {
+        this.actionScreenShot(this.controller, subject);
     }
 
     private void setupOnViewerSelected() {
@@ -110,7 +114,7 @@ public class ViewerActions extends ProjectActions<Node> {
                 this.actions.put(item, controller2 -> this.actionSaveAsFile(controller2));
 
             } else if (item == this.itemSet.getScreenShotItem()) {
-                this.actions.put(item, controller2 -> this.actionScreenShot(controller2));
+                this.actions.put(item, controller2 -> this.actionScreenShot(controller2, null));
 
             } else if (item == this.itemSet.getRunItem()) {
                 this.actions.put(item, controller2 -> this.actionRun(controller2));
@@ -170,12 +174,12 @@ public class ViewerActions extends ProjectActions<Node> {
         saveAction.saveProjectAsNew();
     }
 
-    private void actionScreenShot(QEFXProjectController controller) {
+    private void actionScreenShot(QEFXProjectController controller, Node subject) {
         if (controller == null) {
             return;
         }
 
-        QEFXScreenshotDialog dialog = new QEFXScreenshotDialog(controller, this.project);
+        QEFXScreenshotDialog dialog = new QEFXScreenshotDialog(controller, this.project, subject);
         Optional<ButtonType> optButtonType = dialog.showAndWait();
 
         if (optButtonType != null && optButtonType.isPresent() && optButtonType.get() == ButtonType.YES) {

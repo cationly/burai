@@ -85,7 +85,7 @@ public abstract class QEFXGraphViewerController extends QEFXResultViewerControll
 
         if (this.projectController != null) {
             try {
-                QEFXGraphNote note = new QEFXGraphNote(node);
+                QEFXGraphNote note = new QEFXGraphNote(this.projectController, node);
                 Node noteNode = note.getNode();
                 if (noteNode != null) {
                     if (pos != null) {

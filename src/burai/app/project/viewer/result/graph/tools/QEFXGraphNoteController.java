@@ -22,6 +22,7 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import burai.app.QEFXAppController;
+import burai.app.project.QEFXProjectController;
 import burai.com.graphic.svg.SVGLibrary;
 import burai.com.graphic.svg.SVGLibrary.SVGData;
 
@@ -33,6 +34,8 @@ public class QEFXGraphNoteController extends QEFXAppController {
     private static final String GRAPHIC_CLASS = "piclight-button";
 
     private static final String NOTE_CLASS = "result-graph-note";
+
+    private QEFXProjectController projectController;
 
     private Node content;
 
@@ -50,13 +53,18 @@ public class QEFXGraphNoteController extends QEFXAppController {
 
     private Button maxButton;
 
-    public QEFXGraphNoteController(Node content) {
-        super();
+    public QEFXGraphNoteController(QEFXProjectController projectController, Node content) {
+        super(projectController == null ? null : projectController.getMainController());
+
+        if (projectController == null) {
+            throw new IllegalArgumentException("projectController is null.");
+        }
 
         if (content == null) {
             throw new IllegalArgumentException("content is null.");
         }
 
+        this.projectController = projectController;
         this.content = content;
 
         this.maxButton = null;
@@ -99,8 +107,10 @@ public class QEFXGraphNoteController extends QEFXAppController {
         this.screenButton.setTooltip(new Tooltip("screen-shot"));
 
         this.screenButton.setOnAction(event -> {
-            // TODO
-            });
+            if (this.content != null) {
+                this.projectController.sceenShot(this.content);
+            }
+        });
     }
 
     private void setupMinButton() {

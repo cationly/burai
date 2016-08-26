@@ -428,6 +428,10 @@ public class QEFXProjectController extends QEFXAppController {
         this.viewerActions.screenShot();
     }
 
+    public void sceenShot(Node subject) {
+        this.viewerActions.screenShot(subject);
+    }
+
     public void resetResultMode() {
         this.resetResultMode(null);
     }

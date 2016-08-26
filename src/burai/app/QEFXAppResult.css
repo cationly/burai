@@ -92,7 +92,9 @@
     -fx-hgap: 0.833333em;
     -fx-vgap: 0.5em;
     -fx-background-color: lightgray;
+    /*
     -fx-background-radius: 0.0em 0.0em 0.333333em 0.333333em;
+     */
     -fx-opacity: 1.00;
 }
 

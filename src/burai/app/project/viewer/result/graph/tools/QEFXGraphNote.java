@@ -13,11 +13,12 @@ import java.io.IOException;
 
 import javafx.scene.Node;
 import burai.app.QEFXAppComponent;
+import burai.app.project.QEFXProjectController;
 
 public class QEFXGraphNote extends QEFXAppComponent<QEFXGraphNoteController> {
 
-    public QEFXGraphNote(Node content) throws IOException {
-        super("QEFXGraphNote.fxml", new QEFXGraphNoteController(content));
+    public QEFXGraphNote(QEFXProjectController projectController, Node content) throws IOException {
+        super("QEFXGraphNote.fxml", new QEFXGraphNoteController(projectController, content));
     }
 
 }

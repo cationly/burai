@@ -40,9 +40,15 @@ public class QEFXScreenshotDialog extends Dialog<ButtonType> {
 
     private QEFXProjectController projectController;
 
+    private Node subject;
+
     private Image image;
 
     public QEFXScreenshotDialog(QEFXProjectController projectController, Project project) {
+        this(projectController, project, null);
+    }
+
+    public QEFXScreenshotDialog(QEFXProjectController projectController, Project project, Node subject) {
         super();
 
         if (project == null) {
@@ -55,6 +61,7 @@ public class QEFXScreenshotDialog extends Dialog<ButtonType> {
 
         this.project = project;
         this.projectController = projectController;
+        this.subject = subject;
         this.image = null;
 
         DialogPane dialogPane = this.getDialogPane();
@@ -70,14 +77,17 @@ public class QEFXScreenshotDialog extends Dialog<ButtonType> {
     }
 
     private Node createContent() {
-        Node viewer = this.projectController.getViewerPane();
+        Node subject2 = this.subject;
+        if (subject2 == null) {
+            subject2 = this.projectController.getViewerPane();
+        }
 
-        if (viewer != null) {
-            if (viewer.isFocused()) {
-                this.shiftFocus(viewer, true);
+        if (subject2 != null) {
+            if (subject2.isFocused()) {
+                this.shiftFocus(subject2, true);
             }
 
-            this.image = viewer.snapshot(null, null);
+            this.image = subject2.snapshot(null, null);
         }
 
         ImageView imageView = null;
