@@ -90,6 +90,10 @@ public abstract class LogParser {
 
     public void endParsing() {
         synchronized (this) {
+            if (!this.parsing) {
+                return;
+            }
+
             this.parsing = false;
             this.ending = true;
             this.notifyAll();
