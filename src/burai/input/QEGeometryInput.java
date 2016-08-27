@@ -18,6 +18,8 @@ import burai.atoms.element.ElementUtil;
 import burai.atoms.model.Atom;
 import burai.atoms.model.AtomProperty;
 import burai.atoms.model.Cell;
+import burai.com.math.Lattice;
+import burai.com.math.Matrix3D;
 import burai.input.card.QEAtomicPositions;
 import burai.input.card.QEAtomicSpecies;
 import burai.input.card.QECard;
@@ -53,7 +55,7 @@ public class QEGeometryInput extends QEInput {
             throw new IllegalArgumentException("cell is null.");
         }
 
-        this.setupCellParameters(cell);
+        this.setupLattice(cell);
         this.setupAtomicSpecies(cell);
         this.setupAtomicPositions(cell);
 
@@ -84,8 +86,24 @@ public class QEGeometryInput extends QEInput {
         this.busyWithActions = false;
     }
 
-    private void setupCellParameters(Cell cell) {
+    private void setupLattice(Cell cell) {
         double[][] lattice = cell.copyLattice();
+        if (lattice == null || lattice.length < 3) {
+            lattice = Matrix3D.unit();
+        }
+
+        int ibrav = Lattice.getBravais(lattice);
+        if (ibrav == 0) {
+            this.setupCellParameters(lattice);
+        } else {
+            this.setupBravaisLattice(ibrav, lattice);
+        }
+    }
+
+    private void setupCellParameters(double[][] lattice) {
+        if (lattice == null || lattice.length < 3) {
+            return;
+        }
 
         QECard card = this.cards.get(QECellParameters.CARD_NAME);
         if (!(card instanceof QECellParameters)) {
@@ -102,6 +120,146 @@ public class QEGeometryInput extends QEInput {
         QENamelist nmlSystem = this.namelists.get(NAMELIST_SYSTEM);
         if (nmlSystem != null) {
             nmlSystem.setValue("ibrav = 0");
+        }
+    }
+
+    private void setupBravaisLattice(int ibrav, double[][] lattice) {
+        if (lattice == null || lattice.length < 3) {
+            return;
+        }
+
+        double a = Lattice.getA(lattice);
+        double b = Lattice.getB(lattice);
+        double c = Lattice.getC(lattice);
+        double cosbc = Lattice.getCosAlpha(lattice);
+        double cosac = Lattice.getCosBeta(lattice);
+        double cosab = Lattice.getCosGamma(lattice);
+
+        QENamelist nmlSystem = this.namelists.get(NAMELIST_SYSTEM);
+        if (nmlSystem != null) {
+            nmlSystem.setValue("ibrav = " + ibrav);
+
+            switch (ibrav) {
+            case 1:
+                nmlSystem.setValue("a = " + a);
+                break;
+
+            case 2:
+                nmlSystem.setValue("a = " + a);
+                break;
+
+            case 3:
+                nmlSystem.setValue("a = " + a);
+                break;
+
+            case 4:
+                nmlSystem.setValue("a = " + a);
+                nmlSystem.setValue("c = " + c);
+                break;
+
+            case 5:
+                nmlSystem.setValue("a = " + a);
+                nmlSystem.setValue("cosbc = " + cosbc);
+                break;
+
+            case -5:
+                nmlSystem.setValue("a = " + a);
+                nmlSystem.setValue("cosbc = " + cosbc);
+                break;
+
+            case 6:
+                nmlSystem.setValue("a = " + a);
+                nmlSystem.setValue("c = " + c);
+                break;
+
+            case 7:
+                nmlSystem.setValue("a = " + a);
+                nmlSystem.setValue("c = " + c);
+                break;
+
+            case 8:
+                nmlSystem.setValue("a = " + a);
+                nmlSystem.setValue("b = " + b);
+                nmlSystem.setValue("c = " + c);
+                break;
+
+            case 9:
+                nmlSystem.setValue("a = " + a);
+                nmlSystem.setValue("b = " + b);
+                nmlSystem.setValue("c = " + c);
+                break;
+
+            case -9:
+                nmlSystem.setValue("a = " + a);
+                nmlSystem.setValue("b = " + b);
+                nmlSystem.setValue("c = " + c);
+                break;
+
+            case 91:
+                nmlSystem.setValue("a = " + a);
+                nmlSystem.setValue("b = " + b);
+                nmlSystem.setValue("c = " + c);
+                break;
+
+            case 10:
+                nmlSystem.setValue("a = " + a);
+                nmlSystem.setValue("b = " + b);
+                nmlSystem.setValue("c = " + c);
+                break;
+
+            case 11:
+                nmlSystem.setValue("a = " + a);
+                nmlSystem.setValue("b = " + b);
+                nmlSystem.setValue("c = " + c);
+                break;
+
+            case 12:
+                nmlSystem.setValue("a = " + a);
+                nmlSystem.setValue("b = " + b);
+                nmlSystem.setValue("c = " + c);
+                nmlSystem.setValue("cosbc = " + cosbc);
+                break;
+
+            case -12:
+                nmlSystem.setValue("a = " + a);
+                nmlSystem.setValue("b = " + b);
+                nmlSystem.setValue("c = " + c);
+                nmlSystem.setValue("cosac = " + cosac);
+                break;
+
+            case 13:
+                nmlSystem.setValue("a = " + a);
+                nmlSystem.setValue("b = " + b);
+                nmlSystem.setValue("c = " + c);
+                nmlSystem.setValue("cosbc = " + cosbc);
+                break;
+
+            case -13:
+                nmlSystem.setValue("a = " + a);
+                nmlSystem.setValue("b = " + b);
+                nmlSystem.setValue("c = " + c);
+                nmlSystem.setValue("cosac = " + cosac);
+                break;
+
+            case 14:
+                nmlSystem.setValue("a = " + a);
+                nmlSystem.setValue("b = " + b);
+                nmlSystem.setValue("c = " + c);
+                nmlSystem.setValue("cosbc = " + cosbc);
+                nmlSystem.setValue("cosac = " + cosac);
+                nmlSystem.setValue("cosab = " + cosab);
+                break;
+
+            default:
+                nmlSystem.setValue("a = " + a);
+                nmlSystem.setValue("b = " + b);
+                nmlSystem.setValue("c = " + c);
+                nmlSystem.setValue("cosbc = " + cosbc);
+                nmlSystem.setValue("cosac = " + cosac);
+                nmlSystem.setValue("cosab = " + cosab);
+                break;
+            }
+
         }
     }
 

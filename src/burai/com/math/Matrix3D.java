@@ -13,6 +13,8 @@ public final class Matrix3D {
 
     private static final double MIN_DET = 1.0e-20;
 
+    private static final double EQUALS_THRESHOLD = 1.0e-10;
+
     private Matrix3D() {
         // NOP
     }
@@ -325,5 +327,43 @@ public final class Matrix3D {
         }
 
         return matrix2;
+    }
+
+    public static boolean equals(double[][] matrix1, double[][] matrix2) {
+        return equals(matrix1, matrix2, EQUALS_THRESHOLD);
+    }
+
+    public static boolean equals(double[][] matrix1, double[][] matrix2, double threshold) {
+        if (!(checkMatrix(matrix1) && checkMatrix(matrix2))) {
+            return false;
+        }
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (Math.abs(matrix1[i][j] - matrix2[i][j]) > threshold) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public static boolean equals(double[] matrix1, double[] matrix2) {
+        return equals(matrix1, matrix2, EQUALS_THRESHOLD);
+    }
+
+    public static boolean equals(double[] matrix1, double[] matrix2, double threshold) {
+        if (!(checkMatrix(matrix1) && checkMatrix(matrix2))) {
+            return false;
+        }
+
+        for (int i = 0; i < 3; i++) {
+            if (Math.abs(matrix1[i] - matrix2[i]) > threshold) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
