@@ -50,7 +50,7 @@ public class ScfParser extends LogParser {
         }
     }
 
-    public void parseKernel(File file) throws IOException {
+    private void parseKernel(File file) throws IOException {
 
         Deque<Energy> energyQueue1 = new LinkedList<Energy>();
         Deque<Energy> energyQueue2 = new LinkedList<Energy>();

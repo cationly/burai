@@ -25,6 +25,7 @@ public class ProjectProperty {
 
     private static final String FILE_NAME_STATUS = ".burai.status";
     private static final String FILE_NAME_SCF = ".burai.elec";
+    private static final String FILE_NAME_FERMI = ".burai.fermi";
     private static final String FILE_NAME_OPT = ".burai.opt";
     private static final String FILE_NAME_MD = ".burai.md";
 
@@ -51,6 +52,8 @@ public class ProjectProperty {
 
     private ProjectEnergies scfEnergies;
 
+    private ProjectEnergies fermiEnergies;
+
     private ProjectGeometryList optList;
 
     private ProjectGeometryList mdList;
@@ -64,6 +67,7 @@ public class ProjectProperty {
 
         this.status = null;
         this.scfEnergies = null;
+        this.fermiEnergies = null;
         this.optList = null;
         this.mdList = null;
     }
@@ -75,6 +79,7 @@ public class ProjectProperty {
 
         this.status = property.getStatus();
         this.scfEnergies = property.getScfEnergies();
+        this.fermiEnergies = property.getFermiEnergies();
         this.optList = property.getOptList();
         this.mdList = property.getMdList();
     }
@@ -82,6 +87,7 @@ public class ProjectProperty {
     public void saveProperty() {
         this.saveStatus();
         this.saveScfEnergies();
+        this.saveFermiEnergies();
         this.saveOptList();
         this.saveMdList();
     }
@@ -100,6 +106,14 @@ public class ProjectProperty {
         }
 
         return this.scfEnergies;
+    }
+
+    public synchronized ProjectEnergies getFermiEnergies() {
+        if (this.fermiEnergies == null) {
+            this.createFermiEnergies();
+        }
+
+        return this.fermiEnergies;
     }
 
     public synchronized ProjectGeometryList getOptList() {
@@ -139,6 +153,18 @@ public class ProjectProperty {
 
         if (this.scfEnergies == null) {
             this.scfEnergies = new ProjectEnergies();
+        }
+    }
+
+    private void createFermiEnergies() {
+        try {
+            this.fermiEnergies = this.<ProjectEnergies> readFile(FILE_NAME_FERMI, ProjectEnergies.class);
+        } catch (IOException e) {
+            this.fermiEnergies = null;
+        }
+
+        if (this.fermiEnergies == null) {
+            this.fermiEnergies = new ProjectEnergies();
         }
     }
 
@@ -182,6 +208,15 @@ public class ProjectProperty {
     public synchronized void saveScfEnergies() {
         try {
             this.<ProjectEnergies> writeFile(FILE_NAME_SCF, this.scfEnergies);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public synchronized void saveFermiEnergies() {
+        try {
+            this.<ProjectEnergies> writeFile(FILE_NAME_FERMI, this.fermiEnergies);
 
         } catch (IOException e) {
             e.printStackTrace();

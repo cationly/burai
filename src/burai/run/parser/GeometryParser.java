@@ -50,7 +50,7 @@ public class GeometryParser extends LogParser {
         this.parseGeometry(file);
     }
 
-    public void parseGeometry(File file) throws IOException {
+    private void parseGeometry(File file) throws IOException {
         if (this.geometryList != null) {
             this.geometryList.clearGeometries();
         }
@@ -73,7 +73,7 @@ public class GeometryParser extends LogParser {
         }
     }
 
-    public void parseGeometryKernel(File file) throws IOException {
+    private void parseGeometryKernel(File file) throws IOException {
 
         BufferedReader reader = null;
 
