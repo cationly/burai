@@ -10,7 +10,11 @@
 package burai.project.property;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ProjectDos {
@@ -45,6 +49,23 @@ public class ProjectDos {
         return this.prefix;
     }
 
+    public List<DosData> listDosData() {
+        if (this.dosDataMap == null || this.dosDataMap.isEmpty()) {
+            return null;
+        }
+
+        Collection<DosData> dosDataColl = this.dosDataMap.values();
+        if (dosDataColl == null || dosDataColl.isEmpty()) {
+            return null;
+        }
+
+        List<DosData> dosDataList = new ArrayList<DosData>();
+        dosDataColl.addAll(dosDataColl);
+        Collections.sort(dosDataList);
+
+        return dosDataList;
+    }
+
     public void reload() {
         if (this.dosDataMap == null) {
             this.dosDataMap = new HashMap<File, DosData>();
@@ -59,10 +80,13 @@ public class ProjectDos {
             File[] files = dirFile.listFiles((dir, name) -> {
                 if (name == null || name.isEmpty()) {
                     return false;
+
                 } else if (name.equals(this.prefix + ".dos")) {
                     return true;
+
                 } else if (name.startsWith(this.prefix + ".pdos_atm")) {
                     return true;
+
                 } else {
                     return false;
                 }

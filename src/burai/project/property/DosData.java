@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DosData {
+public class DosData implements Comparable<DosData> {
 
     private static final long INIT_TIME_STAMP = 0L;
 
@@ -305,5 +305,53 @@ public class DosData {
                 }
             }
         }
+    }
+
+    @Override
+    public int compareTo(DosData dosData) {
+        if (dosData == null) {
+            return -1;
+        }
+
+        boolean sameType = false;
+        if (this.type == null) {
+            sameType = (this.type == dosData.type);
+        } else {
+            sameType = (this.type.equals(dosData.type));
+        }
+
+        if (!sameType) {
+            if (DosType.TOTAL.equals(this.type)) {
+                return -1;
+            } else if (DosType.TOTAL.equals(dosData.type)) {
+                return 1;
+            }
+        }
+
+        if (this.atomIndex != dosData.atomIndex) {
+            return (this.atomIndex < dosData.atomIndex) ? -1 : 1;
+        }
+
+        int momentum1 = this.type == null ? Integer.MAX_VALUE : this.type.getMomentum();
+        int momentum2 = dosData.type == null ? Integer.MAX_VALUE : dosData.type.getMomentum();
+        if (momentum1 != momentum2) {
+            return (momentum1 < momentum2) ? -1 : 1;
+        }
+
+        if (this.spinPolarized != dosData.spinPolarized) {
+            if (!this.spinPolarized) {
+                return -1;
+            } else if (!dosData.spinPolarized) {
+                return 1;
+            }
+        }
+
+        if (this.atomName != null) {
+            return this.atomName.compareTo(dosData.atomName);
+        } else if (this.atomName != dosData.atomName) {
+            return -1;
+        }
+
+        return 0;
     }
 }
