@@ -13,16 +13,16 @@ public class ProjectDosFactory {
 
     private ProjectDos dos;
 
-    protected ProjectDosFactory() {
+    public ProjectDosFactory() {
         this.dos = null;
     }
 
-    protected ProjectDos getProjectDos(String path, String prefix) {
+    public ProjectDos getProjectDos(String path, String prefix) {
         if (path == null || path.isEmpty() || prefix == null || prefix.isEmpty()) {
             this.dos = null;
 
         } else if (this.dos != null && path.equals(this.dos.getPath()) && prefix.equals(this.dos.getPrefix())) {
-            // NOP
+            this.dos.reload();
 
         } else {
             this.dos = new ProjectDos(path, prefix);

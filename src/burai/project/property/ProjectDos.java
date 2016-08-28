@@ -9,11 +9,17 @@
 
 package burai.project.property;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
 public class ProjectDos {
 
     private String path;
 
     private String prefix;
+
+    private Map<File, DosData> dosDataMap;
 
     public ProjectDos(String path, String prefix) {
         if (path == null || path.isEmpty()) {
@@ -26,6 +32,9 @@ public class ProjectDos {
 
         this.path = path;
         this.prefix = prefix;
+
+        this.dosDataMap = null;
+        this.reload();
     }
 
     public String getPath() {
@@ -36,4 +45,51 @@ public class ProjectDos {
         return this.prefix;
     }
 
+    public void reload() {
+        if (this.dosDataMap == null) {
+            this.dosDataMap = new HashMap<File, DosData>();
+        }
+
+        try {
+            File dirFile = new File(this.path);
+            if (!dirFile.isDirectory()) {
+                return;
+            }
+
+            File[] files = dirFile.listFiles((dir, name) -> {
+                if (name == null || name.isEmpty()) {
+                    return false;
+                } else if (name.equals(this.prefix + ".dos")) {
+                    return true;
+                } else if (name.startsWith(this.prefix + ".pdos_atm")) {
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+
+            if (files == null) {
+                return;
+            }
+
+            for (File file : files) {
+                if (!file.isFile()) {
+                    continue;
+                }
+
+                if (!this.dosDataMap.containsKey(file)) {
+                    this.dosDataMap.put(file, new DosData(file));
+
+                } else {
+                    DosData dosData = this.dosDataMap.get(file);
+                    if (dosData != null) {
+                        dosData.reload();
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
