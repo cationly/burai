@@ -135,12 +135,17 @@ public class ProjectBody extends Project {
                 return;
             }
 
+            if (this.getPrefixName() == null) {
+                this.property = null;
+                return;
+            }
+
             if (!this.createDirectory()) {
                 this.property = null;
                 return;
             }
 
-            ProjectProperty property = new ProjectProperty(this.getDirectoryPath());
+            ProjectProperty property = new ProjectProperty(this.getDirectoryPath(), this.getPrefixName());
             if (this.property != null) {
                 property.copyProperty(this.property);
             }
@@ -202,8 +207,8 @@ public class ProjectBody extends Project {
             this.cell = ((QEGeometryInput) input).getCell();
         }
 
-        if (this.getDirectoryPath() != null) {
-            this.property = new ProjectProperty(this.getDirectoryPath());
+        if (this.getDirectoryPath() != null && this.getPrefixName() != null) {
+            this.property = new ProjectProperty(this.getDirectoryPath(), this.getPrefixName());
         }
     }
 

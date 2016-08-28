@@ -48,6 +48,8 @@ public class ProjectProperty {
 
     private String directoryPath;
 
+    private String prefixName;
+
     private ProjectStatus status;
 
     private ProjectEnergies scfEnergies;
@@ -58,18 +60,26 @@ public class ProjectProperty {
 
     private ProjectGeometryList mdList;
 
-    public ProjectProperty(String directoryPath) {
-        if (directoryPath == null || directoryPath.isEmpty()) {
-            throw new IllegalArgumentException("directoryPath is empty.");
+    private ProjectDosFactory dosFactory;
+
+    public ProjectProperty(String directoryPath, String prefixName) {
+        if (directoryPath == null) {
+            throw new IllegalArgumentException("directoryPath is null.");
+        }
+
+        if (prefixName == null) {
+            throw new IllegalArgumentException("prefixName is null.");
         }
 
         this.directoryPath = directoryPath;
+        this.prefixName = prefixName;
 
         this.status = null;
         this.scfEnergies = null;
         this.fermiEnergies = null;
         this.optList = null;
         this.mdList = null;
+        this.dosFactory = new ProjectDosFactory();
     }
 
     public synchronized void copyProperty(ProjectProperty property) {
@@ -130,6 +140,10 @@ public class ProjectProperty {
         }
 
         return this.mdList;
+    }
+
+    public synchronized ProjectDos getDos() {
+        return this.dosFactory.getProjectDos(this.directoryPath, this.prefixName);
     }
 
     private void createStatus() {
