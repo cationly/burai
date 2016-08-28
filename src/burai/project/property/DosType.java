@@ -10,9 +10,19 @@
 package burai.project.property;
 
 public enum DosType {
-    TOTAL,
-    PDOS_S,
-    PDOS_P,
-    PDOS_D,
-    PDOS_F;
+    TOTAL(-1),
+    PDOS_S(0),
+    PDOS_P(1),
+    PDOS_D(2),
+    PDOS_F(3);
+
+    private int momentum;
+
+    private DosType(int momentum) {
+        this.momentum = momentum;
+    }
+
+    public int getMomentum() {
+        return this.momentum;
+    }
 }
