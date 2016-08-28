@@ -14,6 +14,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -38,6 +39,9 @@ public abstract class QEFXGraphViewerController extends QEFXResultViewerControll
     private static final double NOTE_INSET1 = 8.0;
     private static final double NOTE_INSET2 = 20.0;
     private static final String NOTE_CLASS = "result-graph-note-text";
+
+    private static final int NUM_POST_RELOADS = 2;
+    private static final long SLEEP_BETWEEN_RELOADS = 150L;
 
     private LineChart<Number, Number> lineChart;
 
@@ -149,6 +153,28 @@ public abstract class QEFXGraphViewerController extends QEFXResultViewerControll
         this.clearStackedNodes();
         this.reloadData();
         this.reloadProperty();
+
+        Thread thread = new Thread(() -> {
+            this.postReload();
+        });
+
+        thread.start();
+    }
+
+    private void postReload() {
+        for (int i = 0; i < NUM_POST_RELOADS; i++) {
+            synchronized (this) {
+                try {
+                    this.wait(SLEEP_BETWEEN_RELOADS);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            Platform.runLater(() -> {
+                this.reloadProperty();
+            });
+        }
     }
 
     protected abstract void reloadData(LineChart<Number, Number> lineChart);
@@ -170,6 +196,7 @@ public abstract class QEFXGraphViewerController extends QEFXResultViewerControll
         String title = property.getTitle();
         title = title == null ? "" : title;
         this.lineChart.setTitle(title);
+        this.lineChart.setAxisSortingPolicy(SortingPolicy.X_AXIS);
 
         Axis<Number> xAxis = this.lineChart.getXAxis();
         String xLabel = property.getXLabel();

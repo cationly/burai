@@ -17,13 +17,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DosData implements Comparable<DosData> {
+public class DosData implements DosInterface, Comparable<DosData> {
 
     private static final long INIT_TIME_STAMP = 0L;
 
     private File file;
 
     private long timeStamp;
+
+    private boolean firstLoaded;
 
     private DosType type;
 
@@ -35,13 +37,14 @@ public class DosData implements Comparable<DosData> {
 
     private List<Point> points;
 
-    public DosData(File file) throws IOException {
+    public DosData(File file) {
         if (file == null) {
             throw new IllegalArgumentException("file is null.");
         }
 
         this.file = file;
         this.timeStamp = INIT_TIME_STAMP;
+        this.firstLoaded = false;
 
         this.type = null;
         this.spinPolarized = false;
@@ -53,27 +56,81 @@ public class DosData implements Comparable<DosData> {
         this.reload();
     }
 
-    public DosType getType() {
+    @Override
+    public synchronized DosType getType() {
+        while (!this.firstLoaded) {
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
         return this.type;
     }
 
-    public boolean isSpinPolarized() {
+    @Override
+    public synchronized boolean isSpinPolarized() {
+        while (!this.firstLoaded) {
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
         return this.spinPolarized;
     }
 
-    public int getAtomIndex() {
+    @Override
+    public synchronized int getAtomIndex() {
+        while (!this.firstLoaded) {
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
         return this.atomIndex;
     }
 
-    public String getAtomName() {
+    @Override
+    public synchronized String getAtomName() {
+        while (!this.firstLoaded) {
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
         return this.atomName;
     }
 
-    public int numPoints() {
+    @Override
+    public synchronized int numPoints() {
+        while (!this.firstLoaded) {
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
         return this.points.size();
     }
 
-    public double getEnergy(int i) {
+    @Override
+    public synchronized double getEnergy(int i) {
+        while (!this.firstLoaded) {
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
         if (i < 0 || i >= this.points.size()) {
             throw new IndexOutOfBoundsException("incorrect index of points: " + i + ".");
         }
@@ -81,7 +138,16 @@ public class DosData implements Comparable<DosData> {
         return this.points.get(i).energy;
     }
 
-    public double getDosUp(int i) {
+    @Override
+    public synchronized double getDosUp(int i) {
+        while (!this.firstLoaded) {
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
         if (i < 0 || i >= this.points.size()) {
             throw new IndexOutOfBoundsException("incorrect index of points: " + i + ".");
         }
@@ -89,7 +155,16 @@ public class DosData implements Comparable<DosData> {
         return this.points.get(i).dosUp;
     }
 
-    public double getDosDown(int i) {
+    @Override
+    public synchronized double getDosDown(int i) {
+        while (!this.firstLoaded) {
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
         if (i < 0 || i >= this.points.size()) {
             throw new IndexOutOfBoundsException("incorrect index of points: " + i + ".");
         }
@@ -179,10 +254,23 @@ public class DosData implements Comparable<DosData> {
         return true;
     }
 
-    public void reload() throws IOException {
+    public void reload() {
         if (!this.reloadTimeStamp()) {
             return;
         }
+
+        Thread thread = new Thread(() -> {
+            try {
+                this.reloadKernel();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        thread.start();
+    }
+
+    private synchronized void reloadKernel() throws IOException {
 
         BufferedReader reader = null;
 
@@ -304,11 +392,22 @@ public class DosData implements Comparable<DosData> {
                     throw e3;
                 }
             }
+
+            this.firstLoaded = true;
+            this.notifyAll();
         }
     }
 
     @Override
-    public int compareTo(DosData dosData) {
+    public synchronized int compareTo(DosData dosData) {
+        while (!this.firstLoaded) {
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
         if (dosData == null) {
             return -1;
         }
@@ -353,5 +452,30 @@ public class DosData implements Comparable<DosData> {
         }
 
         return 0;
+    }
+
+    @Override
+    public String toString() {
+        return this.file.toString();
+    }
+
+    @Override
+    public int hashCode() {
+        return this.file.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (this.getClass() != obj.getClass()) {
+            return false;
+        }
+
+        return this.file.equals(((DosData) obj).file);
     }
 }

@@ -86,7 +86,7 @@ public class QEFXEnergyViewerController extends QEFXGraphViewerController {
     }
 
     @Override
-    public void reloadData(LineChart<Number, Number> lineChart) {
+    protected void reloadData(LineChart<Number, Number> lineChart) {
         if (lineChart == null) {
             return;
         }

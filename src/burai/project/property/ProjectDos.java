@@ -60,7 +60,7 @@ public class ProjectDos {
         }
 
         List<DosData> dosDataList = new ArrayList<DosData>();
-        dosDataColl.addAll(dosDataColl);
+        dosDataList.addAll(dosDataColl);
         Collections.sort(dosDataList);
 
         return dosDataList;

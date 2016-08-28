@@ -130,11 +130,11 @@
                         </BorderPane>
                         <GridPane hgap="5.0" prefWidth="192.0" vgap="5.0">
                            <children>
-                              <Label text="Maximum" />
-                              <Label text="Minumum" GridPane.rowIndex="1" />
+                              <Label text="Minimum" />
+                              <Label text="Maximum" GridPane.rowIndex="1" />
                               <Label text="Tick Mark" GridPane.rowIndex="2" />
-                              <TextField prefWidth="107.0" GridPane.columnIndex="1" fx:id="xUpperField" />
-                              <TextField prefWidth="107.0" GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="xLowerField" />
+                              <TextField prefWidth="107.0" GridPane.columnIndex="1" fx:id="xLowerField" />
+                              <TextField prefWidth="107.0" GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="xUpperField" />
                               <TextField prefWidth="107.0" GridPane.columnIndex="1" GridPane.rowIndex="2" fx:id="xTickField" />
                            </children>
                            <columnConstraints>
@@ -174,11 +174,11 @@
                         </BorderPane>
                         <GridPane hgap="5.0" prefWidth="192.0" vgap="5.0">
                            <children>
-                              <Label text="Maximum" />
-                              <Label text="Minumum" GridPane.rowIndex="1" />
+                              <Label text="Minimum" />
+                              <Label text="Maximum" GridPane.rowIndex="1" />
                               <Label text="Tick Mark" GridPane.rowIndex="2" />
-                              <TextField fx:id="yUpperField" prefWidth="107.0" GridPane.columnIndex="1" />
-                              <TextField fx:id="yLowerField" prefWidth="107.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <TextField fx:id="yLowerField" prefWidth="107.0" GridPane.columnIndex="1" />
+                              <TextField fx:id="yUpperField" prefWidth="107.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                               <TextField fx:id="yTickField" prefWidth="107.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                            </children>
                            <columnConstraints>

@@ -19,6 +19,7 @@ import javafx.scene.layout.TilePane;
 import burai.app.project.QEFXProjectController;
 import burai.app.project.viewer.result.graph.EnergyType;
 import burai.app.project.viewer.result.graph.LatticeViewerType;
+import burai.app.project.viewer.result.graph.QEFXDosButton;
 import burai.app.project.viewer.result.graph.QEFXMdEnergyButton;
 import burai.app.project.viewer.result.graph.QEFXMdLatticeButton;
 import burai.app.project.viewer.result.graph.QEFXOptEnergyButton;
@@ -100,6 +101,7 @@ public class QEFXResultExplorer {
         this.updateScfButtons();
         this.updateOptButtons();
         this.updateMdButtons();
+        this.updateDosButtons();
     }
 
     private void updateLogButtons() {
@@ -208,6 +210,12 @@ public class QEFXResultExplorer {
 
         this.updateButton("QEFXMdMovieButton", () -> {
             return QEFXMdMovieButton.getWrapper(this.projectController, this.project);
+        });
+    }
+
+    private void updateDosButtons() {
+        this.updateButton("QEFXDosButton", () -> {
+            return QEFXDosButton.getWrapper(this.projectController, this.project);
         });
     }
 
