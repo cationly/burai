@@ -25,7 +25,9 @@ public class DosData implements DosInterface, Comparable<DosData> {
 
     private long timeStamp;
 
-    private boolean firstLoaded;
+    private boolean preLoading;
+
+    private Object preLoadingLock;
 
     private DosType type;
 
@@ -44,7 +46,8 @@ public class DosData implements DosInterface, Comparable<DosData> {
 
         this.file = file;
         this.timeStamp = INIT_TIME_STAMP;
-        this.firstLoaded = false;
+        this.preLoading = false;
+        this.preLoadingLock = new Object();
 
         this.type = null;
         this.spinPolarized = false;
@@ -58,11 +61,13 @@ public class DosData implements DosInterface, Comparable<DosData> {
 
     @Override
     public synchronized DosType getType() {
-        while (!this.firstLoaded) {
-            try {
-                this.wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        synchronized (this.preLoadingLock) {
+            while (this.preLoading) {
+                try {
+                    this.preLoadingLock.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
@@ -71,11 +76,13 @@ public class DosData implements DosInterface, Comparable<DosData> {
 
     @Override
     public synchronized boolean isSpinPolarized() {
-        while (!this.firstLoaded) {
-            try {
-                this.wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        synchronized (this.preLoadingLock) {
+            while (this.preLoading) {
+                try {
+                    this.preLoadingLock.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
@@ -84,11 +91,13 @@ public class DosData implements DosInterface, Comparable<DosData> {
 
     @Override
     public synchronized int getAtomIndex() {
-        while (!this.firstLoaded) {
-            try {
-                this.wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        synchronized (this.preLoadingLock) {
+            while (this.preLoading) {
+                try {
+                    this.preLoadingLock.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
@@ -97,11 +106,13 @@ public class DosData implements DosInterface, Comparable<DosData> {
 
     @Override
     public synchronized String getAtomName() {
-        while (!this.firstLoaded) {
-            try {
-                this.wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        synchronized (this.preLoadingLock) {
+            while (this.preLoading) {
+                try {
+                    this.preLoadingLock.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
@@ -110,11 +121,13 @@ public class DosData implements DosInterface, Comparable<DosData> {
 
     @Override
     public synchronized int numPoints() {
-        while (!this.firstLoaded) {
-            try {
-                this.wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        synchronized (this.preLoadingLock) {
+            while (this.preLoading) {
+                try {
+                    this.preLoadingLock.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
@@ -123,11 +136,13 @@ public class DosData implements DosInterface, Comparable<DosData> {
 
     @Override
     public synchronized double getEnergy(int i) {
-        while (!this.firstLoaded) {
-            try {
-                this.wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        synchronized (this.preLoadingLock) {
+            while (this.preLoading) {
+                try {
+                    this.preLoadingLock.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
@@ -140,11 +155,13 @@ public class DosData implements DosInterface, Comparable<DosData> {
 
     @Override
     public synchronized double getDosUp(int i) {
-        while (!this.firstLoaded) {
-            try {
-                this.wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        synchronized (this.preLoadingLock) {
+            while (this.preLoading) {
+                try {
+                    this.preLoadingLock.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
@@ -157,11 +174,13 @@ public class DosData implements DosInterface, Comparable<DosData> {
 
     @Override
     public synchronized double getDosDown(int i) {
-        while (!this.firstLoaded) {
-            try {
-                this.wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        synchronized (this.preLoadingLock) {
+            while (this.preLoading) {
+                try {
+                    this.preLoadingLock.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
@@ -254,9 +273,9 @@ public class DosData implements DosInterface, Comparable<DosData> {
         return true;
     }
 
-    public void reload() {
+    public boolean reload() {
         if (!this.reloadTimeStamp()) {
-            return;
+            return false;
         }
 
         Thread thread = new Thread(() -> {
@@ -267,10 +286,31 @@ public class DosData implements DosInterface, Comparable<DosData> {
             }
         });
 
+        synchronized (this.preLoadingLock) {
+            this.preLoading = true;
+        }
+
         thread.start();
+
+        synchronized (this.preLoadingLock) {
+            while (this.preLoading) {
+                try {
+                    this.preLoadingLock.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return true;
     }
 
     private synchronized void reloadKernel() throws IOException {
+
+        synchronized (this.preLoadingLock) {
+            this.preLoading = false;
+            this.preLoadingLock.notifyAll();
+        }
 
         BufferedReader reader = null;
 
@@ -392,19 +432,18 @@ public class DosData implements DosInterface, Comparable<DosData> {
                     throw e3;
                 }
             }
-
-            this.firstLoaded = true;
-            this.notifyAll();
         }
     }
 
     @Override
     public synchronized int compareTo(DosData dosData) {
-        while (!this.firstLoaded) {
-            try {
-                this.wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        synchronized (this.preLoadingLock) {
+            while (this.preLoading) {
+                try {
+                    this.preLoadingLock.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
 

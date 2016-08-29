@@ -31,7 +31,7 @@ import burai.project.property.ProjectEnergies;
 public class QEFXDosViewerController extends QEFXGraphViewerController {
 
     private static final double ENERGY_GRID = 0.05;
-    private static final double DOS_THRESHOLD = 1.0e-6;
+    private static final double DOS_THRESHOLD = 1.0e-8;
 
     private static final int NUM_LOADING_THREADS = Math.max(1, Environments.getNumCUPs() - 1);
 
@@ -64,9 +64,6 @@ public class QEFXDosViewerController extends QEFXGraphViewerController {
     }
 
     private void createDosData() {
-        if (this.tdosData != null && this.pdosDataList != null && (!this.pdosDataList.isEmpty())) {
-            return;
-        }
 
         this.projectDos.reload();
 
@@ -97,7 +94,8 @@ public class QEFXDosViewerController extends QEFXGraphViewerController {
             }
 
             String atomName = dosData.getAtomName();
-            PDosData pdosData = new PDosData(dosType, atomName);
+            //PDosData pdosData = new PDosData(dosType, atomName);
+            PDosData pdosData = new PDosData(null, atomName);
 
             int index = this.pdosDataList.indexOf(pdosData);
             if (index < 0) {
@@ -142,7 +140,7 @@ public class QEFXDosViewerController extends QEFXGraphViewerController {
             }
         }
 
-        if (this.pdosDataList != null) {
+        if (this.pdosDataList != null && this.pdosDataList.size() > 1) {
             for (PDosData pdosData : this.pdosDataList) {
                 if (pdosData == null) {
                     continue;
@@ -157,7 +155,8 @@ public class QEFXDosViewerController extends QEFXGraphViewerController {
 
                 for (String label : spinLabel) {
                     SeriesProperty seriesProperty = new SeriesProperty();
-                    seriesProperty.setName(pdosData.toString() + label);
+                    //seriesProperty.setName(pdosData.toString() + label);
+                    seriesProperty.setName(pdosData.getAtomName() + label);
                     seriesProperty.setColor(pdosData.getColor());
                     seriesProperty.setDash(pdosData.getDashType());
                     seriesProperty.setWithSymbol(false);
@@ -194,7 +193,7 @@ public class QEFXDosViewerController extends QEFXGraphViewerController {
             this.reloadDosData(lineChart, this.tdosData, fermi, energyMin, energyMax);
         }
 
-        if (this.pdosDataList != null) {
+        if (this.pdosDataList != null && this.pdosDataList.size() > 1) {
             for (PDosData pdosData : this.pdosDataList) {
                 if (pdosData != null) {
                     this.reloadDosData(lineChart, pdosData, fermi, energyMin, energyMax);
@@ -336,9 +335,7 @@ public class QEFXDosViewerController extends QEFXGraphViewerController {
 
             DosType dosType = dosData.getType();
             if (this.dosType == null) {
-                if (this.dosType != dosType) {
-                    return;
-                }
+                // NOP
             } else {
                 if (!this.dosType.equals(dosType)) {
                     return;
@@ -347,9 +344,7 @@ public class QEFXDosViewerController extends QEFXGraphViewerController {
 
             String atomName = dosData.getAtomName();
             if (this.atomName == null) {
-                if (this.atomName != atomName) {
-                    return;
-                }
+                // NOP
             } else {
                 if (!this.atomName.equals(atomName)) {
                     return;
@@ -451,7 +446,7 @@ public class QEFXDosViewerController extends QEFXGraphViewerController {
         }
 
         public String getColor() {
-            Color color = this.atomName == null ? null : ElementUtil.getColor(this.atomName);
+            Color color = this.atomName == null ? null : ElementUtil.getColor(this.atomName, Color.LIGHTGRAY);
             String strColor = color == null ? null : color.toString();
             strColor = strColor == null ? "black" : strColor.replaceAll("0x", "#");
             return strColor;
@@ -491,7 +486,8 @@ public class QEFXDosViewerController extends QEFXGraphViewerController {
 
         @Override
         public int hashCode() {
-            return this.dosType.getMomentum() + (this.atomName == null ? 0 : this.atomName.hashCode());
+            return (this.dosType == null ? 0 : this.dosType.getMomentum())
+                    + (this.atomName == null ? 0 : this.atomName.hashCode());
         }
 
         @Override

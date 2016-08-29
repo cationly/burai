@@ -107,7 +107,7 @@ public class QEFXForceViewerController extends QEFXGraphViewerController {
                     element = "X";
                 }
 
-                Color color = element == null ? null : ElementUtil.getColor(element);
+                Color color = element == null ? null : ElementUtil.getColor(element, Color.LIGHTGRAY);
                 String strColor = color == null ? null : color.toString();
                 strColor = strColor == null ? "black" : strColor.replaceAll("0x", "#");
 

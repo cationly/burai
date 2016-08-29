@@ -320,6 +320,35 @@ public final class ElementUtil {
         return element.getColor();
     }
 
+    public static Color getColor(String name, Color color) {
+        Color color1 = getColor(name);
+        Color color2 = color;
+        if (color2 == null) {
+            return color1;
+        }
+
+        double red1 = color1.getRed();
+        double green1 = color1.getGreen();
+        double blue1 = color1.getBlue();
+
+        final double scale = 0.75;
+        double red2 = scale * color2.getRed();
+        double green2 = scale * color2.getGreen();
+        double blue2 = scale * color2.getBlue();
+
+        final double step = 0.95;
+        while (red1 >= red2 && green1 >= green2 && blue1 >= blue2) {
+            red1 *= step;
+            green1 *= step;
+            blue1 *= step;
+        }
+
+        red1 = Math.max(0.0, Math.min(red1, 1.0));
+        green1 = Math.max(0.0, Math.min(green1, 1.0));
+        blue1 = Math.max(0.0, Math.min(blue1, 1.0));
+        return Color.color(red1, green1, blue1);
+    }
+
     public static int obtainAtomicNumber(String name) throws IncorrectAtomNameException {
         Element element = toElement(name);
         if (element == null) {

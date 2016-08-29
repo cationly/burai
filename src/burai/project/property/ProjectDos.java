@@ -66,15 +66,17 @@ public class ProjectDos {
         return dosDataList;
     }
 
-    public void reload() {
+    public boolean reload() {
         if (this.dosDataMap == null) {
             this.dosDataMap = new HashMap<File, DosData>();
         }
 
+        boolean reloaded = false;
+
         try {
             File dirFile = new File(this.path);
             if (!dirFile.isDirectory()) {
-                return;
+                return false;
             }
 
             File[] files = dirFile.listFiles((dir, name) -> {
@@ -93,7 +95,7 @@ public class ProjectDos {
             });
 
             if (files == null) {
-                return;
+                return false;
             }
 
             for (File file : files) {
@@ -103,11 +105,12 @@ public class ProjectDos {
 
                 if (!this.dosDataMap.containsKey(file)) {
                     this.dosDataMap.put(file, new DosData(file));
+                    reloaded = true;
 
                 } else {
                     DosData dosData = this.dosDataMap.get(file);
                     if (dosData != null) {
-                        dosData.reload();
+                        reloaded = reloaded || dosData.reload();
                     }
                 }
             }
@@ -115,5 +118,7 @@ public class ProjectDos {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        return reloaded;
     }
 }

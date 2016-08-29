@@ -41,7 +41,7 @@ public abstract class QEFXGraphViewerController extends QEFXResultViewerControll
     private static final String NOTE_CLASS = "result-graph-note-text";
 
     private static final int NUM_POST_RELOADS = 2;
-    private static final long SLEEP_BETWEEN_RELOADS = 150L;
+    private static final long SLEEP_BETWEEN_RELOADS = 250L;
 
     private LineChart<Number, Number> lineChart;
 

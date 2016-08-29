@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -86,7 +87,9 @@ public class QEFXLogViewerController extends QEFXResultViewerController {
 
         this.searchedList.clear();
 
-        this.readFile();
+        Platform.runLater(() -> {
+            this.readFile();
+        });
 
         boolean emptySearched = this.searchedList.isEmpty();
         if (this.nextButton != null) {
