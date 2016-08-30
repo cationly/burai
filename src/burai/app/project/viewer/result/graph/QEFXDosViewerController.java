@@ -122,51 +122,57 @@ public class QEFXDosViewerController extends QEFXGraphViewerController {
         property.setYLabel("DOS / (states/eV)");
 
         if (this.tdosData != null) {
-            String[] spinLabel = null;
-            if (this.tdosData.isSpinPolarized()) {
-                spinLabel = new String[] { " [up]", " [down]" };
-            } else {
-                spinLabel = new String[] { "" };
-            }
-
-            for (String label : spinLabel) {
-                SeriesProperty seriesProperty = new SeriesProperty();
-                seriesProperty.setName("Total" + label);
-                seriesProperty.setColor("black");
-                seriesProperty.setDash(SeriesProperty.DASH_NULL);
-                seriesProperty.setWithSymbol(false);
-                seriesProperty.setWidth(1.0);
-                property.addSeries(seriesProperty);
-            }
+            this.createDosProperty(property, this.tdosData);
         }
 
         if (this.pdosDataList != null && this.pdosDataList.size() > 1) {
             for (PDosData pdosData : this.pdosDataList) {
-                if (pdosData == null) {
-                    continue;
-                }
-
-                String[] spinLabel = null;
-                if (pdosData.isSpinPolarized()) {
-                    spinLabel = new String[] { " [up]", " [down]" };
-                } else {
-                    spinLabel = new String[] { "" };
-                }
-
-                for (String label : spinLabel) {
-                    SeriesProperty seriesProperty = new SeriesProperty();
-                    //seriesProperty.setName(pdosData.toString() + label);
-                    seriesProperty.setName(pdosData.getAtomName() + label);
-                    seriesProperty.setColor(pdosData.getColor());
-                    seriesProperty.setDash(pdosData.getDashType());
-                    seriesProperty.setWithSymbol(false);
-                    seriesProperty.setWidth(1.0);
-                    property.addSeries(seriesProperty);
+                if (pdosData != null) {
+                    this.createDosProperty(property, pdosData);
                 }
             }
         }
 
         return property;
+    }
+
+    private void createDosProperty(GraphProperty property, DosInterface dosData) {
+        if (property == null) {
+            return;
+        }
+
+        if (dosData == null) {
+            return;
+        }
+
+        int numSpin = 0;
+        String[] spinLabels = null;
+        int[] dashTypes = null;
+
+        if (dosData.isSpinPolarized()) {
+            numSpin = 2;
+            spinLabels = new String[] { " [up]", " [down]" };
+            dashTypes = new int[] { SeriesProperty.DASH_NULL, SeriesProperty.DASH_SMALL };
+        } else {
+            numSpin = 1;
+            spinLabels = new String[] { "" };
+            dashTypes = new int[] { SeriesProperty.DASH_NULL };
+        }
+
+        for (int i = 0; i < numSpin; i++) {
+            SeriesProperty seriesProperty = new SeriesProperty();
+            if (dosData instanceof PDosData) {
+                seriesProperty.setName(dosData.getAtomName() + spinLabels[i]);
+                seriesProperty.setColor(((PDosData) dosData).getColor());
+            } else {
+                seriesProperty.setName("Total" + spinLabels[i]);
+                seriesProperty.setColor("black");
+            }
+            seriesProperty.setDash(dashTypes[i]);
+            seriesProperty.setWithSymbol(false);
+            seriesProperty.setWidth(1.0);
+            property.addSeries(seriesProperty);
+        }
     }
 
     @Override
