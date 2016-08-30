@@ -11,6 +11,7 @@ package burai.app.project.viewer.result;
 
 import java.io.IOException;
 
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -128,7 +129,10 @@ public abstract class QEFXResultButton<V extends QEFXResultViewer<?>, E extends 
             this.projectController.clearStackedsOnViewerPane();
             this.projectController.setViewerPane(viewerNode);
             this.projectController.setEditorPane(editorNode);
-            this.resultViewer.reload();
+
+            Platform.runLater(() -> {
+                this.resultViewer.reload();
+            });
         }
     }
 }
