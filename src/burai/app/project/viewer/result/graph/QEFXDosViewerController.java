@@ -302,8 +302,10 @@ public class QEFXDosViewerController extends QEFXGraphViewerController {
                 return null;
             });
 
+            this.sortDataList(dataList1);
             series1.getData().addAll(dataList1);
             if (spinPolarized) {
+                this.sortDataList(dataList2);
                 series2.getData().addAll(dataList2);
             }
         });
@@ -312,6 +314,35 @@ public class QEFXDosViewerController extends QEFXGraphViewerController {
         if (spinPolarized) {
             lineChart.getData().add(series2);
         }
+    }
+
+    private void sortDataList(List<Data<Number, Number>> dataList) {
+        if (dataList == null || dataList.size() < 2) {
+            return;
+        }
+
+        dataList.sort((data1, data2) -> {
+            Number x1 = data1 == null ? null : data1.getXValue();
+            Number x2 = data2 == null ? null : data2.getXValue();
+
+            if (x1 == null && x2 == null) {
+                return 0;
+            } else if (x1 == null) {
+                return 1;
+            } else if (x2 == null) {
+                return -1;
+            }
+
+            double d1 = x1.doubleValue();
+            double d2 = x2.doubleValue();
+            if (d1 < d2) {
+                return -1;
+            } else if (d1 > d2) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
     }
 
     private static class PDosData implements DosInterface {
