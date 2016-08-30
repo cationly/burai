@@ -53,7 +53,7 @@ public class DosData implements DosInterface, Comparable<DosData> {
         this.spinPolarized = false;
         this.atomIndex = -1;
         this.atomName = null;
-        this.points = new ArrayList<Point>();
+        this.points = null;
 
         this.setupAtomData(file.getName());
         this.reload();
@@ -131,7 +131,7 @@ public class DosData implements DosInterface, Comparable<DosData> {
             }
         }
 
-        return this.points.size();
+        return this.points == null ? 0 : this.points.size();
     }
 
     @Override
@@ -146,7 +146,7 @@ public class DosData implements DosInterface, Comparable<DosData> {
             }
         }
 
-        if (i < 0 || i >= this.points.size()) {
+        if (this.points == null || i < 0 || i >= this.points.size()) {
             throw new IndexOutOfBoundsException("incorrect index of points: " + i + ".");
         }
 
@@ -165,7 +165,7 @@ public class DosData implements DosInterface, Comparable<DosData> {
             }
         }
 
-        if (i < 0 || i >= this.points.size()) {
+        if (this.points == null || i < 0 || i >= this.points.size()) {
             throw new IndexOutOfBoundsException("incorrect index of points: " + i + ".");
         }
 
@@ -184,7 +184,7 @@ public class DosData implements DosInterface, Comparable<DosData> {
             }
         }
 
-        if (i < 0 || i >= this.points.size()) {
+        if (this.points == null || i < 0 || i >= this.points.size()) {
             throw new IndexOutOfBoundsException("incorrect index of points: " + i + ".");
         }
 
@@ -393,6 +393,12 @@ public class DosData implements DosInterface, Comparable<DosData> {
                     this.type = DosType.TOTAL;
                     break;
                 }
+            }
+
+            if (this.points == null) {
+                this.points = new ArrayList<DosData.Point>();
+            } else {
+                this.points.clear();
             }
 
             while (line != null) {
