@@ -9,6 +9,7 @@
 
 package burai.app.project.viewer.result.graph;
 
+import java.io.File;
 import java.io.IOException;
 
 import burai.app.project.QEFXProjectController;
@@ -18,6 +19,8 @@ import burai.project.property.ProjectGeometryList;
 import burai.project.property.ProjectProperty;
 
 public class QEFXMdEnergyButton extends QEFXGraphButton<QEFXEnergyViewer> {
+
+    private static final String FILE_NAME = ".burai.graph.md.ene";
 
     private static final String BUTTON_TITLE = "MD";
     private static final String BUTTON_FONT_COLOR = "-fx-text-fill: limegreen";
@@ -40,7 +43,17 @@ public class QEFXMdEnergyButton extends QEFXGraphButton<QEFXEnergyViewer> {
             return null;
         }
 
-        return () -> new QEFXMdEnergyButton(projectController, projectGeometryList, energyType);
+        return () -> {
+            QEFXMdEnergyButton button = new QEFXMdEnergyButton(projectController, projectGeometryList, energyType);
+
+            String propPath = project == null ? null : project.getDirectoryPath();
+            File propFile = propPath == null ? null : new File(propPath, FILE_NAME);
+            if (propFile != null) {
+                button.setPropertyFile(propFile);
+            }
+
+            return button;
+        };
     }
 
     private EnergyType energyType;
@@ -68,7 +81,7 @@ public class QEFXMdEnergyButton extends QEFXGraphButton<QEFXEnergyViewer> {
     }
 
     @Override
-    protected QEFXEnergyViewer createResultViewer() throws IOException {
+    protected QEFXEnergyViewer createGraphViewer() throws IOException {
         if (this.projectController == null) {
             return null;
         }

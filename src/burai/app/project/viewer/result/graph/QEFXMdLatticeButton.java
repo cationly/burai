@@ -9,6 +9,7 @@
 
 package burai.app.project.viewer.result.graph;
 
+import java.io.File;
 import java.io.IOException;
 
 import burai.app.project.QEFXProjectController;
@@ -18,6 +19,8 @@ import burai.project.property.ProjectGeometryList;
 import burai.project.property.ProjectProperty;
 
 public class QEFXMdLatticeButton extends QEFXGraphButton<QEFXLatticeViewer> {
+
+    private static final String FILE_NAME = ".burai.graph.md.latt";
 
     private static final String BUTTON_TITLE = "MD";
     private static final String BUTTON_SUBTITLE = ".latt";
@@ -41,11 +44,21 @@ public class QEFXMdLatticeButton extends QEFXGraphButton<QEFXLatticeViewer> {
             return null;
         }
 
-        if (new GeometryChecker(projectGeometryList).isAvailableLattice(lattVType)) {
-            return () -> new QEFXMdLatticeButton(projectController, projectGeometryList, lattVType);
+        if (!(new GeometryChecker(projectGeometryList).isAvailableLattice(lattVType))) {
+            return null;
         }
 
-        return null;
+        return () -> {
+            QEFXMdLatticeButton button = new QEFXMdLatticeButton(projectController, projectGeometryList, lattVType);
+
+            String propPath = project == null ? null : project.getDirectoryPath();
+            File propFile = propPath == null ? null : new File(propPath, FILE_NAME);
+            if (propFile != null) {
+                button.setPropertyFile(propFile);
+            }
+
+            return button;
+        };
     }
 
     private LatticeViewerType lattVType;
@@ -74,7 +87,7 @@ public class QEFXMdLatticeButton extends QEFXGraphButton<QEFXLatticeViewer> {
     }
 
     @Override
-    protected QEFXLatticeViewer createResultViewer() throws IOException {
+    protected QEFXLatticeViewer createGraphViewer() throws IOException {
         if (this.projectController == null) {
             return null;
         }

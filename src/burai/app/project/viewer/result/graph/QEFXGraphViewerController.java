@@ -9,6 +9,7 @@
 
 package burai.app.project.viewer.result.graph;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -46,6 +47,7 @@ public abstract class QEFXGraphViewerController extends QEFXResultViewerControll
     private LineChart<Number, Number> lineChart;
 
     private GraphProperty property;
+    private File propertyFile;
 
     private Pos legendPos;
     private QEFXGraphLegend legendObj;
@@ -59,9 +61,14 @@ public abstract class QEFXGraphViewerController extends QEFXResultViewerControll
         this.lineChart = null;
 
         this.property = null;
+        this.propertyFile = null;
 
         this.legendPos = legendPos;
         this.legendObj = null;
+    }
+
+    public void setPropertyFile(File propertyFile) {
+        this.propertyFile = propertyFile;
     }
 
     protected abstract GraphProperty createProperty();
@@ -69,6 +76,14 @@ public abstract class QEFXGraphViewerController extends QEFXResultViewerControll
     public GraphProperty getProperty() {
         if (this.property == null) {
             this.property = this.createProperty();
+
+            if (this.property != null && this.propertyFile != null) {
+                try {
+                    this.property.readFile(this.propertyFile);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         return this.property;
@@ -308,6 +323,14 @@ public abstract class QEFXGraphViewerController extends QEFXResultViewerControll
         }
 
         this.reloadLegend();
+
+        if (this.property != null && this.propertyFile != null) {
+            try {
+                this.property.writeFile(this.propertyFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void reloadLegend() {

@@ -9,6 +9,7 @@
 
 package burai.app.project.viewer.result.graph;
 
+import java.io.File;
 import java.io.IOException;
 
 import burai.app.project.QEFXProjectController;
@@ -18,6 +19,8 @@ import burai.project.property.ProjectGeometryList;
 import burai.project.property.ProjectProperty;
 
 public class QEFXOptStressButton extends QEFXGraphButton<QEFXStressViewer> {
+
+    private static final String FILE_NAME = ".burai.graph.opt.stress";
 
     private static final String BUTTON_TITLE = "OPT";
     private static final String BUTTON_SUBTITLE = ".stress";
@@ -40,11 +43,21 @@ public class QEFXOptStressButton extends QEFXGraphButton<QEFXStressViewer> {
             return null;
         }
 
-        if (new GeometryChecker(projectGeometryList).isAvailableStress()) {
-            return () -> new QEFXOptStressButton(projectController, projectGeometryList);
+        if (!(new GeometryChecker(projectGeometryList).isAvailableStress())) {
+            return null;
         }
 
-        return null;
+        return () -> {
+            QEFXOptStressButton button = new QEFXOptStressButton(projectController, projectGeometryList);
+
+            String propPath = project == null ? null : project.getDirectoryPath();
+            File propFile = propPath == null ? null : new File(propPath, FILE_NAME);
+            if (propFile != null) {
+                button.setPropertyFile(propFile);
+            }
+
+            return button;
+        };
     }
 
     private ProjectGeometryList projectGeometryList;
@@ -63,7 +76,7 @@ public class QEFXOptStressButton extends QEFXGraphButton<QEFXStressViewer> {
     }
 
     @Override
-    protected QEFXStressViewer createResultViewer() throws IOException {
+    protected QEFXStressViewer createGraphViewer() throws IOException {
         if (this.projectController == null) {
             return null;
         }

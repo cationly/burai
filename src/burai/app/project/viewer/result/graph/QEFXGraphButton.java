@@ -9,6 +9,7 @@
 
 package burai.app.project.viewer.result.graph;
 
+import java.io.File;
 import java.io.IOException;
 
 import burai.app.project.QEFXProjectController;
@@ -17,12 +18,34 @@ import burai.app.project.viewer.result.QEFXResultButton;
 
 public abstract class QEFXGraphButton<V extends QEFXGraphViewer<?>> extends QEFXResultButton<V, QEFXGraphEditor> {
 
+    private File propertyFile;
+
     public QEFXGraphButton(QEFXProjectController projectController, String title, String subTitle) {
         super(projectController, title, subTitle);
+        this.propertyFile = null;
+    }
+
+    public void setPropertyFile(File propertyFile) {
+        this.propertyFile = propertyFile;
+    }
+
+    protected abstract V createGraphViewer() throws IOException;
+
+    @Override
+    protected final V createResultViewer() throws IOException {
+        V viewer = this.createGraphViewer();
+        if (viewer != null) {
+            QEFXGraphViewerController controller = viewer.getController();
+            if (controller != null) {
+                controller.setPropertyFile(this.propertyFile);
+            }
+        }
+
+        return viewer;
     }
 
     @Override
-    protected QEFXGraphEditor createResultEditor(V resultViewer) throws IOException {
+    protected final QEFXGraphEditor createResultEditor(V resultViewer) throws IOException {
         if (resultViewer == null) {
             return null;
         }

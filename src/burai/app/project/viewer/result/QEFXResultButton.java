@@ -70,7 +70,7 @@ public abstract class QEFXResultButton<V extends QEFXResultViewer<?>, E extends 
         }
     }
 
-    public void setLabelStyle(String style) {
+    protected void setLabelStyle(String style) {
         if (this.titleLabel != null) {
             this.titleLabel.setStyle(style);
         }

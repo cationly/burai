@@ -23,6 +23,8 @@ import burai.project.property.ProjectProperty;
 
 public class QEFXDosButton extends QEFXGraphButton<QEFXDosViewer> {
 
+    private static final String FILE_NAME = ".burai.graph.dos";
+
     private static final String BUTTON_TITLE = "DOS";
     private static final String BUTTON_FONT_COLOR = "-fx-text-fill: ivory";
     private static final String BUTTON_BACKGROUND = "-fx-background-color: derive(lightslategrey, -35.0%)";
@@ -67,7 +69,17 @@ public class QEFXDosButton extends QEFXGraphButton<QEFXDosViewer> {
             return null;
         }
 
-        return () -> new QEFXDosButton(projectController, projectEnergies, projectDos);
+        return () -> {
+            QEFXDosButton button = new QEFXDosButton(projectController, projectEnergies, projectDos);
+
+            String propPath = project == null ? null : project.getDirectoryPath();
+            File propFile = propPath == null ? null : new File(propPath, FILE_NAME);
+            if (propFile != null) {
+                button.setPropertyFile(propFile);
+            }
+
+            return button;
+        };
     }
 
     private ProjectEnergies projectEnergies;
@@ -89,7 +101,7 @@ public class QEFXDosButton extends QEFXGraphButton<QEFXDosViewer> {
     }
 
     @Override
-    protected QEFXDosViewer createResultViewer() throws IOException {
+    protected QEFXDosViewer createGraphViewer() throws IOException {
         if (this.projectController == null) {
             return null;
         }

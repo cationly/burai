@@ -9,6 +9,7 @@
 
 package burai.app.project.viewer.result.graph;
 
+import java.io.File;
 import java.io.IOException;
 
 import burai.app.project.QEFXProjectController;
@@ -18,6 +19,8 @@ import burai.project.property.ProjectEnergies;
 import burai.project.property.ProjectProperty;
 
 public class QEFXScfButton extends QEFXGraphButton<QEFXScfViewer> {
+
+    private static final String FILE_NAME = ".burai.graph.scf.ene";
 
     private static final String BUTTON_TITLE = "SCF";
     private static final String BUTTON_SUBTITLE = ".ene";
@@ -36,7 +39,17 @@ public class QEFXScfButton extends QEFXGraphButton<QEFXScfViewer> {
             return null;
         }
 
-        return () -> new QEFXScfButton(projectController, projectEnergies);
+        return () -> {
+            QEFXScfButton button = new QEFXScfButton(projectController, projectEnergies);
+
+            String propPath = project == null ? null : project.getDirectoryPath();
+            File propFile = propPath == null ? null : new File(propPath, FILE_NAME);
+            if (propFile != null) {
+                button.setPropertyFile(propFile);
+            }
+
+            return button;
+        };
     }
 
     private ProjectEnergies projectEnergies;
@@ -55,7 +68,7 @@ public class QEFXScfButton extends QEFXGraphButton<QEFXScfViewer> {
     }
 
     @Override
-    protected QEFXScfViewer createResultViewer() throws IOException {
+    protected QEFXScfViewer createGraphViewer() throws IOException {
         if (this.projectController == null) {
             return null;
         }

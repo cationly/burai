@@ -9,6 +9,7 @@
 
 package burai.app.project.viewer.result.graph;
 
+import java.io.File;
 import java.io.IOException;
 
 import burai.app.project.QEFXProjectController;
@@ -18,6 +19,8 @@ import burai.project.property.ProjectGeometryList;
 import burai.project.property.ProjectProperty;
 
 public class QEFXOptForceButton extends QEFXGraphButton<QEFXForceViewer> {
+
+    private static final String FILE_NAME = ".burai.graph.opt.force";
 
     private static final String BUTTON_TITLE = "OPT";
     private static final String BUTTON_SUBTITLE = ".force";
@@ -40,7 +43,17 @@ public class QEFXOptForceButton extends QEFXGraphButton<QEFXForceViewer> {
             return null;
         }
 
-        return () -> new QEFXOptForceButton(projectController, projectGeometryList);
+        return () -> {
+            QEFXOptForceButton button = new QEFXOptForceButton(projectController, projectGeometryList);
+
+            String propPath = project == null ? null : project.getDirectoryPath();
+            File propFile = propPath == null ? null : new File(propPath, FILE_NAME);
+            if (propFile != null) {
+                button.setPropertyFile(propFile);
+            }
+
+            return button;
+        };
     }
 
     private ProjectGeometryList projectGeometryList;
@@ -59,7 +72,7 @@ public class QEFXOptForceButton extends QEFXGraphButton<QEFXForceViewer> {
     }
 
     @Override
-    protected QEFXForceViewer createResultViewer() throws IOException {
+    protected QEFXForceViewer createGraphViewer() throws IOException {
         if (this.projectController == null) {
             return null;
         }

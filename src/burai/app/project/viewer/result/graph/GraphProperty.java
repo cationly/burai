@@ -9,10 +9,23 @@
 
 package burai.app.project.viewer.result.graph;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.Gson;
+
 public class GraphProperty {
+
+    private boolean avail;
 
     private String title;
 
@@ -39,6 +52,7 @@ public class GraphProperty {
     private List<SeriesProperty> seriesList;
 
     public GraphProperty() {
+        this.avail = true;
         this.title = "TITLE";
         this.xLabel = "X-AXIS";
         this.xAuto = true;
@@ -176,5 +190,105 @@ public class GraphProperty {
     @Override
     public String toString() {
         return this.title;
+    }
+
+    public void readFile(File file) throws IOException {
+        if (file == null) {
+            return;
+        }
+
+        GraphProperty obj = null;
+
+        Reader reader = null;
+
+        try {
+            if (!file.isFile()) {
+                return;
+            }
+
+            reader = new BufferedReader(new FileReader(file));
+
+            Gson gson = new Gson();
+            obj = gson.<GraphProperty> fromJson(reader, GraphProperty.class);
+
+        } catch (FileNotFoundException e1) {
+            throw e1;
+
+        } catch (Exception e2) {
+            throw new IOException(e2);
+
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e3) {
+                    throw e3;
+                }
+            }
+        }
+
+        if (obj != null && obj.avail) {
+            this.title = obj.title;
+            this.xLabel = obj.xLabel;
+            this.xAuto = obj.xAuto;
+            this.xLower = obj.xLower;
+            this.xUpper = obj.xUpper;
+            this.xTick = obj.xTick;
+            this.yLabel = obj.yLabel;
+            this.yAuto = obj.yAuto;
+            this.yLower = obj.yLower;
+            this.yUpper = obj.yUpper;
+            this.yTick = obj.yTick;
+
+            if (this.seriesList != null && obj.seriesList != null) {
+                int numSeries = Math.min(this.seriesList.size(), obj.seriesList.size());
+                for (int i = 0; i < numSeries; i++) {
+                    SeriesProperty series1 = this.seriesList.get(i);
+                    if (series1 == null) {
+                        continue;
+                    }
+
+                    SeriesProperty series2 = obj.seriesList.get(i);
+                    if (series2 == null) {
+                        continue;
+                    }
+
+                    series1.setColor(series2.getColor());
+                    series1.setWidth(series2.getWidth());
+                    series1.setDash(series2.getDash());
+                    series1.setWithSymbol(series2.isWithSymbol());
+                }
+            }
+        }
+    }
+
+    public void writeFile(File file) throws IOException {
+        if (file == null) {
+            return;
+        }
+
+        Writer writer = null;
+
+        try {
+            writer = new BufferedWriter(new FileWriter(file));
+
+            Gson gson = new Gson();
+            gson.toJson(this, writer);
+
+        } catch (IOException e1) {
+            throw e1;
+
+        } catch (Exception e2) {
+            throw new IOException(e2);
+
+        } finally {
+            if (writer != null) {
+                try {
+                    writer.close();
+                } catch (IOException e3) {
+                    throw e3;
+                }
+            }
+        }
     }
 }
