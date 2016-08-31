@@ -9,9 +9,12 @@
 
 package burai.app.project.viewer.result;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
@@ -34,6 +37,7 @@ import burai.app.project.viewer.result.log.QEFXOutputButton;
 import burai.app.project.viewer.result.movie.QEFXMdMovieButton;
 import burai.app.project.viewer.result.movie.QEFXOptMovieButton;
 import burai.project.Project;
+import burai.run.RunningManager;
 
 public class QEFXResultExplorer {
 
@@ -43,15 +47,20 @@ public class QEFXResultExplorer {
     private static final String SCROLL_CLASS = "result-expr-scroll";
     private static final String TILE_CLASS = "result-expr-tile";
 
-    private ScrollPane scrollPane;
-
-    private TilePane tilePane;
-
-    private Map<String, QEFXResultButton<?, ?>> buttonMap;
+    private static final long AUTORELOADING_TIME = 5000L;
 
     private Project project;
 
     private QEFXProjectController projectController;
+
+    private List<QEFXResultButton<?, ?>> buttonList;
+    private Map<String, QEFXResultButton<?, ?>> buttonMap;
+
+    private boolean autoReloading;
+
+    private ScrollPane scrollPane;
+
+    private TilePane tilePane;
 
     public QEFXResultExplorer(QEFXProjectController projectController, Project project) {
         if (projectController == null) {
@@ -65,10 +74,13 @@ public class QEFXResultExplorer {
         this.projectController = projectController;
         this.project = project;
 
+        this.buttonList = null;
+        this.buttonMap = null;
+
+        this.autoReloading = false;
+
         this.createScrollPane();
         this.createTilePane();
-
-        this.buttonMap = null;
 
         this.reload();
     }
@@ -96,12 +108,68 @@ public class QEFXResultExplorer {
     }
 
     public void reload() {
-        this.tilePane.getChildren().clear();
+        if (this.buttonList != null) {
+            this.buttonList.clear();
+        }
+
         this.updateLogButtons();
         this.updateScfButtons();
         this.updateOptButtons();
         this.updateMdButtons();
         this.updateDosButtons();
+
+        int numNode1 = this.buttonList == null ? 0 : this.buttonList.size();
+        int numNode2 = this.tilePane.getChildren().size();
+        boolean changed = (numNode1 != numNode2);
+
+        if (!changed) {
+            for (int i = 0; i < numNode1; i++) {
+                QEFXResultButton<?, ?> button = this.buttonList.get(i);
+                Node node1 = button == null ? null : button.getNode();
+                Node node2 = this.tilePane.getChildren().get(i);
+                if (node1 != node2) {
+                    changed = true;
+                    break;
+                }
+            }
+        }
+
+        if (changed && this.buttonList != null) {
+            this.tilePane.getChildren().clear();
+            for (QEFXResultButton<?, ?> button : this.buttonList) {
+                Node node = button == null ? null : button.getNode();
+                if (node != null) {
+                    this.tilePane.getChildren().add(node);
+                }
+            }
+        }
+
+        synchronized (this) {
+            if (!this.autoReloading) {
+                this.autoReloading = true;
+                this.autoReload();
+            }
+        }
+    }
+
+    private void autoReload() {
+        Thread thread = new Thread(() -> {
+            synchronized (this) {
+                while (RunningManager.getInstance().getNode(this.project) != null) {
+                    try {
+                        this.wait(AUTORELOADING_TIME);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    Platform.runLater(() -> this.reload());
+                }
+
+                this.autoReloading = false;
+            }
+        });
+
+        thread.start();
     }
 
     private void updateLogButtons() {
@@ -243,7 +311,11 @@ public class QEFXResultExplorer {
             }
             this.buttonMap.put(key, button);
 
-            this.tilePane.getChildren().add(button.getNode());
+            if (this.buttonList == null) {
+                this.buttonList = new ArrayList<QEFXResultButton<?, ?>>();
+            }
+
+            this.buttonList.add(button);
             return true;
         }
 
