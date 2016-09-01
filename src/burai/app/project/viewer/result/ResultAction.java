@@ -12,6 +12,9 @@ package burai.app.project.viewer.result;
 import java.io.IOException;
 
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import burai.app.QEFXMain;
 import burai.app.project.QEFXProjectController;
 import burai.app.project.editor.result.QEFXResultFileTree;
 import burai.project.Project;
@@ -47,12 +50,24 @@ public class ResultAction {
     }
 
     public void showResult() {
+        if (this.project.getDirectoryPath() == null) {
+            this.showErrorDialog();
+            return;
+        }
+
         if (this.explorer == null || this.fileTree == null) {
             this.initializeResult();
             return;
         }
 
         this.controller.setResultExplorerMode();
+    }
+
+    private void showErrorDialog() {
+        Alert alert = new Alert(AlertType.ERROR);
+        QEFXMain.initializeDialogOwner(alert);
+        alert.setHeaderText("This project has not been saved nor run.");
+        alert.showAndWait();
     }
 
     private void initializeResult() {
