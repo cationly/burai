@@ -38,7 +38,6 @@
                <children>
                   <Label fx:id="nbandLabel" text="#Bands" />
                   <Label fx:id="symLabel" text="Symmetry of Bands" GridPane.rowIndex="1" />
-                  <Label fx:id="spinLabel" text="Spin Component" GridPane.rowIndex="2" />
                   <GridPane prefWidth="200.0" GridPane.columnIndex="1">
                      <children>
                         <TextField fx:id="nbandField" prefWidth="200.0" />
@@ -51,10 +50,8 @@
                      </rowConstraints>
                   </GridPane>
                   <ToggleButton fx:id="symToggle" mnemonicParsing="false" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <ComboBox fx:id="spinCombo" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <Button fx:id="nbandButton" mnemonicParsing="false" text="\@" GridPane.columnIndex="2" />
                   <Button fx:id="symButton" mnemonicParsing="false" text="\@" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                  <Button fx:id="spinButton" mnemonicParsing="false" text="\@" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                </children>
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" prefWidth="120.0" />
@@ -65,7 +62,6 @@
                   <Insets left="10.0" />
                </padding>
                <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
