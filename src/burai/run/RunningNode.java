@@ -173,9 +173,10 @@ public class RunningNode implements Runnable {
             return;
         }
 
-        String inpName = this.writeQEInput(input, directory);
+        String inpName = this.project.getInpFileName();
         inpName = inpName == null ? null : inpName.trim();
-        if (inpName == null || inpName.isEmpty()) {
+        File inpFile = (inpName == null || inpName.isEmpty()) ? null : new File(directory, inpName);
+        if (inpFile == null) {
             return;
         }
 
@@ -184,13 +185,29 @@ public class RunningNode implements Runnable {
             return;
         }
 
+        List<RunningCondition> conditionList = type2.getConditionList();
+        if (conditionList == null || conditionList.size() < commandList.size()) {
+            return;
+        }
+
+        List<InputEditor> inputEditorList = type2.getInputEditorList(this.project);
+        if (inputEditorList == null || inputEditorList.size() < commandList.size()) {
+            return;
+        }
+
         List<LogParser> parserList = type2.getParserList(this.project);
         if (parserList == null || parserList.size() < commandList.size()) {
             return;
         }
 
+        List<PostOperation> postList = type2.getPostList();
+        if (postList == null || postList.size() < commandList.size()) {
+            return;
+        }
+
         this.deleteLogFiles(directory);
 
+        int iCommand = 0;
         boolean errOccurred = false;
 
         for (int i = 0; i < commandList.size(); i++) {
@@ -205,19 +222,44 @@ public class RunningNode implements Runnable {
                 continue;
             }
 
+            RunningCondition condition = conditionList.get(i);
+            if (condition == null) {
+                continue;
+            }
+
+            InputEditor inputEditor = inputEditorList.get(i);
+            if (inputEditor == null) {
+                continue;
+            }
+
             LogParser parser = parserList.get(i);
             if (parser == null) {
                 continue;
             }
 
-            String logName = this.project.getLogFileName(i);
+            PostOperation post = postList.get(i);
+            if (post == null) {
+                continue;
+            }
+
+            if (!condition.toRun(this.project, input)) {
+                continue;
+            }
+
+            QEInput input2 = inputEditor.editInput(input);
+            boolean inpStatus = input2 == null ? false : writeQEInput(input2, inpFile);
+            if (!inpStatus) {
+                continue;
+            }
+
+            String logName = this.project.getLogFileName(iCommand);
             logName = logName == null ? null : logName.trim();
             File logFile = (logName == null || logName.isEmpty()) ? null : new File(directory, logName);
             if (logFile == null) {
                 continue;
             }
 
-            String errName = this.project.getErrFileName(i);
+            String errName = this.project.getErrFileName(iCommand);
             errName = errName == null ? null : errName.trim();
             File errFile = (errName == null || errName.isEmpty()) ? null : new File(directory, errName);
             if (errFile == null) {
@@ -259,8 +301,14 @@ public class RunningNode implements Runnable {
             }
 
             if (!errOccurred) {
-                type2.setProjectStatus(this.project);
+                post.operate(this.project);
             }
+
+            iCommand++;
+        }
+
+        if (!errOccurred) {
+            type2.setProjectStatus(this.project);
         }
     }
 
@@ -284,28 +332,21 @@ public class RunningNode implements Runnable {
         return dirFile;
     }
 
-    private String writeQEInput(QEInput input, File directory) {
+    private boolean writeQEInput(QEInput input, File file) {
         if (input == null) {
-            return null;
+            return false;
         }
 
-        if (directory == null) {
-            return null;
+        if (file == null) {
+            return false;
         }
 
         String strInput = input.toString();
         if (strInput == null) {
-            return null;
-        }
-
-        String inpName = this.project.getInpFileName();
-        inpName = inpName == null ? null : inpName.trim();
-        if (inpName == null || inpName.isEmpty()) {
-            return null;
+            return false;
         }
 
         PrintWriter writer = null;
-        File file = new File(directory, inpName);
 
         try {
             writer = new PrintWriter(new BufferedWriter(new FileWriter(file)));
@@ -313,7 +354,7 @@ public class RunningNode implements Runnable {
 
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
+            return false;
 
         } finally {
             if (writer != null) {
@@ -321,7 +362,7 @@ public class RunningNode implements Runnable {
             }
         }
 
-        return file.getName();
+        return true;
     }
 
     private void deleteLogFiles(File directory) {

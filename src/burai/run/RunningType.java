@@ -15,6 +15,7 @@ import java.util.List;
 import burai.com.env.Environments;
 import burai.input.QEInput;
 import burai.input.namelist.QENamelist;
+import burai.input.namelist.QEValue;
 import burai.project.Project;
 import burai.project.property.ProjectProperty;
 import burai.project.property.ProjectStatus;
@@ -212,6 +213,7 @@ public enum RunningType {
         case Project.INPUT_MODE_SCF:
         case Project.INPUT_MODE_OPTIMIZ:
         case Project.INPUT_MODE_MD:
+            // pw.x
             command = this.createCommand(PROP_KEY_PWSCF, fileName2, numProc2);
             if (command != null && command.length > 0) {
                 commandList.add(command);
@@ -220,16 +222,25 @@ public enum RunningType {
             break;
 
         case Project.INPUT_MODE_DOS:
+            // pw.x (scf)
             command = this.createCommand(PROP_KEY_PWSCF, fileName2, numProc2);
             if (command != null && command.length > 0) {
                 commandList.add(command);
             }
 
+            // pw.x (nscf)
+            command = this.createCommand(PROP_KEY_PWSCF, fileName2, numProc2);
+            if (command != null && command.length > 0) {
+                commandList.add(command);
+            }
+
+            // dos.x
             command = this.createCommand(PROP_KEY_DOS, fileName2, numProc2);
             if (command != null && command.length > 0) {
                 commandList.add(command);
             }
 
+            // projwfc.x
             command = this.createCommand(PROP_KEY_PROJWFC, fileName2, numProc2);
             if (command != null && command.length > 0) {
                 commandList.add(command);
@@ -238,11 +249,25 @@ public enum RunningType {
             break;
 
         case Project.INPUT_MODE_BAND:
+            // pw.x (scf)
             command = this.createCommand(PROP_KEY_PWSCF, fileName2, numProc2);
             if (command != null && command.length > 0) {
                 commandList.add(command);
             }
 
+            // pw.x (bands)
+            command = this.createCommand(PROP_KEY_PWSCF, fileName2, numProc2);
+            if (command != null && command.length > 0) {
+                commandList.add(command);
+            }
+
+            // bands.x (up spin)
+            command = this.createCommand(PROP_KEY_BAND, fileName2, numProc2);
+            if (command != null && command.length > 0) {
+                commandList.add(command);
+            }
+
+            // bands.x (down spin)
             command = this.createCommand(PROP_KEY_BAND, fileName2, numProc2);
             if (command != null && command.length > 0) {
                 commandList.add(command);
@@ -291,6 +316,164 @@ public enum RunningType {
         return command;
     }
 
+    public List<RunningCondition> getConditionList() {
+        List<RunningCondition> conditionList = new ArrayList<RunningCondition>();
+
+        switch (this.inputMode) {
+        case Project.INPUT_MODE_SCF:
+            conditionList.add((project, input) -> true);
+            break;
+
+        case Project.INPUT_MODE_OPTIMIZ:
+            conditionList.add((project, input) -> true);
+            break;
+
+        case Project.INPUT_MODE_MD:
+            conditionList.add((project, input) -> true);
+            break;
+
+        case Project.INPUT_MODE_DOS:
+            conditionList.add((project, input) -> {
+                ProjectProperty projectProperty = project == null ? null : project.getProperty();
+                if (projectProperty == null) {
+                    return true;
+                }
+
+                ProjectStatus projectStatus = projectProperty.getStatus();
+                if (projectStatus == null) {
+                    return true;
+                }
+
+                if (projectStatus.isScfDone() || projectStatus.isOptDone()) {
+                    return false;
+                } else {
+                    return true;
+                }
+            });
+
+            conditionList.add((project, input) -> true);
+            conditionList.add((project, input) -> true);
+            conditionList.add((project, input) -> true);
+            break;
+
+        case Project.INPUT_MODE_BAND:
+            conditionList.add((project, input) -> {
+                ProjectProperty projectProperty = project == null ? null : project.getProperty();
+                if (projectProperty == null) {
+                    return true;
+                }
+
+                ProjectStatus projectStatus = projectProperty.getStatus();
+                if (projectStatus == null) {
+                    return true;
+                }
+
+                if (projectStatus.isScfDone() || projectStatus.isOptDone()) {
+                    return false;
+                } else {
+                    return true;
+                }
+            });
+
+            conditionList.add((project, input) -> true);
+            conditionList.add((project, input) -> true);
+
+            conditionList.add((project, input) -> {
+                QENamelist nmlSystem = input == null ? null : input.getNamelist(QEInput.NAMELIST_SYSTEM);
+                if (nmlSystem == null) {
+                    return false;
+                }
+
+                QEValue value = nmlSystem.getValue("nspin");
+                int nspin = value == null ? 1 : value.getIntegerValue();
+                return nspin == 2;
+            });
+
+            break;
+
+        default:
+            // NOP
+            break;
+        }
+
+        return conditionList;
+    }
+
+    public List<InputEditor> getInputEditorList(Project project) {
+        if (project == null) {
+            return null;
+        }
+
+        List<InputEditor> editorList = new ArrayList<InputEditor>();
+
+        switch (this.inputMode) {
+        case Project.INPUT_MODE_SCF:
+            editorList.add((input) -> input);
+            break;
+
+        case Project.INPUT_MODE_OPTIMIZ:
+            editorList.add((input) -> input);
+            break;
+
+        case Project.INPUT_MODE_MD:
+            editorList.add((input) -> input);
+            break;
+
+        case Project.INPUT_MODE_DOS:
+            editorList.add((input) -> {
+                QEInput input2 = project.getQEInputScf();
+                QEInput input3 = input2 == null ? null : input2.copy();
+
+                if (input3 != null) {
+                    this.modifyQEInput(input3, project);
+                }
+                return input3;
+            });
+
+            editorList.add((input) -> input);
+            editorList.add((input) -> input);
+            editorList.add((input) -> input);
+            break;
+
+        case Project.INPUT_MODE_BAND:
+            editorList.add((input) -> {
+                QEInput input2 = project.getQEInputScf();
+                QEInput input3 = input2 == null ? null : input2.copy();
+
+                if (input3 != null) {
+                    this.modifyQEInput(input3, project);
+                }
+                return input3;
+            });
+
+            editorList.add((input) -> input);
+            editorList.add((input) -> input);
+
+            editorList.add((input) -> {
+                QEInput input2 = input == null ? null : input.copy();
+                QENamelist nmlBand = input2 == null ? null : input2.getNamelist(QEInput.NAMELIST_BANDS);
+                if (nmlBand != null) {
+                    QEValue value = nmlBand.getValue("filband");
+                    String filband = value == null ? null : value.getCharacterValue();
+                    if (filband != null && (!filband.isEmpty())) {
+                        filband = filband.substring(0, filband.length() - 1) + "2";
+                        nmlBand.setValue("filband = '" + filband);
+                    }
+                    nmlBand.setValue("spin_component = 2");
+                }
+                return input2;
+            });
+
+            break;
+
+        default:
+            // NOP
+            break;
+        }
+
+        return editorList;
+    }
+
     public List<LogParser> getParserList(Project project) {
         ProjectProperty projectProperty = project == null ? null : project.getProperty();
         if (projectProperty == null) {
@@ -313,13 +496,16 @@ public enum RunningType {
             break;
 
         case Project.INPUT_MODE_DOS:
+            parserList.add(new ScfParser(projectProperty));
             parserList.add(new FermiParser(projectProperty));
             parserList.add(new VoidParser(projectProperty));
             parserList.add(new VoidParser(projectProperty));
             break;
 
         case Project.INPUT_MODE_BAND:
+            parserList.add(new ScfParser(projectProperty));
             parserList.add(new FermiParser(projectProperty));
+            parserList.add(new VoidParser(projectProperty));
             parserList.add(new VoidParser(projectProperty));
             break;
 
@@ -331,7 +517,77 @@ public enum RunningType {
         return parserList;
     }
 
+    public List<PostOperation> getPostList() {
+        List<PostOperation> postList = new ArrayList<PostOperation>();
+
+        switch (this.inputMode) {
+        case Project.INPUT_MODE_SCF:
+            postList.add((project) -> {
+                return;
+            });
+            break;
+
+        case Project.INPUT_MODE_OPTIMIZ:
+            postList.add((project) -> {
+                return;
+            });
+            break;
+
+        case Project.INPUT_MODE_MD:
+            postList.add((project) -> {
+                return;
+            });
+            break;
+
+        case Project.INPUT_MODE_DOS:
+            postList.add((project) -> {
+                if (project != null) {
+                    this.setProjectStatus(project, Project.INPUT_MODE_SCF);
+                }
+                return;
+            });
+            postList.add((project) -> {
+                return;
+            });
+            postList.add((project) -> {
+                return;
+            });
+            postList.add((project) -> {
+                return;
+            });
+            break;
+
+        case Project.INPUT_MODE_BAND:
+            postList.add((project) -> {
+                if (project != null) {
+                    this.setProjectStatus(project, Project.INPUT_MODE_SCF);
+                }
+                return;
+            });
+            postList.add((project) -> {
+                return;
+            });
+            postList.add((project) -> {
+                return;
+            });
+            postList.add((project) -> {
+                return;
+            });
+            break;
+
+        default:
+            // NOP
+            break;
+        }
+
+        return postList;
+    }
+
     public void setProjectStatus(Project project) {
+        this.setProjectStatus(project, this.inputMode);
+    }
+
+    private void setProjectStatus(Project project, int inputMode) {
         ProjectProperty projectProperty = project == null ? null : project.getProperty();
         if (projectProperty == null) {
             return;
@@ -342,7 +598,7 @@ public enum RunningType {
             return;
         }
 
-        switch (this.inputMode) {
+        switch (inputMode) {
         case Project.INPUT_MODE_SCF:
             projectStatus.setScfDone(true);
             projectProperty.saveStatus();
