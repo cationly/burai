@@ -25,11 +25,11 @@ public class QEFXGraphEditor extends QEFXResultEditor<QEFXGraphEditorController>
                 new QEFXGraphEditorController(projectController, viewer == null ? null : viewer.getController()));
 
         if (this.node != null) {
-            this.setupCtrlFKey(this.node);
+            this.setupKeys(this.node);
         }
     }
 
-    private void setupCtrlFKey(Node node) {
+    private void setupKeys(Node node) {
         if (node == null) {
             return;
         }
