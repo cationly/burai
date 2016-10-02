@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.media.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<ScrollPane prefHeight="600.0" prefWidth="425.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <content>
+      <VBox>
+         <children>
+            <BorderPane prefWidth="395.0">
+               <center>
+                  <Separator prefHeight="30.0" BorderPane.alignment="CENTER" />
+               </center>
+               <left>
+                  <Label styleClass="medium-text" text="Controls" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font name="System Bold Italic" size="14.0" />
+                     </font>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                  </Label>
+               </left>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </BorderPane>
+            <GridPane hgap="5.0" prefWidth="395.0" vgap="5.0">
+               <children>
+                  <Button fx:id="reloadButton" mnemonicParsing="false" styleClass="piclight-button" text="\@">
+                     <GridPane.margin>
+                        <Insets left="8.0" />
+                     </GridPane.margin></Button>
+                  <Button fx:id="screenButton" mnemonicParsing="false" styleClass="piclight-button" text="\@" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets left="8.0" />
+                     </GridPane.margin></Button>
+                  <Label text="Reload" GridPane.columnIndex="1" />
+                  <Label text="Screen-shot" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               </children>
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" prefWidth="50.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" prefWidth="330.0" />
+               </columnConstraints>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+            </GridPane>
+            <BorderPane prefWidth="395.0">
+               <center>
+                  <Separator prefHeight="30.0" BorderPane.alignment="CENTER" />
+               </center>
+               <left>
+                  <Label styleClass="medium-text" text="Titles" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font name="System Bold Italic" size="14.0" />
+                     </font>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                  </Label>
+               </left>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </BorderPane>
+            <GridPane hgap="5.0" prefWidth="395.0" vgap="5.0">
+               <children>
+                  <Label text="Main Title" />
+                  <Label text="Horizontal Title" GridPane.rowIndex="1" />
+                  <Label text="Vartical Title" GridPane.rowIndex="2" />
+                  <TextField fx:id="titleField" prefWidth="260.0" GridPane.columnIndex="1" />
+                  <TextField prefWidth="260.0" GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="xTitleField" />
+                  <TextField fx:id="yTitleField" prefWidth="260.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+               </children>
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" prefWidth="120.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" prefWidth="260.0" />
+               </columnConstraints>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+            </GridPane>
+            <GridPane hgap="11.0" prefWidth="395.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="190.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="190.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <VBox prefWidth="190.0">
+                     <children>
+                        <BorderPane prefWidth="192.0">
+                           <center>
+                              <Separator prefHeight="30.0" BorderPane.alignment="CENTER" />
+                           </center>
+                           <left>
+                              <Label styleClass="medium-text" text="Horizontal Axis" BorderPane.alignment="CENTER">
+                                 <font>
+                                    <Font name="System Bold Italic" size="14.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="10.0" right="10.0" />
+                                 </padding>
+                              </Label>
+                           </left>
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
+                        </BorderPane>
+                        <GridPane hgap="5.0" prefWidth="192.0" vgap="5.0">
+                           <children>
+                              <Label text="Minimum" />
+                              <Label text="Maximum" GridPane.rowIndex="1" />
+                              <Label text="Tick Mark" GridPane.rowIndex="2" />
+                              <TextField prefWidth="107.0" GridPane.columnIndex="1" fx:id="xLowerField" />
+                              <TextField prefWidth="107.0" GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="xUpperField" />
+                              <TextField prefWidth="107.0" GridPane.columnIndex="1" GridPane.rowIndex="2" fx:id="xTickField" />
+                           </children>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" prefWidth="70.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" prefWidth="107.0" />
+                           </columnConstraints>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                        </GridPane>
+                     </children>
+                  </VBox>
+                  <VBox prefWidth="190.0" GridPane.columnIndex="1">
+                     <children>
+                        <BorderPane prefWidth="192.0">
+                           <center>
+                              <Separator prefHeight="30.0" BorderPane.alignment="CENTER" />
+                           </center>
+                           <left>
+                              <Label styleClass="medium-text" text="Vartical Axis" BorderPane.alignment="CENTER">
+                                 <font>
+                                    <Font name="System Bold Italic" size="14.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="10.0" right="10.0" />
+                                 </padding>
+                              </Label>
+                           </left>
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
+                        </BorderPane>
+                        <GridPane hgap="5.0" prefWidth="192.0" vgap="5.0">
+                           <children>
+                              <Label text="Minimum" />
+                              <Label text="Maximum" GridPane.rowIndex="1" />
+                              <Label text="Tick Mark" GridPane.rowIndex="2" />
+                              <TextField fx:id="yLowerField" prefWidth="107.0" GridPane.columnIndex="1" />
+                              <TextField fx:id="yUpperField" prefWidth="107.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <TextField fx:id="yTickField" prefWidth="107.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                           </children>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" prefWidth="70.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" prefWidth="107.0" />
+                           </columnConstraints>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                        </GridPane>
+                     </children>
+                  </VBox>
+               </children>
+            </GridPane>
+            <BorderPane prefWidth="395.0">
+               <center>
+                  <Separator prefHeight="30.0" BorderPane.alignment="CENTER" />
+               </center>
+               <left>
+                  <Label styleClass="medium-text" text="Data Series" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font name="System Bold Italic" size="14.0" />
+                     </font>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                  </Label>
+               </left>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </BorderPane>
+            <GridPane hgap="5.0" prefWidth="395.0" vgap="5.0">
+               <children>
+                  <Label text="Series" />
+                  <ComboBox fx:id="seriesCombo" prefWidth="310.0" GridPane.columnIndex="1" />
+               </children>
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" prefWidth="70.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" prefWidth="310.0" />
+               </columnConstraints>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+            </GridPane>
+            <GridPane hgap="11.0" prefWidth="395.0">
+               <children>
+                  <VBox prefWidth="190.0">
+                     <children>
+                        <GridPane hgap="5.0" prefWidth="192.0" vgap="5.0">
+                           <children>
+                              <Label text="Color" />
+                              <Label text="Symbol" GridPane.rowIndex="1" />
+                              <ColorPicker fx:id="colorPicker" prefWidth="107.0" promptText="Color" GridPane.columnIndex="1" />
+                              <ToggleButton fx:id="symbolToggle" mnemonicParsing="false" prefWidth="107.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                           </children>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" prefWidth="70.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" prefWidth="107.0" />
+                           </columnConstraints>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                        </GridPane>
+                     </children>
+                  </VBox>
+                  <VBox prefWidth="190.0" GridPane.columnIndex="1">
+                     <children>
+                        <GridPane hgap="5.0" prefWidth="192.0" vgap="5.0">
+                           <children>
+                              <Label text="Line Width" />
+                              <Label text="Line Type" GridPane.rowIndex="1" />
+                              <ComboBox fx:id="widthCombo" prefWidth="107.0" GridPane.columnIndex="1" />
+                              <ComboBox fx:id="typeCombo" prefWidth="107.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                           </children>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" prefWidth="70.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" prefWidth="107.0" />
+                           </columnConstraints>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                        </GridPane>
+                     </children>
+                  </VBox>
+               </children>
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="190.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="190.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+            </GridPane>
+            <BorderPane prefWidth="395.0">
+               <center>
+                  <Separator prefHeight="30.0" BorderPane.alignment="CENTER" />
+               </center>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </BorderPane>
+         </children>
+      </VBox>
+   </content>
+</ScrollPane>

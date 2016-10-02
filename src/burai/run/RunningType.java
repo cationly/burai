@@ -504,7 +504,7 @@ public enum RunningType {
 
         case Project.INPUT_MODE_BAND:
             parserList.add(new ScfParser(projectProperty));
-            parserList.add(new FermiParser(projectProperty));
+            parserList.add(new VoidParser(projectProperty));
             parserList.add(new VoidParser(projectProperty));
             parserList.add(new VoidParser(projectProperty));
             break;

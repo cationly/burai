@@ -20,6 +20,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.layout.TilePane;
 import burai.app.project.QEFXProjectController;
+import burai.app.project.viewer.result.band.QEFXBandButton;
 import burai.app.project.viewer.result.graph.EnergyType;
 import burai.app.project.viewer.result.graph.LatticeViewerType;
 import burai.app.project.viewer.result.graph.QEFXDosButton;
@@ -117,6 +118,7 @@ public class QEFXResultExplorer {
         this.updateOptButtons();
         this.updateMdButtons();
         this.updateDosButtons();
+        this.updateBandButtons();
 
         int numNode1 = this.buttonList == null ? 0 : this.buttonList.size();
         int numNode2 = this.tilePane.getChildren().size();
@@ -284,6 +286,12 @@ public class QEFXResultExplorer {
     private void updateDosButtons() {
         this.updateButton("QEFXDosButton", () -> {
             return QEFXDosButton.getWrapper(this.projectController, this.project);
+        });
+    }
+
+    private void updateBandButtons() {
+        this.updateButton("QEFXBandButton", () -> {
+            return QEFXBandButton.getWrapper(this.projectController, this.project);
         });
     }
 

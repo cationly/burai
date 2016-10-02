@@ -29,7 +29,7 @@ public class FermiParser extends LogParser {
     }
 
     @Override
-    public synchronized void parse(File file) throws IOException {
+    public void parse(File file) throws IOException {
         if (this.fermiEnergies != null) {
             this.fermiEnergies.clearEnergies();
         }

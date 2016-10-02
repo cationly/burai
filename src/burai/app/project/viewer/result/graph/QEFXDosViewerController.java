@@ -191,7 +191,7 @@ public class QEFXDosViewerController extends QEFXGraphViewerController {
 
         lineChart.getData().clear();
 
-        double fermi = projectEnergies.getEnergy(0);
+        double fermi = projectEnergies.getEnergy(projectEnergies.numEnergies() - 1);
         double energyMin = this.getMinimumEnergy();
         double energyMax = this.getMaximumEnergy();
 

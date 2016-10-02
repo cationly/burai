@@ -22,22 +22,31 @@ import burai.project.property.ProjectProperty;
 
 public class ScfParser extends LogParser {
 
+    private FermiParser fermiParser;
+
     private ProjectEnergies scfEnergies;
 
     public ScfParser(ProjectProperty property) {
         super(property);
 
+        this.fermiParser = new FermiParser(this.property);
+
         this.scfEnergies = this.property.getScfEnergies();
     }
 
     @Override
-    public synchronized void parse(File file) throws IOException {
+    public void parse(File file) throws IOException {
+        this.fermiParser.parse(file);
+        this.parseScf(file);
+    }
+
+    public void parseScf(File file) throws IOException {
         if (this.scfEnergies != null) {
             this.scfEnergies.clearEnergies();
         }
 
         try {
-            this.parseKernel(file);
+            this.parseScfKernel(file);
 
         } catch (IOException e) {
             if (this.scfEnergies != null) {
@@ -50,7 +59,7 @@ public class ScfParser extends LogParser {
         }
     }
 
-    private void parseKernel(File file) throws IOException {
+    private void parseScfKernel(File file) throws IOException {
 
         Deque<Energy> energyQueue1 = new LinkedList<Energy>();
         Deque<Energy> energyQueue2 = new LinkedList<Energy>();
