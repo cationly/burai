@@ -25,16 +25,16 @@ public class QEFXLogEditor extends QEFXResultEditor<QEFXLogEditorController> {
                 new QEFXLogEditorController(projectController, viewer == null ? null : viewer.getController()));
 
         if (this.node != null) {
-            this.setupKeys(this.node);
+            this.setupCtrlFKey(this.node);
         }
 
         Node viewerNode = viewer == null ? null : viewer.getNode();
         if (viewerNode != null) {
-            this.setupKeys(viewerNode);
+            this.setupCtrlFKey(viewerNode);
         }
     }
 
-    private void setupKeys(Node node) {
+    private void setupCtrlFKey(Node node) {
         if (node == null) {
             return;
         }

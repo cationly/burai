@@ -20,12 +20,12 @@ public abstract class QEFXGraphButton<V extends QEFXGraphViewer<?>> extends QEFX
 
     private File propertyFile;
 
-    protected QEFXGraphButton(QEFXProjectController projectController, String title, String subTitle) {
+    public QEFXGraphButton(QEFXProjectController projectController, String title, String subTitle) {
         super(projectController, title, subTitle);
         this.propertyFile = null;
     }
 
-    protected void setPropertyFile(File propertyFile) {
+    public void setPropertyFile(File propertyFile) {
         this.propertyFile = propertyFile;
     }
 

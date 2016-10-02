@@ -20,7 +20,7 @@ public abstract class QEFXLogButton extends QEFXResultButton<QEFXLogViewer, QEFX
 
     private File file;
 
-    protected QEFXLogButton(QEFXProjectController projectController, String title, String subTitle, File file) {
+    public QEFXLogButton(QEFXProjectController projectController, String title, String subTitle, File file) {
         super(projectController, title, subTitle);
 
         if (file == null) {
