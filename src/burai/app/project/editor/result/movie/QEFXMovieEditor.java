@@ -25,11 +25,11 @@ public class QEFXMovieEditor extends QEFXResultEditor<QEFXMovieEditorController>
                 new QEFXMovieEditorController(projectController, viewer == null ? null : viewer.getController()));
 
         if (this.node != null) {
-            this.setupCtrlFKey(this.node);
+            this.setupKeys(this.node);
         }
     }
 
-    private void setupCtrlFKey(Node node) {
+    private void setupKeys(Node node) {
         if (node == null) {
             return;
         }
