@@ -242,12 +242,16 @@ public class RunningNode implements Runnable {
                 continue;
             }
 
-            if (!condition.toRun(this.project, input)) {
+            QEInput input2 = inputEditor.editInput(input);
+            if (input2 == null) {
                 continue;
             }
 
-            QEInput input2 = inputEditor.editInput(input);
-            boolean inpStatus = input2 == null ? false : writeQEInput(input2, inpFile);
+            if (!condition.toRun(this.project, input2)) {
+                continue;
+            }
+
+            boolean inpStatus = this.writeQEInput(input2, inpFile);
             if (!inpStatus) {
                 continue;
             }
