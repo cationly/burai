@@ -62,6 +62,8 @@ public class ProjectProperty {
 
     private ProjectDosFactory dosFactory;
 
+    private ProjectBandFactory bandFactory;
+
     public ProjectProperty(String directoryPath, String prefixName) {
         if (directoryPath == null) {
             throw new IllegalArgumentException("directoryPath is null.");
@@ -80,6 +82,7 @@ public class ProjectProperty {
         this.optList = null;
         this.mdList = null;
         this.dosFactory = new ProjectDosFactory();
+        this.bandFactory = new ProjectBandFactory();
     }
 
     public synchronized void copyProperty(ProjectProperty property) {
@@ -144,6 +147,10 @@ public class ProjectProperty {
 
     public synchronized ProjectDos getDos() {
         return this.dosFactory.getProjectDos(this.directoryPath, this.prefixName);
+    }
+
+    public synchronized ProjectBand getBand() {
+        return this.bandFactory.getProjectBand(this.directoryPath, this.prefixName);
     }
 
     private void createStatus() {

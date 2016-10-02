@@ -396,7 +396,7 @@ public class DosData implements DosInterface, Comparable<DosData> {
             }
 
             if (this.points == null) {
-                this.points = new ArrayList<DosData.Point>();
+                this.points = new ArrayList<Point>();
             } else {
                 this.points.clear();
             }
