@@ -93,6 +93,10 @@ public class QEFXDosButton extends QEFXGraphButton<QEFXDosViewer> {
             throw new IllegalArgumentException("projectEnergies is null.");
         }
 
+        if (projectDos == null) {
+            throw new IllegalArgumentException("projectDos is null.");
+        }
+
         this.projectEnergies = projectEnergies;
         this.projectDos = projectDos;
 
