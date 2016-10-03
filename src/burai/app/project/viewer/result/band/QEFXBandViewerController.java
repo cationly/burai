@@ -10,10 +10,13 @@
 package burai.app.project.viewer.result.band;
 
 import javafx.application.Platform;
+import javafx.fxml.FXML;
 import javafx.scene.chart.Axis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart.Data;
 import javafx.scene.chart.XYChart.Series;
+import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import burai.app.project.QEFXProjectController;
 import burai.app.project.viewer.result.graph.GraphProperty;
 import burai.app.project.viewer.result.graph.QEFXGraphViewerController;
@@ -34,6 +37,9 @@ public class QEFXBandViewerController extends QEFXGraphViewerController {
     private ProjectEnergies projectEnergies;
 
     private ProjectBand projectBand;
+
+    @FXML
+    private AnchorPane coordPane;
 
     public QEFXBandViewerController(
             QEFXProjectController projectController, ProjectEnergies projectEnergies, ProjectBand projectBand) {
@@ -123,13 +129,15 @@ public class QEFXBandViewerController extends QEFXGraphViewerController {
     }
 
     private void updateLineChart(LineChart<Number, Number> lineChart) {
-        if (lineChart == null) {
-            return;
+        // set xAsis to be invisible
+        Axis<Number> xAsis = lineChart == null ? null : lineChart.getXAxis();
+        if (xAsis != null && !(xAsis.getStyleClass().contains(XAXIS_CLASS))) {
+            xAsis.getStyleClass().add(XAXIS_CLASS);
         }
 
-        Axis<Number> xAsis = lineChart.getXAxis();
-        if (xAsis != null && (!xAsis.getStyleClass().contains(XAXIS_CLASS))) {
-            xAsis.getStyleClass().add(XAXIS_CLASS);
+        // set label of coordinate
+        if (this.coordPane != null) {
+            this.coordPane.getChildren().add(new Label("test"));
         }
     }
 
