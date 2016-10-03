@@ -114,3 +114,9 @@
     -fx-stroke-width: 0.5px;
 }
 
+.invisible-axis {
+    -fx-tick-labels-visible: false;
+    -fx-tick-mark-visible: false;
+    -fx-minor-tick-visible: false;
+}
+

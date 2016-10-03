@@ -91,15 +91,15 @@ public class QEBandInputCorrecter extends QEInputCorrecter {
          * lsym
          */
         value = this.nmlBands.getValue("lsym");
-        if (value != null) {
-            this.nmlBands.setValue("lsym = .false.");
+        if (value == null) {
+            this.nmlBands.setValue("lsym = .true.");
         }
 
         /*
          * spin_component
          */
         value = this.nmlBands.getValue("spin_component");
-        if (value != null) {
+        if (value == null) {
             this.nmlBands.setValue("spin_component = 1");
         }
     }

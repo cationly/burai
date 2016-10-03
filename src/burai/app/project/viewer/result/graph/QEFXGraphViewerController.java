@@ -160,7 +160,7 @@ public abstract class QEFXGraphViewerController extends QEFXResultViewerControll
         yAxis.setForceZeroInRange(false);
 
         this.lineChart = new LineChart<Number, Number>(xAxis, yAxis);
-        this.lineChart.setAxisSortingPolicy(SortingPolicy.X_AXIS);
+        this.lineChart.setAxisSortingPolicy(SortingPolicy.NONE);
     }
 
     @Override
@@ -211,7 +211,7 @@ public abstract class QEFXGraphViewerController extends QEFXResultViewerControll
         String title = property.getTitle();
         title = title == null ? "" : title;
         this.lineChart.setTitle(title);
-        this.lineChart.setAxisSortingPolicy(SortingPolicy.X_AXIS);
+        this.lineChart.setAxisSortingPolicy(SortingPolicy.NONE);
 
         Axis<Number> xAxis = this.lineChart.getXAxis();
         String xLabel = property.getXLabel();

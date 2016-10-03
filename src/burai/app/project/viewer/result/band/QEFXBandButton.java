@@ -28,7 +28,7 @@ public class QEFXBandButton extends QEFXResultButton<QEFXBandViewer, QEFXBandEdi
 
     private static final String BUTTON_TITLE = "BAND";
     private static final String BUTTON_FONT_COLOR = "-fx-text-fill: ivory";
-    private static final String BUTTON_BACKGROUND = "-fx-background-color: derive(navy, 20.0%)";
+    private static final String BUTTON_BACKGROUND = "-fx-background-color: derive(steelblue, 5.0%)";
 
     public static QEFXResultButtonWrapper<QEFXBandButton> getWrapper(QEFXProjectController projectController, Project project) {
 
