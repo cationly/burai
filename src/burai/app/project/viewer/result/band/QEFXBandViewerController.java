@@ -35,7 +35,8 @@ public class QEFXBandViewerController extends QEFXGraphViewerController {
 
     private static final String XAXIS_CLASS = "invisible-axis";
 
-    private static final double VLINE_BUFFER = 2.0; // eV
+    private static final double DELTA_COORD = 1.0e-8;
+    private static final double VLINE_BUFFER = 1.0; // eV
 
     private ProjectEnergies projectEnergies;
 
@@ -123,24 +124,16 @@ public class QEFXBandViewerController extends QEFXGraphViewerController {
         double coordOld = -1.0;
         for (int i = 0; i < projectBandPaths.numPoints(); i++) {
             double coord = projectBandPaths.getCoordinate(i);
-            if (Math.abs(coord - coordOld) < 1.0e-8) {
+            if (Math.abs(coord - coordOld) < DELTA_COORD) {
                 continue;
             }
             coordOld = coord;
 
             minCoord = Math.min(minCoord, coord);
             maxCoord = Math.max(maxCoord, coord);
-
-            SeriesProperty seriesProperty = new SeriesProperty();
-            seriesProperty.setName("line#" + i);
-            seriesProperty.setColor("black");
-            seriesProperty.setDash(SeriesProperty.DASH_NULL);
-            seriesProperty.setWithSymbol(false);
-            seriesProperty.setWidth(1.1);
-            property.addSeries(seriesProperty);
         }
 
-        if (Math.abs(maxCoord - minCoord) > 1.0e-10) {
+        if (Math.abs(maxCoord - minCoord) >= DELTA_COORD) {
             property.setXLower(minCoord);
             property.setXUpper(maxCoord);
         }
@@ -284,7 +277,7 @@ public class QEFXBandViewerController extends QEFXGraphViewerController {
         double coordOld = -1.0;
         for (int i = 0; i < projectBandPaths.numPoints(); i++) {
             double coord = projectBandPaths.getCoordinate(i);
-            if (Math.abs(coord - coordOld) < 1.0e-8) {
+            if (Math.abs(coord - coordOld) < DELTA_COORD) {
                 continue;
             }
             coordOld = coord;
