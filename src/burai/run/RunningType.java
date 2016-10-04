@@ -19,6 +19,7 @@ import burai.input.namelist.QEValue;
 import burai.project.Project;
 import burai.project.property.ProjectProperty;
 import burai.project.property.ProjectStatus;
+import burai.run.parser.BandPathParser;
 import burai.run.parser.FermiParser;
 import burai.run.parser.GeometryParser;
 import burai.run.parser.LogParser;
@@ -505,7 +506,7 @@ public enum RunningType {
         case Project.INPUT_MODE_BAND:
             parserList.add(new ScfParser(projectProperty));
             parserList.add(new VoidParser(projectProperty));
-            parserList.add(new VoidParser(projectProperty));
+            parserList.add(new BandPathParser(projectProperty));
             parserList.add(new VoidParser(projectProperty));
             break;
 

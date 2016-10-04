@@ -48,7 +48,7 @@ public class QEFXResultExplorer {
     private static final String SCROLL_CLASS = "result-expr-scroll";
     private static final String TILE_CLASS = "result-expr-tile";
 
-    private static final long AUTORELOADING_TIME = 5000L;
+    private static final long AUTORELOADING_TIME = 2000L;
 
     private Project project;
 

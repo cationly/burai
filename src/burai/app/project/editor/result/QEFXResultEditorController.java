@@ -52,7 +52,7 @@ public abstract class QEFXResultEditorController<V extends QEFXResultViewerContr
 
     public void reload() {
         if (this.viewerController != null) {
-            this.viewerController.reload();
+            this.viewerController.reloadSafely();
         }
     }
 
@@ -75,7 +75,7 @@ public abstract class QEFXResultEditorController<V extends QEFXResultViewerContr
 
         this.reloadButton.setOnAction(event -> {
             if (this.viewerController != null) {
-                this.viewerController.reload();
+                this.viewerController.reloadSafely();
             }
         });
     }

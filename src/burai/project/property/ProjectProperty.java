@@ -28,6 +28,7 @@ public class ProjectProperty {
     private static final String FILE_NAME_FERMI = ".burai.fermi";
     private static final String FILE_NAME_OPT = ".burai.opt";
     private static final String FILE_NAME_MD = ".burai.md";
+    private static final String FILE_NAME_PATH = ".burai.path";
 
     public static boolean hasStatus(String directoryPath) {
         if (directoryPath == null || directoryPath.isEmpty()) {
@@ -62,6 +63,8 @@ public class ProjectProperty {
 
     private ProjectDosFactory dosFactory;
 
+    private ProjectBandPaths bandPaths;
+
     private ProjectBandFactory bandFactory;
 
     public ProjectProperty(String directoryPath, String prefixName) {
@@ -82,6 +85,7 @@ public class ProjectProperty {
         this.optList = null;
         this.mdList = null;
         this.dosFactory = new ProjectDosFactory();
+        this.bandPaths = null;
         this.bandFactory = new ProjectBandFactory();
     }
 
@@ -95,6 +99,7 @@ public class ProjectProperty {
         this.fermiEnergies = property.getFermiEnergies();
         this.optList = property.getOptList();
         this.mdList = property.getMdList();
+        this.bandPaths = property.getBandPaths();
     }
 
     public void saveProperty() {
@@ -103,6 +108,7 @@ public class ProjectProperty {
         this.saveFermiEnergies();
         this.saveOptList();
         this.saveMdList();
+        this.saveBandPaths();
     }
 
     public synchronized ProjectStatus getStatus() {
@@ -147,6 +153,14 @@ public class ProjectProperty {
 
     public synchronized ProjectDos getDos() {
         return this.dosFactory.getProjectDos(this.directoryPath, this.prefixName);
+    }
+
+    public synchronized ProjectBandPaths getBandPaths() {
+        if (this.bandPaths == null) {
+            this.createBandPaths();
+        }
+
+        return this.bandPaths;
     }
 
     public synchronized ProjectBand getBand() {
@@ -213,6 +227,18 @@ public class ProjectProperty {
         }
     }
 
+    private void createBandPaths() {
+        try {
+            this.bandPaths = this.<ProjectBandPaths> readFile(FILE_NAME_PATH, ProjectBandPaths.class);
+        } catch (IOException e) {
+            this.bandPaths = null;
+        }
+
+        if (this.bandPaths == null) {
+            this.bandPaths = new ProjectBandPaths();
+        }
+    }
+
     public synchronized void saveStatus() {
         if (this.status == null) {
             this.createStatus();
@@ -256,6 +282,15 @@ public class ProjectProperty {
     public synchronized void saveMdList() {
         try {
             this.<ProjectGeometryList> writeFile(FILE_NAME_MD, this.mdList);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public synchronized void saveBandPaths() {
+        try {
+            this.<ProjectBandPaths> writeFile(FILE_NAME_PATH, this.bandPaths);
 
         } catch (IOException e) {
             e.printStackTrace();

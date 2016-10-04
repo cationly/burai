@@ -100,7 +100,7 @@ public class QEFXLogViewerController extends QEFXResultViewerController {
     public List<String> searchText(String text) {
         this.searchingText = text == null ? null : text.trim();
 
-        this.reload();
+        this.reloadSafely();
 
         List<String> lineList = new ArrayList<String>();
         for (FileLine fileLine : this.searchedList) {
@@ -125,7 +125,7 @@ public class QEFXLogViewerController extends QEFXResultViewerController {
         }
 
         this.nameField.setText(name);
-        this.nameField.setOnAction(event -> this.reload());
+        this.nameField.setOnAction(event -> this.reloadSafely());
     }
 
     private void setupNextButton() {

@@ -19,8 +19,10 @@ import burai.app.project.viewer.result.QEFXResultButtonWrapper;
 import burai.project.Project;
 import burai.project.property.BandData;
 import burai.project.property.ProjectBand;
+import burai.project.property.ProjectBandPaths;
 import burai.project.property.ProjectEnergies;
 import burai.project.property.ProjectProperty;
+import burai.project.property.ProjectStatus;
 
 public class QEFXBandButton extends QEFXResultButton<QEFXBandViewer, QEFXBandEditor> {
 
@@ -37,6 +39,11 @@ public class QEFXBandButton extends QEFXResultButton<QEFXBandViewer, QEFXBandEdi
             return null;
         }
 
+        ProjectStatus projectStatus = projectProperty.getStatus();
+        if (projectStatus == null || (!projectStatus.isBandDone())) {
+            return null;
+        }
+
         ProjectEnergies projectEnergies = projectProperty.getFermiEnergies();
         if (projectEnergies == null || projectEnergies.numEnergies() < 1) {
             return null;
@@ -44,6 +51,11 @@ public class QEFXBandButton extends QEFXResultButton<QEFXBandViewer, QEFXBandEdi
 
         ProjectBand projectBand = projectProperty.getBand();
         if (projectBand == null) {
+            return null;
+        }
+
+        ProjectBandPaths projectBandPaths = projectProperty.getBandPaths();
+        if (projectBandPaths == null || projectBandPaths.numPoints() < 1) {
             return null;
         }
 
@@ -71,7 +83,8 @@ public class QEFXBandButton extends QEFXResultButton<QEFXBandViewer, QEFXBandEdi
         }
 
         return () -> {
-            QEFXBandButton button = new QEFXBandButton(projectController, projectEnergies, projectBand);
+            QEFXBandButton button =
+                    new QEFXBandButton(projectController, projectEnergies, projectBand, projectBandPaths);
 
             String propPath = project == null ? null : project.getDirectoryPath();
             File propFile = propPath == null ? null : new File(propPath, FILE_NAME);
@@ -89,7 +102,11 @@ public class QEFXBandButton extends QEFXResultButton<QEFXBandViewer, QEFXBandEdi
 
     private ProjectBand projectBand;
 
-    private QEFXBandButton(QEFXProjectController projectController, ProjectEnergies projectEnergies, ProjectBand projectBand) {
+    private ProjectBandPaths projectBandPaths;
+
+    private QEFXBandButton(QEFXProjectController projectController,
+            ProjectEnergies projectEnergies, ProjectBand projectBand, ProjectBandPaths projectBandPaths) {
+
         super(projectController, BUTTON_TITLE, null);
 
         if (projectEnergies == null) {
@@ -103,6 +120,7 @@ public class QEFXBandButton extends QEFXResultButton<QEFXBandViewer, QEFXBandEdi
         this.propertyFile = null;
         this.projectEnergies = projectEnergies;
         this.projectBand = projectBand;
+        this.projectBandPaths = projectBandPaths;
 
         this.setIconStyle(BUTTON_BACKGROUND);
         this.setLabelStyle(BUTTON_FONT_COLOR);
@@ -114,7 +132,8 @@ public class QEFXBandButton extends QEFXResultButton<QEFXBandViewer, QEFXBandEdi
             return null;
         }
 
-        QEFXBandViewer viewer = new QEFXBandViewer(this.projectController, this.projectEnergies, this.projectBand);
+        QEFXBandViewer viewer = new QEFXBandViewer(
+                this.projectController, this.projectEnergies, this.projectBand, this.projectBandPaths);
 
         if (viewer != null) {
             QEFXBandViewerController controller = viewer.getController();

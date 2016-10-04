@@ -26,6 +26,7 @@ import burai.com.env.Environments;
 import burai.com.parallel.Parallel;
 import burai.project.property.BandData;
 import burai.project.property.ProjectBand;
+import burai.project.property.ProjectBandPaths;
 import burai.project.property.ProjectEnergies;
 
 public class QEFXBandViewerController extends QEFXGraphViewerController {
@@ -34,15 +35,20 @@ public class QEFXBandViewerController extends QEFXGraphViewerController {
 
     private static final String XAXIS_CLASS = "invisible-axis";
 
+    private static final double VLINE_BUFFER = 2.0; // eV
+
     private ProjectEnergies projectEnergies;
 
     private ProjectBand projectBand;
+
+    private ProjectBandPaths projectBandPaths;
 
     @FXML
     private AnchorPane coordPane;
 
     public QEFXBandViewerController(
-            QEFXProjectController projectController, ProjectEnergies projectEnergies, ProjectBand projectBand) {
+            QEFXProjectController projectController,
+            ProjectEnergies projectEnergies, ProjectBand projectBand, ProjectBandPaths projectBandPaths) {
 
         super(projectController, null);
 
@@ -54,8 +60,13 @@ public class QEFXBandViewerController extends QEFXGraphViewerController {
             throw new IllegalArgumentException("projectBand is null.");
         }
 
+        if (projectBandPaths == null) {
+            throw new IllegalArgumentException("projectBandPaths is null.");
+        }
+
         this.projectEnergies = projectEnergies;
         this.projectBand = projectBand;
+        this.projectBandPaths = projectBandPaths;
     }
 
     @Override
@@ -77,6 +88,8 @@ public class QEFXBandViewerController extends QEFXGraphViewerController {
             this.createBandProperty(property, bandData2, false);
         }
 
+        this.createVLineProperty(property);
+
         return property;
     }
 
@@ -92,6 +105,45 @@ public class QEFXBandViewerController extends QEFXGraphViewerController {
         seriesProperty.setWithSymbol(false);
         seriesProperty.setWidth(1.0);
         property.addSeries(seriesProperty);
+    }
+
+    private void createVLineProperty(GraphProperty property) {
+        if (property == null) {
+            return;
+        }
+
+        ProjectBandPaths projectBandPaths = this.projectBandPaths.copyBandPaths();
+        if (projectBandPaths == null || projectBandPaths.numPoints() < 1) {
+            return;
+        }
+
+        double minCoord = Double.MAX_VALUE;
+        double maxCoord = 0.0;
+
+        double coordOld = -1.0;
+        for (int i = 0; i < projectBandPaths.numPoints(); i++) {
+            double coord = projectBandPaths.getCoordinate(i);
+            if (Math.abs(coord - coordOld) < 1.0e-8) {
+                continue;
+            }
+            coordOld = coord;
+
+            minCoord = Math.min(minCoord, coord);
+            maxCoord = Math.max(maxCoord, coord);
+
+            SeriesProperty seriesProperty = new SeriesProperty();
+            seriesProperty.setName("line#" + i);
+            seriesProperty.setColor("black");
+            seriesProperty.setDash(SeriesProperty.DASH_NULL);
+            seriesProperty.setWithSymbol(false);
+            seriesProperty.setWidth(1.1);
+            property.addSeries(seriesProperty);
+        }
+
+        if (Math.abs(maxCoord - minCoord) > 1.0e-10) {
+            property.setXLower(minCoord);
+            property.setXUpper(maxCoord);
+        }
     }
 
     @Override
@@ -126,6 +178,8 @@ public class QEFXBandViewerController extends QEFXGraphViewerController {
         if (bandData1 != null && bandData2 != null) {
             this.reloadBandData(lineChart, bandData1, bandData2, fermi);
         }
+
+        this.reloadVLine(lineChart, bandData1, bandData2, fermi);
     }
 
     private void updateLineChart(LineChart<Number, Number> lineChart) {
@@ -187,5 +241,60 @@ public class QEFXBandViewerController extends QEFXGraphViewerController {
         });
 
         lineChart.getData().add(series);
+    }
+
+    private void reloadVLine(LineChart<Number, Number> lineChart, BandData bandData1, BandData bandData2, double fermi) {
+        if (lineChart == null) {
+            return;
+        }
+
+        ProjectBandPaths projectBandPaths = this.projectBandPaths.copyBandPaths();
+        if (projectBandPaths == null || projectBandPaths.numPoints() < 1) {
+            return;
+        }
+
+        boolean empty1 = (bandData1 == null || bandData1.numPoints() < 1);
+        boolean empty2 = (bandData2 == null || bandData2.numPoints() < 1);
+        if (empty1 && empty2) {
+            return;
+        }
+
+        double minEnergy = +Double.MAX_VALUE;
+        double maxEnergy = -Double.MAX_VALUE;
+
+        if (!empty1) {
+            for (int i = 0; i < bandData1.numPoints(); i++) {
+                double energy = bandData1.getEnergy(i) * Constants.RYTOEV - fermi;
+                minEnergy = Math.min(minEnergy, energy);
+                maxEnergy = Math.max(maxEnergy, energy);
+            }
+        }
+
+        if (!empty2) {
+            for (int i = 0; i < bandData2.numPoints(); i++) {
+                double energy = bandData2.getEnergy(i) * Constants.RYTOEV - fermi;
+                minEnergy = Math.min(minEnergy, energy);
+                maxEnergy = Math.max(maxEnergy, energy);
+            }
+        }
+
+        minEnergy = Math.floor(minEnergy) - VLINE_BUFFER;
+        maxEnergy = Math.ceil(maxEnergy) + VLINE_BUFFER;
+
+        double coordOld = -1.0;
+        for (int i = 0; i < projectBandPaths.numPoints(); i++) {
+            double coord = projectBandPaths.getCoordinate(i);
+            if (Math.abs(coord - coordOld) < 1.0e-8) {
+                continue;
+            }
+            coordOld = coord;
+
+            Data<Number, Number> data1 = new Data<Number, Number>(coord, minEnergy);
+            Data<Number, Number> data2 = new Data<Number, Number>(coord, maxEnergy);
+            Series<Number, Number> series = new Series<Number, Number>();
+            series.getData().add(data1);
+            series.getData().add(data2);
+            lineChart.getData().add(series);
+        }
     }
 }
