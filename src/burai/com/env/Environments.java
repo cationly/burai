@@ -37,8 +37,6 @@ public final class Environments {
 
     private static final String PROPERTIES_NAME = ".properties";
 
-    private static UnixCPUInfo unixCPUInfo = null;
-
     private static EnvFile recentsEnvFile = null;
 
     private static EnvFile websitesEnvFile = null;
@@ -61,30 +59,33 @@ public final class Environments {
             return false;
         }
 
-        osName = osName.trim();
-        return osName.startsWith("Windows");
+        osName = osName.toLowerCase().trim();
+        return osName.startsWith("windows");
+    }
+
+    public static boolean isMac() {
+        String osName = getOSName();
+        if (osName == null) {
+            return false;
+        }
+
+        osName = osName.toLowerCase().trim();
+        return osName.startsWith("mac");
+    }
+
+    public static boolean isLinux() {
+        String osName = getOSName();
+        if (osName == null) {
+            return false;
+        }
+
+        osName = osName.toLowerCase().trim();
+        return osName.startsWith("linux");
     }
 
     public static int getNumCUPs() {
-        if (isWindows()) {
-            try {
-                String strNcpu = System.getenv("NUMBER_OF_PROCESSORS");
-                if (strNcpu != null) {
-                    int ncpu = Integer.parseInt(strNcpu);
-                    return Math.max(ncpu, 1);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        } else {
-            if (unixCPUInfo == null) {
-                unixCPUInfo = new UnixCPUInfo();
-            }
-            return unixCPUInfo.getNumCPUs();
-        }
-
-        return 1;
+        CPUInfo cpuInfo = CPUInfo.getInstance();
+        return cpuInfo == null ? 1 : cpuInfo.getNumCPUs();
     }
 
     public static String getHomePath() {

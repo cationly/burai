@@ -14,29 +14,29 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class UnixCPUInfo {
+public class LinuxCPUInfo extends CPUInfo {
 
     private static final String CPUINFO_PATH = "/proc/cpuinfo";
 
     private static final String PROC_WORD = "processor";
 
-    private int numCPUs;
+    public LinuxCPUInfo() {
+        super();
+    }
 
-    public UnixCPUInfo() {
+    @Override
+    protected int countNumCPUs() {
         try {
-            this.parseCpuinfo();
+            return this.parseCpuinfo();
 
         } catch (IOException e) {
             e.printStackTrace();
-            this.numCPUs = 1;
         }
+
+        return 1;
     }
 
-    public int getNumCPUs() {
-        return this.numCPUs;
-    }
-
-    private void parseCpuinfo() throws IOException {
+    private int parseCpuinfo() throws IOException {
         int numCPUs = 0;
         BufferedReader reader = null;
 
@@ -67,6 +67,6 @@ public class UnixCPUInfo {
             }
         }
 
-        this.numCPUs = numCPUs;
+        return numCPUs;
     }
 }
