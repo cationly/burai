@@ -267,6 +267,9 @@ public class QEFXGraphEditorController extends QEFXResultEditorController<QEFXGr
             String text = this.xUpperField == null ? null : this.xUpperField.getText();
             text = text == null ? null : text.trim();
             if (text == null || text.isEmpty()) {
+                if (this.property != null) {
+                    this.property.setXUpper(0.0);
+                }
                 return;
             }
 
@@ -276,7 +279,9 @@ public class QEFXGraphEditorController extends QEFXResultEditorController<QEFXGr
             }
 
         } catch (NumberFormatException e) {
-            // NOP
+            if (this.property != null) {
+                this.property.setXUpper(0.0);
+            }
 
         } finally {
             this.updateXAuto();
@@ -291,6 +296,9 @@ public class QEFXGraphEditorController extends QEFXResultEditorController<QEFXGr
             String text = this.xLowerField == null ? null : this.xLowerField.getText();
             text = text == null ? null : text.trim();
             if (text == null || text.isEmpty()) {
+                if (this.property != null) {
+                    this.property.setXLower(0.0);
+                }
                 return;
             }
 
@@ -300,7 +308,9 @@ public class QEFXGraphEditorController extends QEFXResultEditorController<QEFXGr
             }
 
         } catch (NumberFormatException e) {
-            // NOP
+            if (this.property != null) {
+                this.property.setXLower(0.0);
+            }
 
         } finally {
             this.updateXAuto();
@@ -315,6 +325,9 @@ public class QEFXGraphEditorController extends QEFXResultEditorController<QEFXGr
             String text = this.xTickField == null ? null : this.xTickField.getText();
             text = text == null ? null : text.trim();
             if (text == null || text.isEmpty()) {
+                if (this.property != null) {
+                    this.property.setXTick(-1.0);
+                }
                 return;
             }
 
@@ -324,7 +337,9 @@ public class QEFXGraphEditorController extends QEFXResultEditorController<QEFXGr
             }
 
         } catch (NumberFormatException e) {
-            // NOP
+            if (this.property != null) {
+                this.property.setXTick(-1.0);
+            }
 
         } finally {
             this.updateXAuto();
@@ -339,6 +354,9 @@ public class QEFXGraphEditorController extends QEFXResultEditorController<QEFXGr
             String text = this.yUpperField == null ? null : this.yUpperField.getText();
             text = text == null ? null : text.trim();
             if (text == null || text.isEmpty()) {
+                if (this.property != null) {
+                    this.property.setYUpper(0.0);
+                }
                 return;
             }
 
@@ -348,7 +366,9 @@ public class QEFXGraphEditorController extends QEFXResultEditorController<QEFXGr
             }
 
         } catch (NumberFormatException e) {
-            // NOP
+            if (this.property != null) {
+                this.property.setYUpper(0.0);
+            }
 
         } finally {
             this.updateYAuto();
@@ -363,6 +383,9 @@ public class QEFXGraphEditorController extends QEFXResultEditorController<QEFXGr
             String text = this.yLowerField == null ? null : this.yLowerField.getText();
             text = text == null ? null : text.trim();
             if (text == null || text.isEmpty()) {
+                if (this.property != null) {
+                    this.property.setYLower(0.0);
+                }
                 return;
             }
 
@@ -372,7 +395,9 @@ public class QEFXGraphEditorController extends QEFXResultEditorController<QEFXGr
             }
 
         } catch (NumberFormatException e) {
-            // NOP
+            if (this.property != null) {
+                this.property.setYLower(0.0);
+            }
 
         } finally {
             this.updateYAuto();
@@ -387,6 +412,9 @@ public class QEFXGraphEditorController extends QEFXResultEditorController<QEFXGr
             String text = this.yTickField == null ? null : this.yTickField.getText();
             text = text == null ? null : text.trim();
             if (text == null || text.isEmpty()) {
+                if (this.property != null) {
+                    this.property.setYTick(-1.0);
+                }
                 return;
             }
 
@@ -396,7 +424,9 @@ public class QEFXGraphEditorController extends QEFXResultEditorController<QEFXGr
             }
 
         } catch (NumberFormatException e) {
-            // NOP
+            if (this.property != null) {
+                this.property.setYTick(-1.0);
+            }
 
         } finally {
             this.updateYAuto();
