@@ -14,6 +14,8 @@ import java.util.List;
 
 public class ProjectBandPaths {
 
+    private static final String DEFAULT_LABEL = "?";
+
     private List<Point> points;
 
     public ProjectBandPaths() {
@@ -54,6 +56,11 @@ public class ProjectBandPaths {
         return this.getPoint(i).coord;
     }
 
+    public synchronized String getLabel(int i) {
+        String label = this.getPoint(i).label;
+        return label == null ? DEFAULT_LABEL : label;
+    }
+
     public synchronized void removePoint(int i) {
         if (this.points == null || i < 0 || i >= this.points.size()) {
             throw new IndexOutOfBoundsException("incorrect index of points: " + i + ".");
@@ -68,6 +75,10 @@ public class ProjectBandPaths {
         }
 
         this.points.add(new Point(kx, ky, kz, coord));
+    }
+
+    public synchronized void setLabel(int i, String label) {
+        this.getPoint(i).label = label;
     }
 
     public synchronized ProjectBandPaths copyBandPaths() {
@@ -88,12 +99,14 @@ public class ProjectBandPaths {
         public double ky;
         public double kz;
         public double coord;
+        public String label;
 
         public Point(double kx, double ky, double kz, double coord) {
             this.kx = kx;
             this.ky = ky;
             this.kz = kz;
             this.coord = coord;
+            this.label = DEFAULT_LABEL;
         }
     }
 }

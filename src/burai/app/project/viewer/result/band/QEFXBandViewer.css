@@ -17,7 +17,7 @@
     -fx-alternative-row-fill-visible: false;
     -fx-horizontal-grid-lines-visible: true;
     -fx-vertical-grid-lines-visible: false;
-    -fx-horizontal-zero-line-visible: false;
+    -fx-horizontal-zero-line-visible: true;
     -fx-vertical-zero-line-visible: false;
 }
 
@@ -55,7 +55,7 @@
 }
 
 .chart-horizontal-grid-lines {
-    -fx-stroke: derive(black, 50.0%);
+    -fx-stroke: derive(black, 65.0%);
     -fx-stroke-width: 0.05em;
 }
 
@@ -65,7 +65,7 @@
 }
 
 .chart-horizontal-zero-line {
-    -fx-stroke: derive(black, 50.0%);
+    -fx-stroke: derive(black, 10.0%);
     -fx-stroke-width: 0.05em;
 }
 

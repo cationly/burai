@@ -39,7 +39,7 @@ public class QEFXBandViewerController extends QEFXGraphViewerController {
     private static final String XAXIS_CLASS = "invisible-axis";
     private static final String COORD_CLASS = "coord-field";
     private static final double COORD_WIDTH = 36.0;
-    private static final double COORD_OFFSET = 4.0;
+    private static final double COORD_OFFSET = 4.2;
 
     private static final double DELTA_COORD = 1.0e-4;
     private static final double DELTA_ENERGY = 1.0e-4;
@@ -273,11 +273,14 @@ public class QEFXBandViewerController extends QEFXGraphViewerController {
                 coord = projectBandPaths.getCoordinate(i) + Math.max(1.0, 2.0 * DELTA_COORD);
             }
 
+            String label = projectBandPaths.getLabel(i);
+            label = label == null ? "" : label;
+
             if (labelOld == null) {
-                labelOld = "?";
+                labelOld = label;
                 multOld = 1;
             } else {
-                labelOld = labelOld + " | " + "?";
+                labelOld = labelOld + " | " + label;
                 multOld++;
             }
 

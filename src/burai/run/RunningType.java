@@ -14,9 +14,13 @@ import java.util.List;
 
 import burai.com.env.Environments;
 import burai.input.QEInput;
+import burai.input.card.QECard;
+import burai.input.card.QEKPoint;
+import burai.input.card.QEKPoints;
 import burai.input.namelist.QENamelist;
 import burai.input.namelist.QEValue;
 import burai.project.Project;
+import burai.project.property.ProjectBandPaths;
 import burai.project.property.ProjectProperty;
 import burai.project.property.ProjectStatus;
 import burai.run.parser.BandPathParser;
@@ -569,6 +573,9 @@ public enum RunningType {
                 return;
             });
             postList.add((project) -> {
+                if (project != null) {
+                    this.setupSymmetricKPoints(project);
+                }
                 return;
             });
             postList.add((project) -> {
@@ -582,6 +589,67 @@ public enum RunningType {
         }
 
         return postList;
+    }
+
+    private void setupSymmetricKPoints(Project project) {
+        // keep QEKPoints
+        QEInput input = project == null ? null : project.getQEInputBand();
+        input = input == null ? null : input.copy();
+        if (input == null) {
+            return;
+        }
+
+        QEKPoints kpoints = null;
+        QECard card = input.getCard(QEKPoints.CARD_NAME);
+        if (card != null && card instanceof QEKPoints) {
+            kpoints = (QEKPoints) card;
+        }
+
+        if (kpoints == null || kpoints.numKPoints() < 1) {
+            return;
+        }
+
+        // keep ProjectBandPaths
+        ProjectProperty projectProperty = project == null ? null : project.getProperty();
+        if (projectProperty == null) {
+            return;
+        }
+
+        ProjectBandPaths projectBandPaths = projectProperty.getBandPaths();
+        if (projectBandPaths == null || projectBandPaths.numPoints() < 1) {
+            return;
+        }
+
+        // copy QEKPoints -> ProjectBandPaths
+        synchronized (projectBandPaths) {
+            int numData = projectBandPaths.numPoints();
+            if (kpoints.numKPoints() < numData) {
+                return;
+            }
+
+            for (int i = 0; i < numData; i++) {
+                QEKPoint kpoint = kpoints.getKPoint(i);
+
+                String klabel = null;
+                if (kpoint != null && kpoint.hasLetter()) {
+                    klabel = kpoint.getLetter();
+                }
+
+                if (klabel != null && !(klabel.isEmpty())) {
+                    if (klabel.equalsIgnoreCase("gG")) {
+                        klabel = "Γ";
+                    } else if (klabel.equalsIgnoreCase("gS")) {
+                        klabel = "Σ";
+                    } else if (klabel.equalsIgnoreCase("gS1")) {
+                        klabel = "Σ1";
+                    }
+
+                    projectBandPaths.setLabel(i, klabel);
+                }
+            }
+        }
+
+        projectProperty.saveBandPaths();
     }
 
     public void setProjectStatus(Project project) {
