@@ -92,7 +92,7 @@ public class QEBandInputCorrecter extends QEInputCorrecter {
          */
         value = this.nmlBands.getValue("lsym");
         if (value == null) {
-            this.nmlBands.setValue("lsym = .true.");
+            this.nmlBands.setValue("lsym = .false.");
         }
 
         /*
