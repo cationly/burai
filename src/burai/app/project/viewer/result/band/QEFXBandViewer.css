@@ -120,6 +120,19 @@
     -fx-minor-tick-visible: false;
 }
 
+/* TextField of Coordinate */
+
+.coord-field {
+    -fx-alignment: center;
+    -fx-text-fill: black;
+    -fx-font-family: "Times New Roman";
+    -fx-font-size: 1.75em;
+    -fx-font-weight: bold;
+    -fx-background-color: transparent;
+    -fx-background-radius: 0.0em;
+    -fx-focus-traversable: false;
+}
+
 /* Chart Lines */
 
 .default-color0.chart-series-line  { -fx-stroke: black; -fx-stroke-width: 1.1px; }

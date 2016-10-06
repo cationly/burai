@@ -9,13 +9,16 @@
 
 package burai.app.project.viewer.result.band;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.chart.Axis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart.Data;
 import javafx.scene.chart.XYChart.Series;
-import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import burai.app.project.QEFXProjectController;
 import burai.app.project.viewer.result.graph.GraphProperty;
@@ -34,9 +37,12 @@ public class QEFXBandViewerController extends QEFXGraphViewerController {
     private static final int NUM_LOADING_THREADS = Math.max(1, Environments.getNumCUPs() - 1);
 
     private static final String XAXIS_CLASS = "invisible-axis";
+    private static final String COORD_CLASS = "coord-field";
+    private static final double COORD_WIDTH = 36.0;
+    private static final double COORD_OFFSET = 4.0;
 
-    private static final double DELTA_COORD = 0.1;
-    private static final double DELTA_ENERGY = 0.1;
+    private static final double DELTA_COORD = 1.0e-4;
+    private static final double DELTA_ENERGY = 1.0e-4;
     private static final double VLINE_BUFFER = 1.0; // eV
 
     private ProjectEnergies projectEnergies;
@@ -123,24 +129,13 @@ public class QEFXBandViewerController extends QEFXGraphViewerController {
             return;
         }
 
-        if (projectBandPaths == null || projectBandPaths.numPoints() < 1) {
+        double[] coordRange = this.getCoordRange(projectBandPaths);
+        if (coordRange == null || coordRange.length < 2) {
             return;
         }
 
-        double minCoord = Double.MAX_VALUE;
-        double maxCoord = 0.0;
-
-        double coordOld = -1.0;
-        for (int i = 0; i < projectBandPaths.numPoints(); i++) {
-            double coord = projectBandPaths.getCoordinate(i);
-            if (Math.abs(coord - coordOld) < DELTA_COORD) {
-                continue;
-            }
-            coordOld = coord;
-
-            minCoord = Math.min(minCoord, coord);
-            maxCoord = Math.max(maxCoord, coord);
-        }
+        double minCoord = coordRange[0];
+        double maxCoord = coordRange[1];
 
         if ((maxCoord - minCoord) >= DELTA_COORD) {
             property.setXAuto(false);
@@ -166,7 +161,36 @@ public class QEFXBandViewerController extends QEFXGraphViewerController {
             property.setYAuto(false);
             property.setYLower(minEnergy);
             property.setYUpper(maxEnergy);
+            property.setYTick(1.0);
         }
+    }
+
+    @Override
+    protected void initializeLineChart(LineChart<Number, Number> lineChart) {
+        if (lineChart == null) {
+            return;
+        }
+
+        Axis<Number> xAxis = lineChart.getXAxis();
+        if (xAxis == null) {
+            return;
+        }
+
+        xAxis.getStyleClass().add(XAXIS_CLASS);
+
+        xAxis.widthProperty().addListener(o -> {
+            ProjectBandPaths projectBandPaths = this.projectBandPaths.copyBandPaths();
+            if (projectBandPaths != null && projectBandPaths.numPoints() > 0) {
+                this.updateCoordPane(lineChart, projectBandPaths);
+            }
+        });
+
+        xAxis.layoutXProperty().addListener(o -> {
+            ProjectBandPaths projectBandPaths = this.projectBandPaths.copyBandPaths();
+            if (projectBandPaths != null && projectBandPaths.numPoints() > 0) {
+                this.updateCoordPane(lineChart, projectBandPaths);
+            }
+        });
     }
 
     @Override
@@ -176,7 +200,6 @@ public class QEFXBandViewerController extends QEFXGraphViewerController {
         }
 
         lineChart.getData().clear();
-        this.updateLineChart(lineChart);
 
         ProjectEnergies projectEnergies = this.projectEnergies.copyEnergies();
         ProjectBandPaths projectBandPaths = this.projectBandPaths.copyBandPaths();
@@ -200,19 +223,102 @@ public class QEFXBandViewerController extends QEFXGraphViewerController {
         if (projectBandPaths != null && projectBandPaths.numPoints() > 0) {
             this.reloadVLine(lineChart, projectBandPaths, bandData1, bandData2, fermi);
         }
+
+        if (projectBandPaths != null && projectBandPaths.numPoints() > 0) {
+            this.updateCoordPane(lineChart, projectBandPaths);
+        }
     }
 
-    private void updateLineChart(LineChart<Number, Number> lineChart) {
-        // set xAsis to be invisible
-        Axis<Number> xAsis = lineChart == null ? null : lineChart.getXAxis();
-        if (xAsis != null && !(xAsis.getStyleClass().contains(XAXIS_CLASS))) {
-            xAsis.getStyleClass().add(XAXIS_CLASS);
+    private void updateCoordPane(LineChart<Number, Number> lineChart, ProjectBandPaths projectBandPaths) {
+        if (this.coordPane == null) {
+            return;
         }
 
-        // set label of coordinate
-        if (this.coordPane != null) {
-            this.coordPane.getChildren().clear();
-            this.coordPane.getChildren().add(new Label("test"));
+        Axis<Number> xAxis = lineChart == null ? null : lineChart.getXAxis();
+        if (xAxis == null) {
+            return;
+        }
+
+        if (projectBandPaths == null || projectBandPaths.numPoints() < 1) {
+            return;
+        }
+
+        double[] coordRange = this.getCoordRange(projectBandPaths);
+        if (coordRange == null || coordRange.length < 2) {
+            return;
+        }
+
+        double minCoord = coordRange[0];
+        double maxCoord = coordRange[1];
+        if ((maxCoord - minCoord) < DELTA_COORD) {
+            return;
+        }
+
+        List<String> labList = new ArrayList<String>();
+        List<Integer> mulList = new ArrayList<Integer>();
+        List<Double> posList = new ArrayList<Double>();
+
+        double minPos = xAxis.getLayoutX();
+        double maxPos = xAxis.getLayoutX() + xAxis.getWidth();
+
+        double coordOld = projectBandPaths.getCoordinate(0);
+        String labelOld = null;
+        int multOld = 0;
+
+        for (int i = 0; i < projectBandPaths.numPoints(); i++) {
+            double coord = 0.0;
+            if ((i + 1) < projectBandPaths.numPoints()) {
+                coord = projectBandPaths.getCoordinate(i + 1);
+            } else {
+                coord = projectBandPaths.getCoordinate(i) + Math.max(1.0, 2.0 * DELTA_COORD);
+            }
+
+            if (labelOld == null) {
+                labelOld = "?";
+                multOld = 1;
+            } else {
+                labelOld = labelOld + " | " + "?";
+                multOld++;
+            }
+
+            if (Math.abs(coord - coordOld) >= DELTA_COORD) {
+                labList.add(labelOld);
+                mulList.add(multOld);
+                posList.add(coordOld * (maxPos - minPos) / (maxCoord - minCoord) + minPos);
+                coordOld = coord;
+                labelOld = null;
+                multOld = 0;
+            }
+        }
+
+        int numList = labList.size();
+        if (numList != mulList.size() || numList != posList.size()) {
+            return;
+        }
+
+        this.coordPane.getChildren().clear();
+
+        for (int i = 0; i < numList; i++) {
+            String label = labList.get(i);
+            if (label == null) {
+                continue;
+            }
+
+            int mult = mulList.get(i);
+            if (mult < 1) {
+                return;
+            }
+
+            double position = posList.get(i);
+            if (position < 0.0) {
+                return;
+            }
+
+            TextField field = new TextField(label);
+            field.getStyleClass().add(COORD_CLASS);
+            field.setPrefWidth(mult * COORD_WIDTH);
+            field.setLayoutX(position - 0.5 * mult * COORD_WIDTH + COORD_OFFSET);
+            this.coordPane.getChildren().add(field);
         }
     }
 
@@ -301,6 +407,29 @@ public class QEFXBandViewerController extends QEFXGraphViewerController {
             series.getData().add(data2);
             lineChart.getData().add(series);
         }
+    }
+
+    private double[] getCoordRange(ProjectBandPaths projectBandPaths) {
+        if (projectBandPaths == null || projectBandPaths.numPoints() < 1) {
+            return null;
+        }
+
+        double minCoord = Double.MAX_VALUE;
+        double maxCoord = 0.0;
+
+        double coordOld = -1.0;
+        for (int i = 0; i < projectBandPaths.numPoints(); i++) {
+            double coord = projectBandPaths.getCoordinate(i);
+            if (Math.abs(coord - coordOld) < DELTA_COORD) {
+                continue;
+            }
+            coordOld = coord;
+
+            minCoord = Math.min(minCoord, coord);
+            maxCoord = Math.max(maxCoord, coord);
+        }
+
+        return new double[] { minCoord, maxCoord };
     }
 
     private double[] getEnergyRange(BandData bandData1, BandData bandData2, double fermi) {

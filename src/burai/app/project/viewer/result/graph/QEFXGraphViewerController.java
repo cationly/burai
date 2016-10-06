@@ -161,6 +161,11 @@ public abstract class QEFXGraphViewerController extends QEFXResultViewerControll
 
         this.lineChart = new LineChart<Number, Number>(xAxis, yAxis);
         this.lineChart.setAxisSortingPolicy(SortingPolicy.NONE);
+        this.initializeLineChart(this.lineChart);
+    }
+
+    protected void initializeLineChart(LineChart<Number, Number> lineChart) {
+        // this method shall be overrided.
     }
 
     @Override
