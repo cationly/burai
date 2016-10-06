@@ -15,19 +15,19 @@ public class ProjectStatus {
 
     private String date;
 
-    private boolean scfDone;
-    private boolean optDone;
-    private boolean mdDone;
-    private boolean dosDone;
-    private boolean bandDone;
+    private int scfCount;
+    private int optCount;
+    private int mdCount;
+    private int dosCount;
+    private int bandCount;
 
     public ProjectStatus() {
         this.updateDate();
-        this.scfDone = false;
-        this.optDone = false;
-        this.mdDone = false;
-        this.dosDone = false;
-        this.bandDone = false;
+        this.scfCount = 0;
+        this.optCount = 0;
+        this.mdCount = 0;
+        this.dosCount = 0;
+        this.bandCount = 0;
     }
 
     private void updateDate() {
@@ -40,47 +40,67 @@ public class ProjectStatus {
     }
 
     public synchronized boolean isScfDone() {
-        return this.scfDone;
+        return this.scfCount > 0;
     }
 
-    public synchronized void setScfDone(boolean scfDone) {
+    public synchronized int getScfCount() {
+        return this.scfCount;
+    }
+
+    public synchronized void updateScfCount() {
         this.updateDate();
-        this.scfDone = scfDone;
+        this.scfCount++;
     }
 
     public synchronized boolean isOptDone() {
-        return this.optDone;
+        return this.optCount > 0;
     }
 
-    public synchronized void setOptDone(boolean optDone) {
+    public synchronized int getOptCount() {
+        return this.optCount;
+    }
+
+    public synchronized void updateOptDone() {
         this.updateDate();
-        this.optDone = optDone;
+        this.optCount++;
     }
 
     public synchronized boolean isMdDone() {
-        return this.mdDone;
+        return this.mdCount > 0;
     }
 
-    public synchronized void setMdDone(boolean mdDone) {
+    public synchronized int getMdCount() {
+        return this.mdCount;
+    }
+
+    public synchronized void updateMdCount() {
         this.updateDate();
-        this.mdDone = mdDone;
+        this.mdCount++;
     }
 
     public synchronized boolean isDosDone() {
-        return this.dosDone;
+        return this.dosCount > 0;
     }
 
-    public synchronized void setDosDone(boolean dosDone) {
+    public synchronized int getDosCount() {
+        return this.dosCount;
+    }
+
+    public synchronized void updateDosCount() {
         this.updateDate();
-        this.dosDone = dosDone;
+        this.dosCount++;
     }
 
     public synchronized boolean isBandDone() {
-        return this.bandDone;
+        return this.bandCount > 0;
     }
 
-    public synchronized void setBandDone(boolean bandDone) {
+    public synchronized int getBandCount() {
+        return this.bandCount;
+    }
+
+    public synchronized void updateBandDone() {
         this.updateDate();
-        this.bandDone = bandDone;
+        this.bandCount++;
     }
 }

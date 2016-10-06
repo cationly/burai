@@ -669,27 +669,27 @@ public enum RunningType {
 
         switch (inputMode) {
         case Project.INPUT_MODE_SCF:
-            projectStatus.setScfDone(true);
+            projectStatus.updateScfCount();
             projectProperty.saveStatus();
             break;
 
         case Project.INPUT_MODE_OPTIMIZ:
-            projectStatus.setOptDone(true);
+            projectStatus.updateOptDone();
             projectProperty.saveStatus();
             break;
 
         case Project.INPUT_MODE_MD:
-            projectStatus.setMdDone(true);
+            projectStatus.updateMdCount();
             projectProperty.saveStatus();
             break;
 
         case Project.INPUT_MODE_DOS:
-            projectStatus.setDosDone(true);
+            projectStatus.updateDosCount();
             projectProperty.saveStatus();
             break;
 
         case Project.INPUT_MODE_BAND:
-            projectStatus.setBandDone(true);
+            projectStatus.updateBandDone();
             projectProperty.saveStatus();
             break;
         }
