@@ -27,7 +27,7 @@ public class QEFXDosButton extends QEFXGraphButton<QEFXDosViewer> {
 
     private static final String BUTTON_TITLE = "DOS";
     private static final String BUTTON_FONT_COLOR = "-fx-text-fill: ivory";
-    private static final String BUTTON_BACKGROUND = "-fx-background-color: derive(lightslategrey, -35.0%)";
+    private static final String BUTTON_BACKGROUND = "-fx-background-color: derive(lightslategrey, -45.0%)";
 
     public static QEFXResultButtonWrapper<QEFXDosButton> getWrapper(QEFXProjectController projectController, Project project) {
 
