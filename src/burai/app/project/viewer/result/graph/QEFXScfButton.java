@@ -40,7 +40,7 @@ public class QEFXScfButton extends QEFXGraphButton<QEFXScfViewer> {
         }
 
         return () -> {
-            QEFXScfButton button = new QEFXScfButton(projectController, projectEnergies);
+            QEFXScfButton button = new QEFXScfButton(projectController, projectProperty);
 
             String propPath = project == null ? null : project.getDirectoryPath();
             File propFile = propPath == null ? null : new File(propPath, FILE_NAME);
@@ -52,16 +52,16 @@ public class QEFXScfButton extends QEFXGraphButton<QEFXScfViewer> {
         };
     }
 
-    private ProjectEnergies projectEnergies;
+    private ProjectProperty projectProperty;
 
-    private QEFXScfButton(QEFXProjectController projectController, ProjectEnergies projectEnergies) {
+    private QEFXScfButton(QEFXProjectController projectController, ProjectProperty projectProperty) {
         super(projectController, BUTTON_TITLE, BUTTON_SUBTITLE);
 
-        if (projectEnergies == null) {
-            throw new IllegalArgumentException("projectEnergies is null.");
+        if (projectProperty == null) {
+            throw new IllegalArgumentException("projectProperty is null.");
         }
 
-        this.projectEnergies = projectEnergies;
+        this.projectProperty = projectProperty;
 
         this.setIconStyle(BUTTON_BACKGROUND);
         this.setLabelStyle(BUTTON_FONT_COLOR);
@@ -73,6 +73,6 @@ public class QEFXScfButton extends QEFXGraphButton<QEFXScfViewer> {
             return null;
         }
 
-        return new QEFXScfViewer(this.projectController, this.projectEnergies);
+        return new QEFXScfViewer(this.projectController, this.projectProperty);
     }
 }

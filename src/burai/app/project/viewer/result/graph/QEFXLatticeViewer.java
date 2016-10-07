@@ -12,14 +12,14 @@ package burai.app.project.viewer.result.graph;
 import java.io.IOException;
 
 import burai.app.project.QEFXProjectController;
-import burai.project.property.ProjectGeometryList;
+import burai.project.property.ProjectProperty;
 
 public class QEFXLatticeViewer extends QEFXGraphViewer<QEFXLatticeViewerController> {
 
     public QEFXLatticeViewer(QEFXProjectController projectController,
-            ProjectGeometryList projectGeometryList, LatticeViewerType lattVType, boolean mdMode) throws IOException {
+            ProjectProperty projectProperty, LatticeViewerType lattVType, boolean mdMode) throws IOException {
 
-        super(new QEFXLatticeViewerController(projectController, projectGeometryList, lattVType, mdMode));
+        super(new QEFXLatticeViewerController(projectController, projectProperty, lattVType, mdMode));
     }
 
 }

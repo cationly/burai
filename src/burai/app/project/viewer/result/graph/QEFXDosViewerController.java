@@ -27,6 +27,8 @@ import burai.project.property.DosInterface;
 import burai.project.property.DosType;
 import burai.project.property.ProjectDos;
 import burai.project.property.ProjectEnergies;
+import burai.project.property.ProjectProperty;
+import burai.project.property.ProjectStatus;
 
 public class QEFXDosViewerController extends QEFXGraphViewerController {
 
@@ -39,31 +41,40 @@ public class QEFXDosViewerController extends QEFXGraphViewerController {
 
     private List<PDosData> pdosDataList;
 
+    private ProjectStatus projectStatus;
+
     private ProjectEnergies projectEnergies;
 
     private ProjectDos projectDos;
 
-    public QEFXDosViewerController(
-            QEFXProjectController projectController, ProjectEnergies projectEnergies, ProjectDos projectDos) {
-
+    public QEFXDosViewerController(QEFXProjectController projectController, ProjectProperty projectProperty) {
         super(projectController, Pos.BOTTOM_RIGHT);
 
-        if (projectEnergies == null) {
-            throw new IllegalArgumentException("projectEnergies is null.");
+        if (projectProperty == null) {
+            throw new IllegalArgumentException("projectProperty is null.");
         }
 
-        if (projectDos == null) {
-            throw new IllegalArgumentException("projectDos is null.");
-        }
-
-        this.projectEnergies = projectEnergies;
-        this.projectDos = projectDos;
+        this.projectStatus = projectProperty.getStatus();
+        this.projectEnergies = projectProperty.getFermiEnergies();
+        this.projectDos = projectProperty.getDos();
 
         this.tdosData = null;
         this.pdosDataList = null;
     }
 
+    @Override
+    protected int getCalculationID() {
+        if (this.projectStatus == null) {
+            return 0;
+        }
+
+        return this.projectStatus.getDosCount();
+    }
+
     private void createDosData() {
+        if (this.projectDos == null) {
+            return;
+        }
 
         this.projectDos.reload();
 
@@ -178,6 +189,11 @@ public class QEFXDosViewerController extends QEFXGraphViewerController {
     @Override
     protected void reloadData(LineChart<Number, Number> lineChart) {
         if (lineChart == null) {
+            return;
+        }
+
+        if (this.projectEnergies == null) {
+            lineChart.getData().clear();
             return;
         }
 

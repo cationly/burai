@@ -12,15 +12,13 @@ package burai.app.project.viewer.result.graph;
 import java.io.IOException;
 
 import burai.app.project.QEFXProjectController;
-import burai.project.property.ProjectDos;
-import burai.project.property.ProjectEnergies;
+import burai.project.property.ProjectProperty;
 
 public class QEFXDosViewer extends QEFXGraphViewer<QEFXDosViewerController> {
 
-    public QEFXDosViewer(QEFXProjectController projectController,
-            ProjectEnergies projectEnergies, ProjectDos projectDos) throws IOException {
+    public QEFXDosViewer(QEFXProjectController projectController, ProjectProperty projectProperty) throws IOException {
 
-        super(new QEFXDosViewerController(projectController, projectEnergies, projectDos));
+        super(new QEFXDosViewerController(projectController, projectProperty));
     }
 
 }

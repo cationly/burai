@@ -13,17 +13,13 @@ import java.io.IOException;
 
 import burai.app.project.QEFXProjectController;
 import burai.app.project.viewer.result.QEFXResultViewer;
-import burai.project.property.ProjectBand;
-import burai.project.property.ProjectBandPaths;
-import burai.project.property.ProjectEnergies;
+import burai.project.property.ProjectProperty;
 
 public class QEFXBandViewer extends QEFXResultViewer<QEFXBandViewerController> {
 
-    public QEFXBandViewer(QEFXProjectController projectController,
-            ProjectEnergies projectEnergies, ProjectBand projectBand, ProjectBandPaths projectBandPaths) throws IOException {
+    public QEFXBandViewer(QEFXProjectController projectController, ProjectProperty projectProperty) throws IOException {
 
-        super("QEFXBandViewer.fxml",
-                new QEFXBandViewerController(projectController, projectEnergies, projectBand, projectBandPaths));
+        super("QEFXBandViewer.fxml", new QEFXBandViewerController(projectController, projectProperty));
     }
 
 }

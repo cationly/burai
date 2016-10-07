@@ -49,7 +49,7 @@ public class QEFXOptLatticeButton extends QEFXGraphButton<QEFXLatticeViewer> {
         }
 
         return () -> {
-            QEFXOptLatticeButton button = new QEFXOptLatticeButton(projectController, projectGeometryList, lattVType);
+            QEFXOptLatticeButton button = new QEFXOptLatticeButton(projectController, projectProperty, lattVType);
 
             String propPath = project == null ? null : project.getDirectoryPath();
             File propFile = propPath == null ? null : new File(propPath, FILE_NAME);
@@ -63,23 +63,23 @@ public class QEFXOptLatticeButton extends QEFXGraphButton<QEFXLatticeViewer> {
 
     private LatticeViewerType lattVType;
 
-    private ProjectGeometryList projectGeometryList;
+    private ProjectProperty projectProperty;
 
     private QEFXOptLatticeButton(QEFXProjectController projectController,
-            ProjectGeometryList projectGeometryList, LatticeViewerType lattVType) {
+            ProjectProperty projectProperty, LatticeViewerType lattVType) {
 
         super(projectController,
                 BUTTON_TITLE, BUTTON_SUBTITLE + "." + (lattVType == null ? "" : lattVType.name()));
 
-        if (projectGeometryList == null) {
-            throw new IllegalArgumentException("projectGeometryList is null.");
+        if (projectProperty == null) {
+            throw new IllegalArgumentException("projectProperty is null.");
         }
 
         if (lattVType == null) {
             throw new IllegalArgumentException("lattVType is null.");
         }
 
-        this.projectGeometryList = projectGeometryList;
+        this.projectProperty = projectProperty;
         this.lattVType = lattVType;
 
         this.setIconStyle(BUTTON_BACKGROUND);
@@ -92,6 +92,6 @@ public class QEFXOptLatticeButton extends QEFXGraphButton<QEFXLatticeViewer> {
             return null;
         }
 
-        return new QEFXLatticeViewer(this.projectController, this.projectGeometryList, this.lattVType, false);
+        return new QEFXLatticeViewer(this.projectController, this.projectProperty, this.lattVType, false);
     }
 }

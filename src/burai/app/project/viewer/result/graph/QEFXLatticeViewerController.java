@@ -22,6 +22,8 @@ import burai.com.consts.Constants;
 import burai.com.math.Lattice;
 import burai.project.property.ProjectGeometry;
 import burai.project.property.ProjectGeometryList;
+import burai.project.property.ProjectProperty;
+import burai.project.property.ProjectStatus;
 
 public class QEFXLatticeViewerController extends QEFXGraphViewerController {
 
@@ -29,25 +31,46 @@ public class QEFXLatticeViewerController extends QEFXGraphViewerController {
 
     private boolean mdMode;
 
+    private ProjectStatus projectStatus;
+
     private ProjectGeometryList projectGeometryList;
 
     public QEFXLatticeViewerController(QEFXProjectController projectController,
-            ProjectGeometryList projectGeometryList, LatticeViewerType lattVType, boolean mdMode) {
+            ProjectProperty projectProperty, LatticeViewerType lattVType, boolean mdMode) {
 
         super(projectController, LatticeViewerType.ANGLE.equals(lattVType) ? Pos.BOTTOM_RIGHT : null);
 
-        if (projectGeometryList == null) {
-            throw new IllegalArgumentException("projectGeometryList is null.");
+        if (projectProperty == null) {
+            throw new IllegalArgumentException("projectProperty is null.");
         }
 
         if (lattVType == null) {
             throw new IllegalArgumentException("lattVType is null.");
         }
 
-        this.projectGeometryList = projectGeometryList;
+        this.projectStatus = projectProperty.getStatus();
+
+        if (mdMode) {
+            this.projectGeometryList = projectProperty.getMdList();
+        } else {
+            this.projectGeometryList = projectProperty.getOptList();
+        }
 
         this.mdMode = mdMode;
         this.lattVType = lattVType;
+    }
+
+    @Override
+    protected int getCalculationID() {
+        if (this.projectStatus == null) {
+            return 0;
+        }
+
+        if (this.mdMode) {
+            return this.projectStatus.getMdCount();
+        } else {
+            return this.projectStatus.getOptCount();
+        }
     }
 
     @Override
@@ -112,6 +135,11 @@ public class QEFXLatticeViewerController extends QEFXGraphViewerController {
     @Override
     protected void reloadData(LineChart<Number, Number> lineChart) {
         if (lineChart == null) {
+            return;
+        }
+
+        if (this.projectGeometryList == null) {
+            lineChart.getData().clear();
             return;
         }
 

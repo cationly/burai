@@ -48,7 +48,7 @@ public class QEFXOptStressButton extends QEFXGraphButton<QEFXStressViewer> {
         }
 
         return () -> {
-            QEFXOptStressButton button = new QEFXOptStressButton(projectController, projectGeometryList);
+            QEFXOptStressButton button = new QEFXOptStressButton(projectController, projectProperty);
 
             String propPath = project == null ? null : project.getDirectoryPath();
             File propFile = propPath == null ? null : new File(propPath, FILE_NAME);
@@ -60,16 +60,16 @@ public class QEFXOptStressButton extends QEFXGraphButton<QEFXStressViewer> {
         };
     }
 
-    private ProjectGeometryList projectGeometryList;
+    private ProjectProperty projectProperty;
 
-    private QEFXOptStressButton(QEFXProjectController projectController, ProjectGeometryList projectGeometryList) {
+    private QEFXOptStressButton(QEFXProjectController projectController, ProjectProperty projectProperty) {
         super(projectController, BUTTON_TITLE, BUTTON_SUBTITLE);
 
-        if (projectGeometryList == null) {
-            throw new IllegalArgumentException("projectGeometryList is null.");
+        if (projectProperty == null) {
+            throw new IllegalArgumentException("projectProperty is null.");
         }
 
-        this.projectGeometryList = projectGeometryList;
+        this.projectProperty = projectProperty;
 
         this.setIconStyle(BUTTON_BACKGROUND);
         this.setLabelStyle(BUTTON_FONT_COLOR);
@@ -81,6 +81,6 @@ public class QEFXOptStressButton extends QEFXGraphButton<QEFXStressViewer> {
             return null;
         }
 
-        return new QEFXStressViewer(this.projectController, this.projectGeometryList, false);
+        return new QEFXStressViewer(this.projectController, this.projectProperty, false);
     }
 }

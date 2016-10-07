@@ -83,8 +83,7 @@ public class QEFXBandButton extends QEFXResultButton<QEFXBandViewer, QEFXBandEdi
         }
 
         return () -> {
-            QEFXBandButton button =
-                    new QEFXBandButton(projectController, projectEnergies, projectBand, projectBandPaths);
+            QEFXBandButton button = new QEFXBandButton(projectController, projectProperty);
 
             String propPath = project == null ? null : project.getDirectoryPath();
             File propFile = propPath == null ? null : new File(propPath, FILE_NAME);
@@ -98,29 +97,17 @@ public class QEFXBandButton extends QEFXResultButton<QEFXBandViewer, QEFXBandEdi
 
     private File propertyFile;
 
-    private ProjectEnergies projectEnergies;
+    private ProjectProperty projectProperty;
 
-    private ProjectBand projectBand;
-
-    private ProjectBandPaths projectBandPaths;
-
-    private QEFXBandButton(QEFXProjectController projectController,
-            ProjectEnergies projectEnergies, ProjectBand projectBand, ProjectBandPaths projectBandPaths) {
-
+    private QEFXBandButton(QEFXProjectController projectController, ProjectProperty projectProperty) {
         super(projectController, BUTTON_TITLE, null);
 
-        if (projectEnergies == null) {
-            throw new IllegalArgumentException("projectEnergies is null.");
-        }
-
-        if (projectBand == null) {
-            throw new IllegalArgumentException("projectBand is null.");
+        if (projectProperty == null) {
+            throw new IllegalArgumentException("projectProperty is null.");
         }
 
         this.propertyFile = null;
-        this.projectEnergies = projectEnergies;
-        this.projectBand = projectBand;
-        this.projectBandPaths = projectBandPaths;
+        this.projectProperty = projectProperty;
 
         this.setIconStyle(BUTTON_BACKGROUND);
         this.setLabelStyle(BUTTON_FONT_COLOR);
@@ -132,8 +119,7 @@ public class QEFXBandButton extends QEFXResultButton<QEFXBandViewer, QEFXBandEdi
             return null;
         }
 
-        QEFXBandViewer viewer = new QEFXBandViewer(
-                this.projectController, this.projectEnergies, this.projectBand, this.projectBandPaths);
+        QEFXBandViewer viewer = new QEFXBandViewer(this.projectController, this.projectProperty);
 
         if (viewer != null) {
             QEFXBandViewerController controller = viewer.getController();

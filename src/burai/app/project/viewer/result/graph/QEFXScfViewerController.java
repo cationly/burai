@@ -16,19 +16,33 @@ import javafx.scene.chart.XYChart.Data;
 import javafx.scene.chart.XYChart.Series;
 import burai.app.project.QEFXProjectController;
 import burai.project.property.ProjectEnergies;
+import burai.project.property.ProjectProperty;
+import burai.project.property.ProjectStatus;
 
 public class QEFXScfViewerController extends QEFXGraphViewerController {
 
+    private ProjectStatus projectStatus;
+
     private ProjectEnergies projectEnergies;
 
-    public QEFXScfViewerController(QEFXProjectController projectController, ProjectEnergies projectEnergies) {
+    public QEFXScfViewerController(QEFXProjectController projectController, ProjectProperty projectProperty) {
         super(projectController, null);
 
-        if (projectEnergies == null) {
-            throw new IllegalArgumentException("projectEnergies is null.");
+        if (projectProperty == null) {
+            throw new IllegalArgumentException("projectProperty is null.");
         }
 
-        this.projectEnergies = projectEnergies;
+        this.projectStatus = projectProperty.getStatus();
+        this.projectEnergies = projectProperty.getScfEnergies();
+    }
+
+    @Override
+    protected int getCalculationID() {
+        if (this.projectStatus == null) {
+            return 0;
+        }
+
+        return this.projectStatus.getScfCount();
     }
 
     @Override
@@ -53,6 +67,11 @@ public class QEFXScfViewerController extends QEFXGraphViewerController {
     @Override
     protected void reloadData(LineChart<Number, Number> lineChart) {
         if (lineChart == null) {
+            return;
+        }
+
+        if (this.projectEnergies == null) {
+            lineChart.getData().clear();
             return;
         }
 

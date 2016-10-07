@@ -44,7 +44,7 @@ public class QEFXOptForceButton extends QEFXGraphButton<QEFXForceViewer> {
         }
 
         return () -> {
-            QEFXOptForceButton button = new QEFXOptForceButton(projectController, projectGeometryList);
+            QEFXOptForceButton button = new QEFXOptForceButton(projectController, projectProperty);
 
             String propPath = project == null ? null : project.getDirectoryPath();
             File propFile = propPath == null ? null : new File(propPath, FILE_NAME);
@@ -56,16 +56,16 @@ public class QEFXOptForceButton extends QEFXGraphButton<QEFXForceViewer> {
         };
     }
 
-    private ProjectGeometryList projectGeometryList;
+    private ProjectProperty projectProperty;
 
-    private QEFXOptForceButton(QEFXProjectController projectController, ProjectGeometryList projectGeometryList) {
+    private QEFXOptForceButton(QEFXProjectController projectController, ProjectProperty projectProperty) {
         super(projectController, BUTTON_TITLE, BUTTON_SUBTITLE);
 
-        if (projectGeometryList == null) {
-            throw new IllegalArgumentException("projectGeometryList is null.");
+        if (projectProperty == null) {
+            throw new IllegalArgumentException("projectProperty is null.");
         }
 
-        this.projectGeometryList = projectGeometryList;
+        this.projectProperty = projectProperty;
 
         this.setIconStyle(BUTTON_BACKGROUND);
         this.setLabelStyle(BUTTON_FONT_COLOR);
@@ -77,6 +77,6 @@ public class QEFXOptForceButton extends QEFXGraphButton<QEFXForceViewer> {
             return null;
         }
 
-        return new QEFXForceViewer(this.projectController, this.projectGeometryList, false);
+        return new QEFXForceViewer(this.projectController, this.projectProperty, false);
     }
 }

@@ -71,15 +71,35 @@ public abstract class QEFXGraphViewerController extends QEFXResultViewerControll
         this.propertyFile = propertyFile;
     }
 
+    protected abstract int getCalculationID();
+
     protected abstract GraphProperty createProperty();
 
     public GraphProperty getProperty() {
+        // initialize property from file
         if (this.property == null) {
             this.property = this.createProperty();
 
             if (this.property != null && this.propertyFile != null) {
                 try {
                     this.property.readFile(this.propertyFile);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        // renewal property, for new calculation
+        int calcID = this.getCalculationID();
+        if (this.property != null && calcID != this.property.getCalcID()) {
+            this.property = this.createProperty();
+            if (this.property != null) {
+                this.property.setCalcID(calcID);
+            }
+
+            if (this.property != null && this.propertyFile != null) {
+                try {
+                    this.property.writeFile(this.propertyFile);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -329,9 +349,9 @@ public abstract class QEFXGraphViewerController extends QEFXResultViewerControll
 
         this.reloadLegend();
 
-        if (this.property != null && this.propertyFile != null) {
+        if (this.propertyFile != null) {
             try {
-                this.property.writeFile(this.propertyFile);
+                property.writeFile(this.propertyFile);
             } catch (IOException e) {
                 e.printStackTrace();
             }

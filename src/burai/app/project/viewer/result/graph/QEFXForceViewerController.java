@@ -24,6 +24,8 @@ import burai.app.project.QEFXProjectController;
 import burai.atoms.element.ElementUtil;
 import burai.project.property.ProjectGeometry;
 import burai.project.property.ProjectGeometryList;
+import burai.project.property.ProjectProperty;
+import burai.project.property.ProjectStatus;
 
 public class QEFXForceViewerController extends QEFXGraphViewerController {
 
@@ -31,22 +33,43 @@ public class QEFXForceViewerController extends QEFXGraphViewerController {
 
     private String[] elements;
 
+    private ProjectStatus projectStatus;
+
     private ProjectGeometryList projectGeometryList;
 
     public QEFXForceViewerController(
-            QEFXProjectController projectController, ProjectGeometryList projectGeometryList, boolean mdMode) {
+            QEFXProjectController projectController, ProjectProperty projectProperty, boolean mdMode) {
 
         super(projectController, Pos.BOTTOM_RIGHT);
 
-        if (projectGeometryList == null) {
-            throw new IllegalArgumentException("projectGeometryList is null.");
+        if (projectProperty == null) {
+            throw new IllegalArgumentException("projectProperty is null.");
         }
 
-        this.projectGeometryList = projectGeometryList;
+        this.projectStatus = projectProperty.getStatus();
+
+        if (mdMode) {
+            this.projectGeometryList = projectProperty.getMdList();
+        } else {
+            this.projectGeometryList = projectProperty.getOptList();
+        }
 
         this.mdMode = mdMode;
 
         this.elements = null;
+    }
+
+    @Override
+    protected int getCalculationID() {
+        if (this.projectStatus == null) {
+            return 0;
+        }
+
+        if (this.mdMode) {
+            return this.projectStatus.getMdCount();
+        } else {
+            return this.projectStatus.getOptCount();
+        }
     }
 
     private void createElements() {
@@ -55,7 +78,7 @@ public class QEFXForceViewerController extends QEFXGraphViewerController {
         }
 
         ProjectGeometry projectGeometry = null;
-        if (this.projectGeometryList.numGeometries() > 0) {
+        if (this.projectGeometryList != null && this.projectGeometryList.numGeometries() > 0) {
             projectGeometry = this.projectGeometryList.getGeometry(0);
         }
 
@@ -127,6 +150,11 @@ public class QEFXForceViewerController extends QEFXGraphViewerController {
     @Override
     protected void reloadData(LineChart<Number, Number> lineChart) {
         if (lineChart == null) {
+            return;
+        }
+
+        if (this.projectGeometryList == null) {
+            lineChart.getData().clear();
             return;
         }
 

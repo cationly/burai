@@ -44,7 +44,7 @@ public class QEFXMdEnergyButton extends QEFXGraphButton<QEFXEnergyViewer> {
         }
 
         return () -> {
-            QEFXMdEnergyButton button = new QEFXMdEnergyButton(projectController, projectGeometryList, energyType);
+            QEFXMdEnergyButton button = new QEFXMdEnergyButton(projectController, projectProperty, energyType);
 
             String propPath = project == null ? null : project.getDirectoryPath();
             File propFile = propPath == null ? null : new File(propPath, FILE_NAME);
@@ -58,22 +58,22 @@ public class QEFXMdEnergyButton extends QEFXGraphButton<QEFXEnergyViewer> {
 
     private EnergyType energyType;
 
-    private ProjectGeometryList projectGeometryList;
+    private ProjectProperty projectProperty;
 
     private QEFXMdEnergyButton(
-            QEFXProjectController projectController, ProjectGeometryList projectGeometryList, EnergyType energyType) {
+            QEFXProjectController projectController, ProjectProperty projectProperty, EnergyType energyType) {
 
         super(projectController, BUTTON_TITLE, "." + (energyType == null ? "" : energyType.getSymbol()));
 
-        if (projectGeometryList == null) {
-            throw new IllegalArgumentException("projectGeometryList is null.");
+        if (projectProperty == null) {
+            throw new IllegalArgumentException("projectProperty is null.");
         }
 
         if (energyType == null) {
             throw new IllegalArgumentException("energyType is null.");
         }
 
-        this.projectGeometryList = projectGeometryList;
+        this.projectProperty = projectProperty;
         this.energyType = energyType;
 
         this.setIconStyle(BUTTON_BACKGROUND);
@@ -86,6 +86,6 @@ public class QEFXMdEnergyButton extends QEFXGraphButton<QEFXEnergyViewer> {
             return null;
         }
 
-        return new QEFXEnergyViewer(this.projectController, this.projectGeometryList, this.energyType, true);
+        return new QEFXEnergyViewer(this.projectController, this.projectProperty, this.energyType, true);
     }
 }

@@ -27,6 +27,8 @@ public class GraphProperty {
 
     private boolean avail;
 
+    private int calcID;
+
     private String title;
 
     private String xLabel;
@@ -53,6 +55,7 @@ public class GraphProperty {
 
     public GraphProperty() {
         this.avail = true;
+        this.calcID = -1;
         this.title = "TITLE";
         this.xLabel = "X-AXIS";
         this.xAuto = true;
@@ -65,6 +68,14 @@ public class GraphProperty {
         this.yUpper = 0.0;
         this.yTick = -1.0;
         this.seriesList = null;
+    }
+
+    public int getCalcID() {
+        return this.calcID;
+    }
+
+    public void setCalcID(int calcID) {
+        this.calcID = calcID;
     }
 
     public String getTitle() {
@@ -228,6 +239,7 @@ public class GraphProperty {
         }
 
         if (obj != null && obj.avail) {
+            this.calcID = obj.calcID;
             this.title = obj.title;
             this.xLabel = obj.xLabel;
             this.xAuto = obj.xAuto;

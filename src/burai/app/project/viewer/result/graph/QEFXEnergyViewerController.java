@@ -17,6 +17,8 @@ import javafx.scene.chart.XYChart.Series;
 import burai.app.project.QEFXProjectController;
 import burai.project.property.ProjectGeometry;
 import burai.project.property.ProjectGeometryList;
+import burai.project.property.ProjectProperty;
+import burai.project.property.ProjectStatus;
 
 public class QEFXEnergyViewerController extends QEFXGraphViewerController {
 
@@ -24,25 +26,46 @@ public class QEFXEnergyViewerController extends QEFXGraphViewerController {
 
     private EnergyType energyType;
 
+    private ProjectStatus projectStatus;
+
     private ProjectGeometryList projectGeometryList;
 
     public QEFXEnergyViewerController(QEFXProjectController projectController,
-            ProjectGeometryList projectGeometryList, EnergyType energyType, boolean mdMode) {
+            ProjectProperty projectProperty, EnergyType energyType, boolean mdMode) {
 
         super(projectController, null);
 
-        if (projectGeometryList == null) {
-            throw new IllegalArgumentException("projectGeometryList is null.");
+        if (projectProperty == null) {
+            throw new IllegalArgumentException("projectProperty is null.");
         }
 
         if (energyType == null) {
             throw new IllegalArgumentException("energyType is null.");
         }
 
-        this.projectGeometryList = projectGeometryList;
+        this.projectStatus = projectProperty.getStatus();
+
+        if (mdMode) {
+            this.projectGeometryList = projectProperty.getMdList();
+        } else {
+            this.projectGeometryList = projectProperty.getOptList();
+        }
 
         this.mdMode = mdMode;
         this.energyType = energyType;
+    }
+
+    @Override
+    protected int getCalculationID() {
+        if (this.projectStatus == null) {
+            return 0;
+        }
+
+        if (this.mdMode) {
+            return this.projectStatus.getMdCount();
+        } else {
+            return this.projectStatus.getOptCount();
+        }
     }
 
     @Override
@@ -88,6 +111,11 @@ public class QEFXEnergyViewerController extends QEFXGraphViewerController {
     @Override
     protected void reloadData(LineChart<Number, Number> lineChart) {
         if (lineChart == null) {
+            return;
+        }
+
+        if (this.projectGeometryList == null) {
+            lineChart.getData().clear();
             return;
         }
 

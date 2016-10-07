@@ -70,7 +70,7 @@ public class QEFXDosButton extends QEFXGraphButton<QEFXDosViewer> {
         }
 
         return () -> {
-            QEFXDosButton button = new QEFXDosButton(projectController, projectEnergies, projectDos);
+            QEFXDosButton button = new QEFXDosButton(projectController, projectProperty);
 
             String propPath = project == null ? null : project.getDirectoryPath();
             File propFile = propPath == null ? null : new File(propPath, FILE_NAME);
@@ -82,23 +82,16 @@ public class QEFXDosButton extends QEFXGraphButton<QEFXDosViewer> {
         };
     }
 
-    private ProjectEnergies projectEnergies;
+    private ProjectProperty projectProperty;
 
-    private ProjectDos projectDos;
-
-    private QEFXDosButton(QEFXProjectController projectController, ProjectEnergies projectEnergies, ProjectDos projectDos) {
+    private QEFXDosButton(QEFXProjectController projectController, ProjectProperty projectProperty) {
         super(projectController, BUTTON_TITLE, null);
 
-        if (projectEnergies == null) {
-            throw new IllegalArgumentException("projectEnergies is null.");
+        if (projectProperty == null) {
+            throw new IllegalArgumentException("projectProperty is null.");
         }
 
-        if (projectDos == null) {
-            throw new IllegalArgumentException("projectDos is null.");
-        }
-
-        this.projectEnergies = projectEnergies;
-        this.projectDos = projectDos;
+        this.projectProperty = projectProperty;
 
         this.setIconStyle(BUTTON_BACKGROUND);
         this.setLabelStyle(BUTTON_FONT_COLOR);
@@ -110,6 +103,6 @@ public class QEFXDosButton extends QEFXGraphButton<QEFXDosViewer> {
             return null;
         }
 
-        return new QEFXDosViewer(this.projectController, this.projectEnergies, this.projectDos);
+        return new QEFXDosViewer(this.projectController, this.projectProperty);
     }
 }

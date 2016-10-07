@@ -31,6 +31,8 @@ import burai.project.property.BandData;
 import burai.project.property.ProjectBand;
 import burai.project.property.ProjectBandPaths;
 import burai.project.property.ProjectEnergies;
+import burai.project.property.ProjectProperty;
+import burai.project.property.ProjectStatus;
 
 public class QEFXBandViewerController extends QEFXGraphViewerController {
 
@@ -45,6 +47,8 @@ public class QEFXBandViewerController extends QEFXGraphViewerController {
     private static final double DELTA_ENERGY = 1.0e-4;
     private static final double VLINE_BUFFER = 1.0; // eV
 
+    private ProjectStatus projectStatus;
+
     private ProjectEnergies projectEnergies;
 
     private ProjectBand projectBand;
@@ -54,41 +58,55 @@ public class QEFXBandViewerController extends QEFXGraphViewerController {
     @FXML
     private AnchorPane coordPane;
 
-    public QEFXBandViewerController(
-            QEFXProjectController projectController,
-            ProjectEnergies projectEnergies, ProjectBand projectBand, ProjectBandPaths projectBandPaths) {
-
+    public QEFXBandViewerController(QEFXProjectController projectController, ProjectProperty projectProperty) {
         super(projectController, null);
 
-        if (projectEnergies == null) {
-            throw new IllegalArgumentException("projectEnergies is null.");
+        if (projectProperty == null) {
+            throw new IllegalArgumentException("projectProperty is null.");
         }
 
-        if (projectBand == null) {
-            throw new IllegalArgumentException("projectBand is null.");
+        this.projectStatus = projectProperty.getStatus();
+        this.projectEnergies = projectProperty.getFermiEnergies();
+        this.projectBand = projectProperty.getBand();
+        this.projectBandPaths = projectProperty.getBandPaths();
+    }
+
+    @Override
+    protected int getCalculationID() {
+        if (this.projectStatus == null) {
+            return 0;
         }
 
-        if (projectBandPaths == null) {
-            throw new IllegalArgumentException("projectBandPaths is null.");
-        }
-
-        this.projectEnergies = projectEnergies;
-        this.projectBand = projectBand;
-        this.projectBandPaths = projectBandPaths;
+        return this.projectStatus.getBandCount();
     }
 
     @Override
     protected GraphProperty createProperty() {
-        ProjectEnergies projectEnergies = this.projectEnergies.copyEnergies();
-        ProjectBandPaths projectBandPaths = this.projectBandPaths.copyBandPaths();
-        BandData bandData1 = this.projectBand.getBandData(true);
-        BandData bandData2 = this.projectBand.getBandData(false);
-
         GraphProperty property = new GraphProperty();
 
         property.setTitle("Band structure");
         property.setXLabel("");
         property.setYLabel("Energy / eV");
+
+        ProjectEnergies projectEnergies = null;
+        if (this.projectEnergies != null) {
+            projectEnergies = this.projectEnergies.copyEnergies();
+        }
+
+        ProjectBandPaths projectBandPaths = null;
+        if (this.projectBandPaths != null) {
+            projectBandPaths = this.projectBandPaths.copyBandPaths();
+        }
+
+        BandData bandData1 = null;
+        if (this.projectBand != null) {
+            bandData1 = this.projectBand.getBandData(true);
+        }
+
+        BandData bandData2 = null;
+        if (this.projectBand != null) {
+            bandData2 = this.projectBand.getBandData(false);
+        }
 
         if (bandData1 != null) {
             this.createBandProperty(property, true);
@@ -179,14 +197,22 @@ public class QEFXBandViewerController extends QEFXGraphViewerController {
         xAxis.getStyleClass().add(XAXIS_CLASS);
 
         xAxis.widthProperty().addListener(o -> {
-            ProjectBandPaths projectBandPaths = this.projectBandPaths.copyBandPaths();
+            ProjectBandPaths projectBandPaths = null;
+            if (this.projectBandPaths != null) {
+                projectBandPaths = this.projectBandPaths.copyBandPaths();
+            }
+
             if (projectBandPaths != null && projectBandPaths.numPoints() > 0) {
                 this.updateCoordPane(lineChart, projectBandPaths);
             }
         });
 
         xAxis.layoutXProperty().addListener(o -> {
-            ProjectBandPaths projectBandPaths = this.projectBandPaths.copyBandPaths();
+            ProjectBandPaths projectBandPaths = null;
+            if (this.projectBandPaths != null) {
+                projectBandPaths = this.projectBandPaths.copyBandPaths();
+            }
+
             if (projectBandPaths != null && projectBandPaths.numPoints() > 0) {
                 this.updateCoordPane(lineChart, projectBandPaths);
             }
@@ -201,10 +227,25 @@ public class QEFXBandViewerController extends QEFXGraphViewerController {
 
         lineChart.getData().clear();
 
-        ProjectEnergies projectEnergies = this.projectEnergies.copyEnergies();
-        ProjectBandPaths projectBandPaths = this.projectBandPaths.copyBandPaths();
-        BandData bandData1 = this.projectBand.getBandData(true);
-        BandData bandData2 = this.projectBand.getBandData(false);
+        ProjectEnergies projectEnergies = null;
+        if (this.projectEnergies != null) {
+            projectEnergies = this.projectEnergies.copyEnergies();
+        }
+
+        ProjectBandPaths projectBandPaths = null;
+        if (this.projectBandPaths != null) {
+            projectBandPaths = this.projectBandPaths.copyBandPaths();
+        }
+
+        BandData bandData1 = null;
+        if (this.projectBand != null) {
+            bandData1 = this.projectBand.getBandData(true);
+        }
+
+        BandData bandData2 = null;
+        if (this.projectBand != null) {
+            bandData2 = this.projectBand.getBandData(false);
+        }
 
         if (projectEnergies == null || projectEnergies.numEnergies() < 1) {
             return;

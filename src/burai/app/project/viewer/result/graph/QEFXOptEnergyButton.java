@@ -44,7 +44,7 @@ public class QEFXOptEnergyButton extends QEFXGraphButton<QEFXEnergyViewer> {
         }
 
         return () -> {
-            QEFXOptEnergyButton button = new QEFXOptEnergyButton(projectController, projectGeometryList);
+            QEFXOptEnergyButton button = new QEFXOptEnergyButton(projectController, projectProperty);
 
             String propPath = project == null ? null : project.getDirectoryPath();
             File propFile = propPath == null ? null : new File(propPath, FILE_NAME);
@@ -56,16 +56,16 @@ public class QEFXOptEnergyButton extends QEFXGraphButton<QEFXEnergyViewer> {
         };
     }
 
-    private ProjectGeometryList projectGeometryList;
+    private ProjectProperty projectProperty;
 
-    private QEFXOptEnergyButton(QEFXProjectController projectController, ProjectGeometryList projectGeometryList) {
+    private QEFXOptEnergyButton(QEFXProjectController projectController, ProjectProperty projectProperty) {
         super(projectController, BUTTON_TITLE, BUTTON_SUBTITLE);
 
-        if (projectGeometryList == null) {
-            throw new IllegalArgumentException("projectGeometryList is null.");
+        if (projectProperty == null) {
+            throw new IllegalArgumentException("projectProperty is null.");
         }
 
-        this.projectGeometryList = projectGeometryList;
+        this.projectProperty = projectProperty;
 
         this.setIconStyle(BUTTON_BACKGROUND);
         this.setLabelStyle(BUTTON_FONT_COLOR);
@@ -77,6 +77,6 @@ public class QEFXOptEnergyButton extends QEFXGraphButton<QEFXEnergyViewer> {
             return null;
         }
 
-        return new QEFXEnergyViewer(this.projectController, this.projectGeometryList, EnergyType.TOTAL, false);
+        return new QEFXEnergyViewer(this.projectController, this.projectProperty, EnergyType.TOTAL, false);
     }
 }

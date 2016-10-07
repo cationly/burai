@@ -12,12 +12,13 @@ package burai.app.project.viewer.result.graph;
 import java.io.IOException;
 
 import burai.app.project.QEFXProjectController;
-import burai.project.property.ProjectEnergies;
+import burai.project.property.ProjectProperty;
 
 public class QEFXScfViewer extends QEFXGraphViewer<QEFXScfViewerController> {
 
-    public QEFXScfViewer(QEFXProjectController projectController, ProjectEnergies projectEnergies) throws IOException {
-        super(new QEFXScfViewerController(projectController, projectEnergies));
+    public QEFXScfViewer(QEFXProjectController projectController, ProjectProperty projectProperty) throws IOException {
+
+        super(new QEFXScfViewerController(projectController, projectProperty));
     }
 
 }

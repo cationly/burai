@@ -12,14 +12,14 @@ package burai.app.project.viewer.result.graph;
 import java.io.IOException;
 
 import burai.app.project.QEFXProjectController;
-import burai.project.property.ProjectGeometryList;
+import burai.project.property.ProjectProperty;
 
 public class QEFXForceViewer extends QEFXGraphViewer<QEFXForceViewerController> {
 
     public QEFXForceViewer(QEFXProjectController projectController,
-            ProjectGeometryList projectGeometryList, boolean mdMode) throws IOException {
+            ProjectProperty projectProperty, boolean mdMode) throws IOException {
 
-        super(new QEFXForceViewerController(projectController, projectGeometryList, mdMode));
+        super(new QEFXForceViewerController(projectController, projectProperty, mdMode));
     }
 
 }
