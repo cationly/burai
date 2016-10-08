@@ -35,8 +35,6 @@ import burai.app.project.viewer.result.log.QEFXCrashButton;
 import burai.app.project.viewer.result.log.QEFXErrorButton;
 import burai.app.project.viewer.result.log.QEFXInputButton;
 import burai.app.project.viewer.result.log.QEFXOutputButton;
-import burai.app.project.viewer.result.movie.QEFXMdMovieButton;
-import burai.app.project.viewer.result.movie.QEFXOptMovieButton;
 import burai.project.Project;
 import burai.run.RunningManager;
 
@@ -240,9 +238,9 @@ public class QEFXResultExplorer {
             return QEFXOptLatticeButton.getWrapper(this.projectController, this.project, LatticeViewerType.ANGLE);
         });
 
-        this.updateButton("QEFXOptMovieButton", () -> {
-            return QEFXOptMovieButton.getWrapper(this.projectController, this.project);
-        });
+        //this.updateButton("QEFXOptMovieButton", () -> {
+        //    return QEFXOptMovieButton.getWrapper(this.projectController, this.project);
+        //});
     }
 
     private void updateMdButtons() {
@@ -278,9 +276,9 @@ public class QEFXResultExplorer {
             return QEFXMdLatticeButton.getWrapper(this.projectController, this.project, LatticeViewerType.ANGLE);
         });
 
-        this.updateButton("QEFXMdMovieButton", () -> {
-            return QEFXMdMovieButton.getWrapper(this.projectController, this.project);
-        });
+        //this.updateButton("QEFXMdMovieButton", () -> {
+        //    return QEFXMdMovieButton.getWrapper(this.projectController, this.project);
+        //});
     }
 
     private void updateDosButtons() {
