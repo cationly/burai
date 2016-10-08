@@ -65,10 +65,15 @@ public class QEFXForceViewerController extends QEFXGraphViewerController {
             return 0;
         }
 
+        int offset = 0;
+        if (this.projectGeometryList != null && !(this.projectGeometryList.isConverged())) {
+            offset = 1;
+        }
+
         if (this.mdMode) {
-            return this.projectStatus.getMdCount();
+            return offset + this.projectStatus.getMdCount();
         } else {
-            return this.projectStatus.getOptCount();
+            return offset + this.projectStatus.getOptCount();
         }
     }
 

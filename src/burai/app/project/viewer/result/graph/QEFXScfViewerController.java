@@ -42,7 +42,12 @@ public class QEFXScfViewerController extends QEFXGraphViewerController {
             return 0;
         }
 
-        return this.projectStatus.getScfCount();
+        int offset = 0;
+        if (this.projectEnergies != null && !(this.projectEnergies.isConverged())) {
+            offset = 1;
+        }
+
+        return offset + this.projectStatus.getScfCount();
     }
 
     @Override
