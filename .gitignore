@@ -1,3 +1,5 @@
 /class/
+/movie/
+/release/
 /bin/*.jar
 /bin/*.exe
