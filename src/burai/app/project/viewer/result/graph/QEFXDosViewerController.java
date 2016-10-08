@@ -26,6 +26,7 @@ import burai.project.property.DosData;
 import burai.project.property.DosInterface;
 import burai.project.property.DosType;
 import burai.project.property.ProjectDos;
+import burai.project.property.ProjectDosFactory;
 import burai.project.property.ProjectEnergies;
 import burai.project.property.ProjectProperty;
 import burai.project.property.ProjectStatus;
@@ -45,7 +46,7 @@ public class QEFXDosViewerController extends QEFXGraphViewerController {
 
     private ProjectEnergies projectEnergies;
 
-    private ProjectDos projectDos;
+    private ProjectDosFactory projectDosFactory;
 
     public QEFXDosViewerController(QEFXProjectController projectController, ProjectProperty projectProperty) {
         super(projectController, Pos.BOTTOM_RIGHT);
@@ -56,7 +57,7 @@ public class QEFXDosViewerController extends QEFXGraphViewerController {
 
         this.projectStatus = projectProperty.getStatus();
         this.projectEnergies = projectProperty.getFermiEnergies();
-        this.projectDos = projectProperty.getDos();
+        this.projectDosFactory = projectProperty.getDosFactory();
 
         this.tdosData = null;
         this.pdosDataList = null;
@@ -72,13 +73,18 @@ public class QEFXDosViewerController extends QEFXGraphViewerController {
     }
 
     private void createDosData() {
-        if (this.projectDos == null) {
+        ProjectDos projectDos = null;
+        if (this.projectDosFactory != null) {
+            projectDos = this.projectDosFactory.getProjectDos();
+        }
+
+        if (projectDos == null) {
             return;
         }
 
-        this.projectDos.reload();
+        projectDos.reload();
 
-        List<DosData> dosDataList = this.projectDos.listDosData();
+        List<DosData> dosDataList = projectDos.listDosData();
         if (dosDataList == null || dosDataList.isEmpty()) {
             return;
         }

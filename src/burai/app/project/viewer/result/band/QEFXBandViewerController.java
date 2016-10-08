@@ -29,6 +29,7 @@ import burai.com.env.Environments;
 import burai.com.parallel.Parallel;
 import burai.project.property.BandData;
 import burai.project.property.ProjectBand;
+import burai.project.property.ProjectBandFactory;
 import burai.project.property.ProjectBandPaths;
 import burai.project.property.ProjectEnergies;
 import burai.project.property.ProjectProperty;
@@ -51,7 +52,7 @@ public class QEFXBandViewerController extends QEFXGraphViewerController {
 
     private ProjectEnergies projectEnergies;
 
-    private ProjectBand projectBand;
+    private ProjectBandFactory projectBandFactory;
 
     private ProjectBandPaths projectBandPaths;
 
@@ -67,7 +68,7 @@ public class QEFXBandViewerController extends QEFXGraphViewerController {
 
         this.projectStatus = projectProperty.getStatus();
         this.projectEnergies = projectProperty.getFermiEnergies();
-        this.projectBand = projectProperty.getBand();
+        this.projectBandFactory = projectProperty.getBandFactory();
         this.projectBandPaths = projectProperty.getBandPaths();
     }
 
@@ -98,14 +99,19 @@ public class QEFXBandViewerController extends QEFXGraphViewerController {
             projectBandPaths = this.projectBandPaths.copyBandPaths();
         }
 
+        ProjectBand projectBand = null;
+        if (this.projectBandFactory != null) {
+            projectBand = this.projectBandFactory.getProjectBand();
+        }
+
         BandData bandData1 = null;
-        if (this.projectBand != null) {
-            bandData1 = this.projectBand.getBandData(true);
+        if (projectBand != null) {
+            bandData1 = projectBand.getBandData(true);
         }
 
         BandData bandData2 = null;
-        if (this.projectBand != null) {
-            bandData2 = this.projectBand.getBandData(false);
+        if (projectBand != null) {
+            bandData2 = projectBand.getBandData(false);
         }
 
         if (bandData1 != null) {
@@ -237,14 +243,19 @@ public class QEFXBandViewerController extends QEFXGraphViewerController {
             projectBandPaths = this.projectBandPaths.copyBandPaths();
         }
 
+        ProjectBand projectBand = null;
+        if (this.projectBandFactory != null) {
+            projectBand = this.projectBandFactory.getProjectBand();
+        }
+
         BandData bandData1 = null;
-        if (this.projectBand != null) {
-            bandData1 = this.projectBand.getBandData(true);
+        if (projectBand != null) {
+            bandData1 = projectBand.getBandData(true);
         }
 
         BandData bandData2 = null;
-        if (this.projectBand != null) {
-            bandData2 = this.projectBand.getBandData(false);
+        if (projectBand != null) {
+            bandData2 = projectBand.getBandData(false);
         }
 
         if (projectEnergies == null || projectEnergies.numEnergies() < 1) {

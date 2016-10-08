@@ -11,21 +11,32 @@ package burai.project.property;
 
 public class ProjectBandFactory {
 
+    private String path;
+
+    private String prefix;
+
     private ProjectBand band;
 
     public ProjectBandFactory() {
+        this.path = null;
+        this.prefix = null;
         this.band = null;
     }
 
-    public ProjectBand getProjectBand(String path, String prefix) {
-        if (path == null || path.isEmpty() || prefix == null || prefix.isEmpty()) {
+    protected void setPath(String path, String prefix) {
+        this.path = path;
+        this.prefix = prefix;
+    }
+
+    public ProjectBand getProjectBand() {
+        if (this.path == null || this.path.isEmpty() || this.prefix == null || this.prefix.isEmpty()) {
             this.band = null;
 
-        } else if (this.band != null && path.equals(this.band.getPath()) && prefix.equals(this.band.getPrefix())) {
+        } else if (this.band != null && this.path.equals(this.band.getPath()) && this.prefix.equals(this.band.getPrefix())) {
             this.band.reload();
 
         } else {
-            this.band = new ProjectBand(path, prefix);
+            this.band = new ProjectBand(this.path, this.prefix);
         }
 
         return this.band;

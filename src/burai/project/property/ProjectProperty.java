@@ -85,8 +85,10 @@ public class ProjectProperty {
         this.optList = null;
         this.mdList = null;
         this.dosFactory = new ProjectDosFactory();
+        this.dosFactory.setPath(this.directoryPath, this.prefixName);
         this.bandPaths = null;
         this.bandFactory = new ProjectBandFactory();
+        this.bandFactory.setPath(this.directoryPath, this.prefixName);
     }
 
     public synchronized void copyProperty(ProjectProperty property) {
@@ -99,7 +101,11 @@ public class ProjectProperty {
         this.fermiEnergies = property.getFermiEnergies();
         this.optList = property.getOptList();
         this.mdList = property.getMdList();
+        this.dosFactory = property.getDosFactory();
+        this.dosFactory.setPath(this.directoryPath, this.prefixName);
         this.bandPaths = property.getBandPaths();
+        this.bandFactory = property.getBandFactory();
+        this.bandFactory.setPath(this.directoryPath, this.prefixName);
     }
 
     public void saveProperty() {
@@ -151,8 +157,12 @@ public class ProjectProperty {
         return this.mdList;
     }
 
+    public synchronized ProjectDosFactory getDosFactory() {
+        return this.dosFactory;
+    }
+
     public synchronized ProjectDos getDos() {
-        return this.dosFactory.getProjectDos(this.directoryPath, this.prefixName);
+        return this.dosFactory == null ? null : this.dosFactory.getProjectDos();
     }
 
     public synchronized ProjectBandPaths getBandPaths() {
@@ -163,8 +173,12 @@ public class ProjectProperty {
         return this.bandPaths;
     }
 
+    public synchronized ProjectBandFactory getBandFactory() {
+        return this.bandFactory;
+    }
+
     public synchronized ProjectBand getBand() {
-        return this.bandFactory.getProjectBand(this.directoryPath, this.prefixName);
+        return this.bandFactory == null ? null : this.bandFactory.getProjectBand();
     }
 
     private void createStatus() {

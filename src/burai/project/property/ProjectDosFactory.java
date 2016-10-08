@@ -11,21 +11,32 @@ package burai.project.property;
 
 public class ProjectDosFactory {
 
+    private String path;
+
+    private String prefix;
+
     private ProjectDos dos;
 
     public ProjectDosFactory() {
+        this.path = null;
+        this.prefix = null;
         this.dos = null;
     }
 
-    public ProjectDos getProjectDos(String path, String prefix) {
-        if (path == null || path.isEmpty() || prefix == null || prefix.isEmpty()) {
+    protected void setPath(String path, String prefix) {
+        this.path = path;
+        this.prefix = prefix;
+    }
+
+    public ProjectDos getProjectDos() {
+        if (this.path == null || this.path.isEmpty() || this.prefix == null || this.prefix.isEmpty()) {
             this.dos = null;
 
-        } else if (this.dos != null && path.equals(this.dos.getPath()) && prefix.equals(this.dos.getPrefix())) {
+        } else if (this.dos != null && this.path.equals(this.dos.getPath()) && this.prefix.equals(this.dos.getPrefix())) {
             this.dos.reload();
 
         } else {
-            this.dos = new ProjectDos(path, prefix);
+            this.dos = new ProjectDos(this.path, this.prefix);
         }
 
         return this.dos;
