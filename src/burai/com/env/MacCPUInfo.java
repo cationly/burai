@@ -26,14 +26,21 @@ public class MacCPUInfo extends CPUInfo {
     @Override
     protected int countNumCPUs() {
 
-        /*
-         *  TODO: get #cpus for MacOS.
-         */
-
         int numCPUs = 1;
 
         try {
             Process process = Runtime.getRuntime().exec(CHK_MAC_CPUCOM);
+
+            int exitCode = 0;
+            try {
+                exitCode = process.waitFor();
+            } catch (InterruptedException e) {
+                exitCode = 1;
+            }
+            if (exitCode != 0) {
+                return 1;
+            }
+
             BufferedReader in = new BufferedReader(new InputStreamReader(process
                 .getInputStream()));
 
@@ -41,26 +48,33 @@ public class MacCPUInfo extends CPUInfo {
             while ((line = in.readLine()) != null) {
                 line = line.trim();
                 if (line.contains(CPU_WORD)){
+
                     String[] nCPULine = line.split(" ", 0);
-                    if (nCPULine == null) {
-                        continue;
+
+                    String strCPUs = null;
+                    if (nCPULine != null && nCPULine.length > 0) {
+                        strCPUs = nCPULine[nCPULine.length - 1];
                     }
-                    if (nCPULine.length == 0){
-                        numCPUs = 1;
-                        break;
-                    }
-                    else {
-                        numCPUs = Integer.parseInt(nCPULine[nCPULine.length -1]);
-                        if (numCPUs <= 0){
+
+                    if (strCPUs != null) {
+                        try {
+                            numCPUs = Integer.parseInt(strCPUs);
+                        } catch (NumberFormatException e) {
                             numCPUs = 1;
-                            break;
                         }
+                    } else {
+                        numCPUs = 1;
                     }
+
+                    if (numCPUs <= 0){
+                        numCPUs = 1;
+                    }
+
+                    break;
                 }
             }
 
         } catch (IOException e) {
-            // TODO
             numCPUs = 1;
             e.printStackTrace();
         }
