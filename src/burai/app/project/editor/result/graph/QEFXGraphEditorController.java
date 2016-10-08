@@ -38,6 +38,8 @@ public class QEFXGraphEditorController extends QEFXResultEditorController<QEFXGr
     private static final String TOGGLE_STYLE_YES = "toggle-graphic-on";
     private static final String TOGGLE_STYLE_NO = "toggle-graphic-off";
 
+    private static final double AUTO_DELTA = 1.0e-12;
+
     protected GraphProperty property;
 
     @FXML
@@ -86,9 +88,24 @@ public class QEFXGraphEditorController extends QEFXResultEditorController<QEFXGr
         super(projectController, viewerController);
 
         this.property = null;
+
         if (this.viewerController != null) {
-            this.property = this.viewerController.getProperty();
+            this.viewerController.setOnPropertyRefreshed(property -> {
+                this.refreshFXComponents(property);
+            });
         }
+    }
+
+    private void refreshFXComponents(GraphProperty property) {
+        this.property = property;
+        this.refreshTitleField();
+        this.refreshXField();
+        this.refreshYField();
+        this.refreshSeriesCombo();
+        this.refreshColorPicker();
+        this.refreshSymbolToggle();
+        this.refreshWidthCombo();
+        this.refreshTypeCombo();
     }
 
     @Override
@@ -103,7 +120,7 @@ public class QEFXGraphEditorController extends QEFXResultEditorController<QEFXGr
         this.setupTypeCombo();
     }
 
-    private void setupTitleField() {
+    private void refreshTitleField() {
         if (this.titleField != null) {
             String title = this.property == null ? null : this.property.getTitle();
             if (title != null) {
@@ -111,7 +128,11 @@ public class QEFXGraphEditorController extends QEFXResultEditorController<QEFXGr
             } else {
                 this.titleField.setText("");
             }
+        }
+    }
 
+    private void setupTitleField() {
+        if (this.titleField != null) {
             this.titleField.textProperty().addListener(o -> {
                 String text = this.titleField.getText();
                 if (this.property != null) {
@@ -124,7 +145,7 @@ public class QEFXGraphEditorController extends QEFXResultEditorController<QEFXGr
         }
     }
 
-    private void setupXField() {
+    private void refreshXField() {
         if (this.xTitleField != null) {
             String title = this.property == null ? null : this.property.getXLabel();
             if (title != null) {
@@ -132,7 +153,38 @@ public class QEFXGraphEditorController extends QEFXResultEditorController<QEFXGr
             } else {
                 this.xTitleField.setText("");
             }
+        }
 
+        if (this.xUpperField != null) {
+            if (this.property != null && (!property.isXAuto())) {
+                double value = this.property.getXUpper();
+                this.xUpperField.setText(Double.toString(value));
+            } else {
+                this.xUpperField.setText("");
+            }
+        }
+
+        if (this.xLowerField != null) {
+            if (this.property != null && (!property.isXAuto())) {
+                double value = this.property.getXLower();
+                this.xLowerField.setText(Double.toString(value));
+            } else {
+                this.xLowerField.setText("");
+            }
+        }
+
+        if (this.xTickField != null) {
+            double value = this.property == null ? -1.0 : this.property.getXTick();
+            if (value > 0.0) {
+                this.xTickField.setText(Double.toString(value));
+            } else {
+                this.xTickField.setText("");
+            }
+        }
+    }
+
+    private void setupXField() {
+        if (this.xTitleField != null) {
             this.xTitleField.textProperty().addListener(o -> {
                 String text = this.xTitleField.getText();
                 if (this.property != null) {
@@ -145,13 +197,6 @@ public class QEFXGraphEditorController extends QEFXResultEditorController<QEFXGr
         }
 
         if (this.xUpperField != null) {
-            if (this.property != null && (!property.isXAuto())) {
-                double value = this.property.getXUpper();
-                this.xUpperField.setText(Double.toString(value));
-            } else {
-                this.xUpperField.setText("");
-            }
-
             this.xUpperField.setOnAction(event -> this.updateXUpperField());
             this.xUpperField.focusedProperty().addListener(o -> {
                 if (!this.xUpperField.isFocused()) {
@@ -161,13 +206,6 @@ public class QEFXGraphEditorController extends QEFXResultEditorController<QEFXGr
         }
 
         if (this.xLowerField != null) {
-            if (this.property != null && (!property.isXAuto())) {
-                double value = this.property.getXLower();
-                this.xLowerField.setText(Double.toString(value));
-            } else {
-                this.xLowerField.setText("");
-            }
-
             this.xLowerField.setOnAction(event -> this.updateXLowerField());
             this.xLowerField.focusedProperty().addListener(o -> {
                 if (!this.xLowerField.isFocused()) {
@@ -177,13 +215,6 @@ public class QEFXGraphEditorController extends QEFXResultEditorController<QEFXGr
         }
 
         if (this.xTickField != null) {
-            double value = this.property == null ? -1.0 : this.property.getXTick();
-            if (value > 0.0) {
-                this.xTickField.setText(Double.toString(value));
-            } else {
-                this.xTickField.setText("");
-            }
-
             this.xTickField.setOnAction(event -> this.updateXTickField());
             this.xTickField.focusedProperty().addListener(o -> {
                 if (!this.xTickField.isFocused()) {
@@ -193,7 +224,7 @@ public class QEFXGraphEditorController extends QEFXResultEditorController<QEFXGr
         }
     }
 
-    private void setupYField() {
+    private void refreshYField() {
         if (this.yTitleField != null) {
             String title = this.property == null ? null : this.property.getYLabel();
             if (title != null) {
@@ -201,7 +232,38 @@ public class QEFXGraphEditorController extends QEFXResultEditorController<QEFXGr
             } else {
                 this.yTitleField.setText("");
             }
+        }
 
+        if (this.yUpperField != null) {
+            if (this.property != null && (!property.isYAuto())) {
+                double value = this.property.getYUpper();
+                this.yUpperField.setText(Double.toString(value));
+            } else {
+                this.yUpperField.setText("");
+            }
+        }
+
+        if (this.yLowerField != null) {
+            if (this.property != null && (!property.isYAuto())) {
+                double value = this.property.getYLower();
+                this.yLowerField.setText(Double.toString(value));
+            } else {
+                this.yLowerField.setText("");
+            }
+        }
+
+        if (this.yTickField != null) {
+            double value = this.property == null ? -1.0 : this.property.getYTick();
+            if (value > 0.0) {
+                this.yTickField.setText(Double.toString(value));
+            } else {
+                this.yTickField.setText("");
+            }
+        }
+    }
+
+    private void setupYField() {
+        if (this.yTitleField != null) {
             this.yTitleField.textProperty().addListener(o -> {
                 String text = this.yTitleField.getText();
                 if (this.property != null) {
@@ -214,13 +276,6 @@ public class QEFXGraphEditorController extends QEFXResultEditorController<QEFXGr
         }
 
         if (this.yUpperField != null) {
-            if (this.property != null && (!property.isYAuto())) {
-                double value = this.property.getYUpper();
-                this.yUpperField.setText(Double.toString(value));
-            } else {
-                this.yUpperField.setText("");
-            }
-
             this.yUpperField.setOnAction(event -> this.updateYUpperField());
             this.yUpperField.focusedProperty().addListener(o -> {
                 if (!this.yUpperField.isFocused()) {
@@ -230,13 +285,6 @@ public class QEFXGraphEditorController extends QEFXResultEditorController<QEFXGr
         }
 
         if (this.yLowerField != null) {
-            if (this.property != null && (!property.isYAuto())) {
-                double value = this.property.getYLower();
-                this.yLowerField.setText(Double.toString(value));
-            } else {
-                this.yLowerField.setText("");
-            }
-
             this.yLowerField.setOnAction(event -> this.updateYLowerField());
             this.yLowerField.focusedProperty().addListener(o -> {
                 if (!this.yLowerField.isFocused()) {
@@ -246,13 +294,6 @@ public class QEFXGraphEditorController extends QEFXResultEditorController<QEFXGr
         }
 
         if (this.yTickField != null) {
-            double value = this.property == null ? -1.0 : this.property.getYTick();
-            if (value > 0.0) {
-                this.yTickField.setText(Double.toString(value));
-            } else {
-                this.yTickField.setText("");
-            }
-
             this.yTickField.setOnAction(event -> this.updateYTickField());
             this.yTickField.focusedProperty().addListener(o -> {
                 if (!this.yTickField.isFocused()) {
@@ -262,244 +303,117 @@ public class QEFXGraphEditorController extends QEFXResultEditorController<QEFXGr
         }
     }
 
+    private double getDoubleValue(TextField field, double defValue) {
+        double value = defValue;
+
+        String text = field == null ? null : field.getText();
+        text = text == null ? null : text.trim();
+
+        if (text != null && (!text.isEmpty())) {
+            try {
+                value = Calculator.expr(text);
+            } catch (NumberFormatException e) {
+                value = defValue;
+            }
+        }
+
+        return value;
+    }
+
     private void updateXUpperField() {
-        try {
-            String text = this.xUpperField == null ? null : this.xUpperField.getText();
-            text = text == null ? null : text.trim();
-            if (text == null || text.isEmpty()) {
-                if (this.property != null) {
-                    this.property.setXUpper(0.0);
-                }
-                return;
-            }
+        if (this.property != null) {
+            this.property.setXUpper(this.getDoubleValue(this.xUpperField, 0.0));
+        }
 
-            double value = Calculator.expr(text);
-            if (this.property != null) {
-                this.property.setXUpper(value);
-            }
-
-        } catch (NumberFormatException e) {
-            if (this.property != null) {
-                this.property.setXUpper(0.0);
-            }
-
-        } finally {
-            this.updateXAuto();
-            if (this.viewerController != null) {
-                this.viewerController.reloadProperty();
-            }
+        this.updateXAuto();
+        if (this.viewerController != null) {
+            this.viewerController.reloadProperty();
         }
     }
 
     private void updateXLowerField() {
-        try {
-            String text = this.xLowerField == null ? null : this.xLowerField.getText();
-            text = text == null ? null : text.trim();
-            if (text == null || text.isEmpty()) {
-                if (this.property != null) {
-                    this.property.setXLower(0.0);
-                }
-                return;
-            }
+        if (this.property != null) {
+            this.property.setXLower(this.getDoubleValue(this.xLowerField, 0.0));
+        }
 
-            double value = Calculator.expr(text);
-            if (this.property != null) {
-                this.property.setXLower(value);
-            }
-
-        } catch (NumberFormatException e) {
-            if (this.property != null) {
-                this.property.setXLower(0.0);
-            }
-
-        } finally {
-            this.updateXAuto();
-            if (this.viewerController != null) {
-                this.viewerController.reloadProperty();
-            }
+        this.updateXAuto();
+        if (this.viewerController != null) {
+            this.viewerController.reloadProperty();
         }
     }
 
     private void updateXTickField() {
-        try {
-            String text = this.xTickField == null ? null : this.xTickField.getText();
-            text = text == null ? null : text.trim();
-            if (text == null || text.isEmpty()) {
-                if (this.property != null) {
-                    this.property.setXTick(-1.0);
-                }
-                return;
-            }
+        if (this.property != null) {
+            this.property.setXTick(this.getDoubleValue(this.xTickField, -1.0));
+        }
 
-            double value = Calculator.expr(text);
-            if (this.property != null) {
-                this.property.setXTick(value);
-            }
-
-        } catch (NumberFormatException e) {
-            if (this.property != null) {
-                this.property.setXTick(-1.0);
-            }
-
-        } finally {
-            this.updateXAuto();
-            if (this.viewerController != null) {
-                this.viewerController.reloadProperty();
-            }
+        this.updateXAuto();
+        if (this.viewerController != null) {
+            this.viewerController.reloadProperty();
         }
     }
 
     private void updateYUpperField() {
-        try {
-            String text = this.yUpperField == null ? null : this.yUpperField.getText();
-            text = text == null ? null : text.trim();
-            if (text == null || text.isEmpty()) {
-                if (this.property != null) {
-                    this.property.setYUpper(0.0);
-                }
-                return;
-            }
+        if (this.property != null) {
+            this.property.setYUpper(this.getDoubleValue(this.yUpperField, 0.0));
+        }
 
-            double value = Calculator.expr(text);
-            if (this.property != null) {
-                this.property.setYUpper(value);
-            }
-
-        } catch (NumberFormatException e) {
-            if (this.property != null) {
-                this.property.setYUpper(0.0);
-            }
-
-        } finally {
-            this.updateYAuto();
-            if (this.viewerController != null) {
-                this.viewerController.reloadProperty();
-            }
+        this.updateYAuto();
+        if (this.viewerController != null) {
+            this.viewerController.reloadProperty();
         }
     }
 
     private void updateYLowerField() {
-        try {
-            String text = this.yLowerField == null ? null : this.yLowerField.getText();
-            text = text == null ? null : text.trim();
-            if (text == null || text.isEmpty()) {
-                if (this.property != null) {
-                    this.property.setYLower(0.0);
-                }
-                return;
-            }
+        if (this.property != null) {
+            this.property.setYLower(this.getDoubleValue(this.yLowerField, 0.0));
+        }
 
-            double value = Calculator.expr(text);
-            if (this.property != null) {
-                this.property.setYLower(value);
-            }
-
-        } catch (NumberFormatException e) {
-            if (this.property != null) {
-                this.property.setYLower(0.0);
-            }
-
-        } finally {
-            this.updateYAuto();
-            if (this.viewerController != null) {
-                this.viewerController.reloadProperty();
-            }
+        this.updateYAuto();
+        if (this.viewerController != null) {
+            this.viewerController.reloadProperty();
         }
     }
 
     private void updateYTickField() {
-        try {
-            String text = this.yTickField == null ? null : this.yTickField.getText();
-            text = text == null ? null : text.trim();
-            if (text == null || text.isEmpty()) {
-                if (this.property != null) {
-                    this.property.setYTick(-1.0);
-                }
-                return;
-            }
+        if (this.property != null) {
+            this.property.setYTick(this.getDoubleValue(this.yTickField, -1.0));
+        }
 
-            double value = Calculator.expr(text);
-            if (this.property != null) {
-                this.property.setYTick(value);
-            }
-
-        } catch (NumberFormatException e) {
-            if (this.property != null) {
-                this.property.setYTick(-1.0);
-            }
-
-        } finally {
-            this.updateYAuto();
-            if (this.viewerController != null) {
-                this.viewerController.reloadProperty();
-            }
+        this.updateYAuto();
+        if (this.viewerController != null) {
+            this.viewerController.reloadProperty();
         }
     }
 
     private void updateXAuto() {
-        if (this.isToBeAuto(this.xUpperField, this.xLowerField)) {
-            if (this.property != null) {
-                this.property.setXAuto(true);
-            }
-        } else {
-            if (this.property != null) {
-                this.property.setXAuto(false);
-            }
+        if (this.property != null) {
+            this.property.setXAuto(this.isToBeAuto(this.xUpperField, this.xLowerField));
         }
     }
 
     private void updateYAuto() {
-        if (this.isToBeAuto(this.yUpperField, this.yLowerField)) {
-            if (this.property != null) {
-                this.property.setYAuto(true);
-            }
-        } else {
-            if (this.property != null) {
-                this.property.setYAuto(false);
-            }
+        if (this.property != null) {
+            this.property.setYAuto(this.isToBeAuto(this.yUpperField, this.yLowerField));
         }
     }
 
     private boolean isToBeAuto(TextField upperField, TextField lowerField) {
-        if (upperField == null) {
-            return true;
-        }
-        if (lowerField == null) {
+        if (upperField == null || lowerField == null) {
             return true;
         }
 
-        String strUpper = upperField.getText();
-        if (strUpper == null || strUpper.isEmpty()) {
-            return true;
-        }
+        double upper = this.getDoubleValue(upperField, 0.0);
+        double lower = this.getDoubleValue(lowerField, 0.0);
 
-        String strLower = lowerField.getText();
-        if (strLower == null || strLower.isEmpty()) {
+        if ((upper - lower) <= AUTO_DELTA) {
             return true;
+        } else {
+            return false;
         }
-
-        double upper = 0.0;
-        try {
-            upper = Calculator.expr(strUpper);
-        } catch (NumberFormatException e) {
-            return true;
-        }
-
-        double lower = 0.0;
-        try {
-            lower = Calculator.expr(strLower);
-        } catch (NumberFormatException e) {
-            return true;
-        }
-
-        if ((upper - lower) <= 0.0) {
-            return true;
-        }
-
-        return false;
     }
 
-    private void setupSeriesCombo() {
+    private void refreshSeriesCombo() {
         if (this.seriesCombo == null) {
             return;
         }
@@ -522,21 +436,41 @@ public class QEFXGraphEditorController extends QEFXResultEditorController<QEFXGr
         if (seriesProperty != null) {
             this.seriesCombo.setValue(seriesProperty);
         }
+    }
+
+    private void setupSeriesCombo() {
+        if (this.seriesCombo == null) {
+            return;
+        }
 
         this.seriesCombo.setOnAction(event -> {
-            this.initColorPicker();
-            this.initSymbolToggle();
-            this.initWidthCombo();
-            this.initTypeCombo();
+            this.refreshColorPicker();
+            this.refreshSymbolToggle();
+            this.refreshWidthCombo();
+            this.refreshTypeCombo();
         });
+    }
+
+    private void refreshColorPicker() {
+        if (this.colorPicker == null) {
+            return;
+        }
+
+        SeriesProperty seriesProperty = this.seriesCombo == null ? null : this.seriesCombo.getValue();
+        String strColor = seriesProperty == null ? null : seriesProperty.getColor();
+        if (strColor != null && (!strColor.trim().isEmpty())) {
+            try {
+                this.colorPicker.setValue(Color.valueOf(strColor));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void setupColorPicker() {
         if (this.colorPicker == null) {
             return;
         }
-
-        this.initColorPicker();
 
         this.colorPicker.setOnAction(event -> {
             Color color = this.colorPicker.getValue();
@@ -555,20 +489,17 @@ public class QEFXGraphEditorController extends QEFXResultEditorController<QEFXGr
         });
     }
 
-    private void initColorPicker() {
-        if (this.colorPicker == null) {
+    private void refreshSymbolToggle() {
+        if (this.symbolToggle == null) {
             return;
         }
 
         SeriesProperty seriesProperty = this.seriesCombo == null ? null : this.seriesCombo.getValue();
-        String strColor = seriesProperty == null ? null : seriesProperty.getColor();
-        if (strColor != null && (!strColor.trim().isEmpty())) {
-            try {
-                this.colorPicker.setValue(Color.valueOf(strColor));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        if (seriesProperty != null) {
+            this.symbolToggle.setSelected(seriesProperty.isWithSymbol());
         }
+
+        this.redrawSymbolToggle();
     }
 
     private void setupSymbolToggle() {
@@ -578,8 +509,6 @@ public class QEFXGraphEditorController extends QEFXResultEditorController<QEFXGr
 
         this.symbolToggle.setText("");
         this.symbolToggle.setStyle(TOGGLE_STYLE);
-
-        this.initSymbolToggle();
 
         this.symbolToggle.setOnAction(event -> {
             SeriesProperty seriesProperty = this.seriesCombo == null ? null : this.seriesCombo.getValue();
@@ -595,19 +524,6 @@ public class QEFXGraphEditorController extends QEFXResultEditorController<QEFXGr
         });
     }
 
-    private void initSymbolToggle() {
-        if (this.symbolToggle == null) {
-            return;
-        }
-
-        SeriesProperty seriesProperty = this.seriesCombo == null ? null : this.seriesCombo.getValue();
-        if (seriesProperty != null) {
-            this.symbolToggle.setSelected(seriesProperty.isWithSymbol());
-        }
-
-        this.redrawSymbolToggle();
-    }
-
     private void redrawSymbolToggle() {
         if (this.symbolToggle == null) {
             return;
@@ -619,6 +535,17 @@ public class QEFXGraphEditorController extends QEFXResultEditorController<QEFXGr
         } else {
             this.symbolToggle.setGraphic(ToggleGraphics.getGraphic(
                     TOGGLE_WIDTH, TOGGLE_HEIGHT, false, TOGGLE_TEXT_NO, TOGGLE_STYLE_NO));
+        }
+    }
+
+    private void refreshWidthCombo() {
+        if (this.widthCombo == null) {
+            return;
+        }
+
+        SeriesProperty seriesProperty = this.seriesCombo == null ? null : this.seriesCombo.getValue();
+        if (seriesProperty != null) {
+            this.widthCombo.setValue(seriesProperty.getWidth());
         }
     }
 
@@ -637,8 +564,6 @@ public class QEFXGraphEditorController extends QEFXResultEditorController<QEFXGr
             return new WidthCell();
         });
 
-        this.initWidthCombo();
-
         this.widthCombo.setOnAction(event -> {
             Double width = this.widthCombo.getValue();
             if (width != null) {
@@ -652,17 +577,6 @@ public class QEFXGraphEditorController extends QEFXResultEditorController<QEFXGr
                 this.viewerController.reloadProperty();
             }
         });
-    }
-
-    private void initWidthCombo() {
-        if (this.widthCombo == null) {
-            return;
-        }
-
-        SeriesProperty seriesProperty = this.seriesCombo == null ? null : this.seriesCombo.getValue();
-        if (seriesProperty != null) {
-            this.widthCombo.setValue(seriesProperty.getWidth());
-        }
     }
 
     private static class WidthCell extends ListCell<Double> {
@@ -696,6 +610,17 @@ public class QEFXGraphEditorController extends QEFXResultEditorController<QEFXGr
         }
     }
 
+    private void refreshTypeCombo() {
+        if (this.typeCombo == null) {
+            return;
+        }
+
+        SeriesProperty seriesProperty = this.seriesCombo == null ? null : this.seriesCombo.getValue();
+        if (seriesProperty != null) {
+            this.typeCombo.setValue(seriesProperty.getDash());
+        }
+    }
+
     private void setupTypeCombo() {
         if (this.typeCombo == null) {
             return;
@@ -712,8 +637,6 @@ public class QEFXGraphEditorController extends QEFXResultEditorController<QEFXGr
             return new TypeCell();
         });
 
-        this.initTypeCombo();
-
         this.typeCombo.setOnAction(event -> {
             Integer dash = this.typeCombo.getValue();
             if (dash != null) {
@@ -727,17 +650,6 @@ public class QEFXGraphEditorController extends QEFXResultEditorController<QEFXGr
                 this.viewerController.reloadProperty();
             }
         });
-    }
-
-    private void initTypeCombo() {
-        if (this.typeCombo == null) {
-            return;
-        }
-
-        SeriesProperty seriesProperty = this.seriesCombo == null ? null : this.seriesCombo.getValue();
-        if (seriesProperty != null) {
-            this.typeCombo.setValue(seriesProperty.getDash());
-        }
     }
 
     private static class TypeCell extends ListCell<Integer> {

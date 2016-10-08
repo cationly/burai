@@ -47,6 +47,7 @@ public abstract class QEFXGraphViewerController extends QEFXResultViewerControll
     private LineChart<Number, Number> lineChart;
 
     private GraphProperty property;
+    private GraphPropertyRefreshed onPropertyRefreshed;
     private File propertyFile;
 
     private Pos legendPos;
@@ -61,10 +62,15 @@ public abstract class QEFXGraphViewerController extends QEFXResultViewerControll
         this.lineChart = null;
 
         this.property = null;
+        this.onPropertyRefreshed = null;
         this.propertyFile = null;
 
         this.legendPos = legendPos;
         this.legendObj = null;
+    }
+
+    public void setOnPropertyRefreshed(GraphPropertyRefreshed onPropertyRefreshed) {
+        this.onPropertyRefreshed = onPropertyRefreshed;
     }
 
     public void setPropertyFile(File propertyFile) {
@@ -75,7 +81,7 @@ public abstract class QEFXGraphViewerController extends QEFXResultViewerControll
 
     protected abstract GraphProperty createProperty();
 
-    public GraphProperty getProperty() {
+    private void refreshProperty() {
         // initialize property from file
         if (this.property == null) {
             this.property = this.createProperty();
@@ -86,6 +92,10 @@ public abstract class QEFXGraphViewerController extends QEFXResultViewerControll
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            }
+
+            if (this.onPropertyRefreshed != null) {
+                this.onPropertyRefreshed.onGraphPropertyRefreshed(this.property);
             }
         }
 
@@ -104,9 +114,11 @@ public abstract class QEFXGraphViewerController extends QEFXResultViewerControll
                     e.printStackTrace();
                 }
             }
-        }
 
-        return this.property;
+            if (this.onPropertyRefreshed != null) {
+                this.onPropertyRefreshed.onGraphPropertyRefreshed(this.property);
+            }
+        }
     }
 
     private void clearStackedNodes() {
@@ -191,6 +203,7 @@ public abstract class QEFXGraphViewerController extends QEFXResultViewerControll
     @Override
     public void reload() {
         this.clearStackedNodes();
+        this.refreshProperty();
         this.reloadData();
         this.reloadProperty();
 
@@ -217,19 +230,22 @@ public abstract class QEFXGraphViewerController extends QEFXResultViewerControll
         }
     }
 
-    protected abstract void reloadData(LineChart<Number, Number> lineChart);
-
     public final void reloadData() {
         this.reloadData(this.lineChart);
     }
 
+    protected abstract void reloadData(LineChart<Number, Number> lineChart);
+
     public final void reloadProperty() {
-        if (this.lineChart == null) {
+        this.reloadProperty(this.property);
+    }
+
+    private void reloadProperty(GraphProperty property) {
+        if (property == null) {
             return;
         }
 
-        GraphProperty property = this.getProperty();
-        if (property == null) {
+        if (this.lineChart == null) {
             return;
         }
 
@@ -347,7 +363,7 @@ public abstract class QEFXGraphViewerController extends QEFXResultViewerControll
             }
         }
 
-        this.reloadLegend();
+        this.reloadLegend(property);
 
         if (this.propertyFile != null) {
             try {
@@ -358,13 +374,12 @@ public abstract class QEFXGraphViewerController extends QEFXResultViewerControll
         }
     }
 
-    private void reloadLegend() {
-        if (this.legendPos == null) {
+    private void reloadLegend(GraphProperty property) {
+        if (property == null) {
             return;
         }
 
-        GraphProperty property = this.getProperty();
-        if (property == null) {
+        if (this.legendPos == null) {
             return;
         }
 
