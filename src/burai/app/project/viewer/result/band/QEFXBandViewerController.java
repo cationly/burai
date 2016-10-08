@@ -41,7 +41,7 @@ public class QEFXBandViewerController extends QEFXGraphViewerController {
 
     private static final String XAXIS_CLASS = "invisible-axis";
     private static final String COORD_CLASS = "coord-field";
-    private static final double COORD_WIDTH = 36.0;
+    private static final double COORD_WIDTH = 40.0;
     private static final double COORD_OFFSET = 4.2;
 
     private static final double DELTA_COORD = 1.0e-4;
