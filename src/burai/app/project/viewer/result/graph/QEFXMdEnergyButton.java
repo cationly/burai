@@ -20,7 +20,7 @@ import burai.project.property.ProjectProperty;
 
 public class QEFXMdEnergyButton extends QEFXGraphButton<QEFXEnergyViewer> {
 
-    private static final String FILE_NAME = ".burai.graph.md.ene";
+    private static final String FILE_NAME = ".burai.graph.md";
 
     private static final String BUTTON_TITLE = "MD";
     private static final String BUTTON_FONT_COLOR = "-fx-text-fill: limegreen";
@@ -31,6 +31,10 @@ public class QEFXMdEnergyButton extends QEFXGraphButton<QEFXEnergyViewer> {
 
         ProjectProperty projectProperty = project == null ? null : project.getProperty();
         if (projectProperty == null) {
+            return null;
+        }
+
+        if (energyType == null) {
             return null;
         }
 
@@ -47,7 +51,7 @@ public class QEFXMdEnergyButton extends QEFXGraphButton<QEFXEnergyViewer> {
             QEFXMdEnergyButton button = new QEFXMdEnergyButton(projectController, projectProperty, energyType);
 
             String propPath = project == null ? null : project.getDirectoryPath();
-            File propFile = propPath == null ? null : new File(propPath, FILE_NAME);
+            File propFile = propPath == null ? null : new File(propPath, FILE_NAME + "." + energyType.getSymbol());
             if (propFile != null) {
                 button.setPropertyFile(propFile);
             }

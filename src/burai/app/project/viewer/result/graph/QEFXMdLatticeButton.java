@@ -52,7 +52,7 @@ public class QEFXMdLatticeButton extends QEFXGraphButton<QEFXLatticeViewer> {
             QEFXMdLatticeButton button = new QEFXMdLatticeButton(projectController, projectProperty, lattVType);
 
             String propPath = project == null ? null : project.getDirectoryPath();
-            File propFile = propPath == null ? null : new File(propPath, FILE_NAME);
+            File propFile = propPath == null ? null : new File(propPath, FILE_NAME + "." + lattVType.toString());
             if (propFile != null) {
                 button.setPropertyFile(propFile);
             }
