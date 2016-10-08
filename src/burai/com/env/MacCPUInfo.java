@@ -42,12 +42,19 @@ public class MacCPUInfo extends CPUInfo {
                 line = line.trim();
                 if (line.contains(CPU_WORD)){
                     String[] nCPULine = line.split(" ", 0);
+                    if (nCPULine == null) {
+                        continue;
+                    }
                     if (nCPULine.length == 0){
                         numCPUs = 1;
                         break;
                     }
                     else {
                         numCPUs = Integer.parseInt(nCPULine[nCPULine.length -1]);
+                        if (numCPUs <= 0){
+                            numCPUs = 1;
+                            break;
+                        }
                     }
                 }
             }
