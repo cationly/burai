@@ -99,6 +99,7 @@ public class QEFXForceViewerController extends QEFXGraphViewerController {
     @Override
     protected GraphProperty createProperty() {
 
+        this.elements = null;
         this.createElements();
 
         GraphProperty property = new GraphProperty();
